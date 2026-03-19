@@ -446,9 +446,80 @@
     .summary-grid { grid-template-columns: 1fr 1fr; }
     .week-phase, .week-target, .week-cumulative { display: none; }
   }
+
+  /* Home button */
+  .home-btn {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 22px;
+    background: rgba(22,22,22,0.97);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 28px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f0ece4;
+    backdrop-filter: blur(12px);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .home-btn:hover { background: rgba(31,203,138,0.12); border-color: rgba(31,203,138,0.3); color: #1fcb8a; }
+  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* --- READABILITY OVERRIDES --- */
+  .header-sub { font-size: 17px !important; line-height: 1.65; }
+  .panel-note { font-size: 16px !important; line-height: 1.7; }
+  .block-label { font-size: 17px !important; }
+  .block-desc { font-size: 15px !important; line-height: 1.65; }
+  .milestone-card-title { font-size: 17px !important; }
+  .milestone-card-desc { font-size: 15px !important; line-height: 1.6; }
+  .target-row { font-size: 16px !important; }
+  .target-label { font-size: 16px !important; }
+  .strategy-item { font-size: 16px !important; line-height: 1.65; }
+  .callout { font-size: 16px !important; line-height: 1.7; }
+  .tip-item { font-size: 16px !important; line-height: 1.65; }
+  .check-label { font-size: 17px !important; }
+  .check-desc { font-size: 15px !important; line-height: 1.6; }
+  .pitch-body { font-size: 16px !important; line-height: 1.8; }
+  .pos-line { font-size: 18px !important; }
+  .supp-name { font-size: 17px !important; }
+  .supp-desc { font-size: 15px !important; line-height: 1.65; }
+  .skin-name { font-size: 17px !important; }
+  .skin-desc { font-size: 15px !important; line-height: 1.65; }
+  .ref-item-name { font-size: 16px !important; }
+  .week-date { font-size: 15px !important; }
+  .summary-card-sub { font-size: 14px !important; }
+  .nav-desc { font-size: 15px !important; }
+  .phase-date { font-size: 14px !important; }
+  .deposit-label { font-size: 15px !important; }
+  /* Home button — make it clearly visible */
+  .home-btn {
+    background: rgba(31,203,138,0.1) !important;
+    border: 1px solid rgba(31,203,138,0.4) !important;
+    color: #1fcb8a !important;
+    font-size: 13px !important;
+    padding: 12px 24px !important;
+  }
+  .home-btn:hover {
+    background: rgba(31,203,138,0.22) !important;
+    border-color: rgba(31,203,138,0.7) !important;
+  }
+
 </style>
 </head>
 <body>
+<a href="index.html" class="home-btn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  Home
+</a>
+
 
 <div class="header">
   <div class="header-left">
@@ -562,25 +633,36 @@
   const TARGET = 6000;
   const DEPOSIT = 1800;
 
-  // Generate weeks: Wed 19 Mar 2026 → Wed 1 Jul 2026 (approx)
-  const weeks = [];
-  const start = new Date(2026, 2, 19); // Mar 19 2026
-  const end = new Date(2026, 6, 1);    // Jul 1 2026
-
-  let d = new Date(start);
-  let wNum = 1;
-  while (d <= end) {
-    weeks.push({
-      num: wNum,
-      date: new Date(d),
-      phase: d < new Date(2026, 3, 16) ? 'cuttysark' : 'moms'
-    });
-    d.setDate(d.getDate() + 7);
-    wNum++;
+  // Read departure date from localStorage — updates automatically when changed on dashboard
+  function getDepartureDate() {
+    const stored = localStorage.getItem('pr_departure') || '2026-07-01';
+    return new Date(stored + 'T12:00:00');
   }
 
-  const totalWeeks = weeks.length;
-  const weeklyTarget = Math.ceil((TARGET - DEPOSIT) / totalWeeks);
+  // Rebuild everything from today → departure date
+  let weeks = [];
+  let totalWeeks = 0;
+  let weeklyTarget = 0;
+
+  function buildWeekData() {
+    weeks = [];
+    const start = new Date();
+    // Snap to nearest past Wednesday
+    const day = start.getDay();
+    const daysBack = (day >= 3) ? (day - 3) : (day + 4);
+    start.setDate(start.getDate() - daysBack);
+    start.setHours(0,0,0,0);
+    const end = getDepartureDate();
+    let d = new Date(start);
+    let wNum = 1;
+    while (d <= end) {
+      weeks.push({ num: wNum, date: new Date(d) });
+      d.setDate(d.getDate() + 7);
+      wNum++;
+    }
+    totalWeeks = weeks.length;
+    weeklyTarget = totalWeeks > 0 ? Math.ceil((TARGET - DEPOSIT) / totalWeeks) : 0;
+  }
 
   function formatDate(d) {
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
@@ -599,23 +681,19 @@
   }
 
   function buildWeeks() {
+    buildWeekData();
     const container = document.getElementById('weeks-container');
     container.innerHTML = '';
 
     weeks.forEach((w, i) => {
       const saved = getSaved(i);
       const isCurrent = isCurrentWeek(w.date);
-      const isPast = new Date() > new Date(w.date.getTime() + 7 * 86400000);
-
       const row = document.createElement('div');
       row.className = 'week-input-row' + (isCurrent ? ' current' : '');
-
       const statusClass = saved === null ? 'empty' : (saved >= weeklyTarget ? 'good' : 'behind');
-
       row.innerHTML = `
         <div class="week-num">W${w.num}</div>
         <div class="week-date">${formatDate(w.date)}</div>
-        <div class="week-phase ${w.phase}">${w.phase === 'cuttysark' ? 'Cutty Sark' : "Mom's"}</div>
         <div class="week-target">£${weeklyTarget} target</div>
         <div class="week-actual-wrap">
           <input
@@ -760,7 +838,8 @@
   });
 
   function updateCountdown() {
-    var departure = new Date(2026, 6, 1);
+    const stored = localStorage.getItem('pr_departure') || '2026-07-01';
+    var departure = new Date(stored + 'T12:00:00');
     var now = new Date();
     var diff = Math.ceil((departure - now) / (1000 * 60 * 60 * 24));
     var el = document.getElementById('countdown-number');
@@ -768,6 +847,12 @@
     el.className = 'countdown-number';
     if (diff <= 15) el.classList.add('red');
     else if (diff <= 30) el.classList.add('yellow');
+    // Update the subtitle with the current date
+    var sub = document.getElementById('countdown-sub');
+    if (sub) {
+      var d = new Date(stored + 'T12:00:00');
+      sub.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ' — Chiang Mai';
+    }
   }
   updateCountdown();
   setInterval(updateCountdown, 60000);
