@@ -404,9 +404,80 @@
   @media (max-width: 600px) {
     .header, .progress-strip, .main { padding-left: 20px; padding-right: 20px; }
   }
+
+  /* Home button */
+  .home-btn {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 22px;
+    background: rgba(22,22,22,0.97);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 28px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f0ece4;
+    backdrop-filter: blur(12px);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .home-btn:hover { background: rgba(31,203,138,0.12); border-color: rgba(31,203,138,0.3); color: #1fcb8a; }
+  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* --- READABILITY OVERRIDES --- */
+  .header-sub { font-size: 17px !important; line-height: 1.65; }
+  .panel-note { font-size: 16px !important; line-height: 1.7; }
+  .block-label { font-size: 17px !important; }
+  .block-desc { font-size: 15px !important; line-height: 1.65; }
+  .milestone-card-title { font-size: 17px !important; }
+  .milestone-card-desc { font-size: 15px !important; line-height: 1.6; }
+  .target-row { font-size: 16px !important; }
+  .target-label { font-size: 16px !important; }
+  .strategy-item { font-size: 16px !important; line-height: 1.65; }
+  .callout { font-size: 16px !important; line-height: 1.7; }
+  .tip-item { font-size: 16px !important; line-height: 1.65; }
+  .check-label { font-size: 17px !important; }
+  .check-desc { font-size: 15px !important; line-height: 1.6; }
+  .pitch-body { font-size: 16px !important; line-height: 1.8; }
+  .pos-line { font-size: 18px !important; }
+  .supp-name { font-size: 17px !important; }
+  .supp-desc { font-size: 15px !important; line-height: 1.65; }
+  .skin-name { font-size: 17px !important; }
+  .skin-desc { font-size: 15px !important; line-height: 1.65; }
+  .ref-item-name { font-size: 16px !important; }
+  .week-date { font-size: 15px !important; }
+  .summary-card-sub { font-size: 14px !important; }
+  .nav-desc { font-size: 15px !important; }
+  .phase-date { font-size: 14px !important; }
+  .deposit-label { font-size: 15px !important; }
+  /* Home button — make it clearly visible */
+  .home-btn {
+    background: rgba(31,203,138,0.1) !important;
+    border: 1px solid rgba(31,203,138,0.4) !important;
+    color: #1fcb8a !important;
+    font-size: 13px !important;
+    padding: 12px 24px !important;
+  }
+  .home-btn:hover {
+    background: rgba(31,203,138,0.22) !important;
+    border-color: rgba(31,203,138,0.7) !important;
+  }
+
 </style>
 </head>
 <body>
+<a href="index.html" class="home-btn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  Home
+</a>
+
 
 <div class="header">
   <div class="header-label">Escape plan — pre-departure</div>
@@ -801,7 +872,7 @@
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Contact Thai Embassy London — book an appointment</div>
-          <div class="check-desc">Email consular@thaiembassy.org.uk or visit thaiembassy.org/london. Explain you were born in the UK to a Thai father, have his surname on your birth certificate, and want to register for a Thai birth certificate. Do this in the first week at your mom's.</div>
+          <div class="check-desc">Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a9cac6c7dadcc5c8dbe9ddc1c8c0ccc4cbc8dadad087c6dbce87dcc2">[email&#160;protected]</a> or visit thaiembassy.org/london. Explain you were born in the UK to a Thai father, have his surname on your birth certificate, and want to register for a Thai birth certificate. Do this in the first week at your mom's.</div>
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
@@ -943,7 +1014,7 @@
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const STORAGE_PREFIX = 'cm_check_';
 
   function toggleCheck(item) {
@@ -977,14 +1048,4 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.check-item').forEach(item => {
-      const id = item.dataset.id;
-      if (localStorage.getItem(STORAGE_PREFIX + id) === '1') {
-        item.classList.add('done');
-      }
-    });
-    updateProgress();
-  });
-</script>
-</body>
-</html>
+    document.querySelectorAl
