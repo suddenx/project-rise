@@ -32,7 +32,7 @@
   .landing-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
   .landing-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 18vw, 160px); letter-spacing: 0.03em; line-height: 0.88; color: var(--text); opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
   .landing-title .colon { color: var(--teal); }
-  .landing-sub { font-size: 16px; color: var(--muted); max-width: 440px; line-height: 1.7; margin: 28px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
+  .landing-sub { font-size: 20px; color: var(--muted); max-width: 480px; line-height: 1.7; margin: 28px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
   .landing-buttons { display: flex; gap: 12px; margin-top: 44px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
   .landing-stats { display: flex; gap: 40px; margin-top: 64px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.65s; flex-wrap: wrap; justify-content: center; }
   .landing-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--teal); letter-spacing: 0.04em; line-height: 1; }
@@ -41,8 +41,8 @@
   /* PASSWORD */
   #screen-password { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 24px; text-align: center; }
   .pw-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
-  .pw-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
-  .pw-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 14px 20px; width: 100%; max-width: 320px; text-align: center; outline: none; transition: border-color 0.15s; margin-bottom: 12px; display: block; }
+  .pw-sub { font-size: 16px; color: var(--muted); margin-bottom: 32px; }
+  .pw-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 14px 20px; width: 320px; max-width: calc(100% - 48px); text-align: center; outline: none; transition: border-color 0.15s; margin-bottom: 12px; display: block; align-self: center; }
   .pw-input:focus { border-color: var(--teal); }
   .pw-error { font-size: 12px; color: var(--red); margin-bottom: 12px; min-height: 18px; font-family: 'DM Mono', monospace; }
   .pw-back { margin-top: 20px; font-size: 12px; color: var(--dim); cursor: pointer; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.15s; }
@@ -59,7 +59,7 @@
   .dash-hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
   .dash-hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 14vw, 130px); letter-spacing: 0.04em; line-height: 0.9; color: var(--text); }
   .dash-hero-title .colon { color: var(--teal); }
-  .dash-quote { margin: 36px auto 0; max-width: 560px; font-size: 15px; color: var(--text); line-height: 1.7; font-style: italic; }
+  .dash-quote { margin: 36px auto 0; max-width: 560px; font-size: 19px; color: var(--text); line-height: 1.7; font-style: italic; }
   .dash-quote-author { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
   .dash-countdowns { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 52px 0 60px; }
   .dash-days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 16vw, 140px); letter-spacing: 0.02em; line-height: 0.85; color: var(--teal); transition: color 0.5s; }
@@ -95,7 +95,7 @@
   .nav-card.c-orange .nav-card-title { color: var(--orange); }
   .nav-card.c-green .nav-card-title { color: var(--green); }
   .nav-card.c-yellow .nav-card-title { color: var(--yellow); }
-  .nav-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .nav-card-desc { font-size: 15px; color: var(--muted); line-height: 1.5; }
   .nav-card-arrow { margin-top: 14px; font-size: 16px; color: var(--dim); transition: color 0.2s, transform 0.2s; display: inline-block; }
   .nav-card:hover .nav-card-arrow { color: var(--text); transform: translateX(4px); }
   .dash-footer { padding: 24px 48px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
@@ -108,18 +108,18 @@
   .q-back:hover { color: var(--muted); }
   .q-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
   .q-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: 10px; }
-  .q-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
+  .q-sub { font-size: 18px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
   .q-progress { margin-bottom: 36px; }
   .q-progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
   .q-progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
   .q-progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.4s ease; }
   .q-step { display: none; }
   .q-step.active { display: block; }
-  .q-step-title { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
-  .q-step-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+  .q-step-title { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .q-step-desc { font-size: 16px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
   .q-field { margin-bottom: 16px; }
   .q-field-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
-  .q-input, .q-select, .q-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; padding: 12px 16px; outline: none; transition: border-color 0.15s; }
+  .q-input, .q-select, .q-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 300; padding: 12px 16px; outline: none; transition: border-color 0.15s; }
   .q-input:focus, .q-select:focus, .q-textarea:focus { border-color: var(--teal); }
   .q-input::placeholder, .q-textarea::placeholder { color: var(--dim); }
   .q-select { appearance: none; cursor: pointer; }
@@ -129,6 +129,7 @@
   .q-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
   .q-step-indicator { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.08em; }
   .pw-strength { font-family: 'DM Mono', monospace; font-size: 11px; margin-top: 6px; min-height: 16px; }
+  .q-val-error { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--red); min-height: 20px; margin-bottom: 4px; text-align: right; }
 
   /* GENERATING */
   #screen-generating { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; }
@@ -138,7 +139,7 @@
   .gen-bar-track { height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
   .gen-bar-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width 0.8s ease; }
   .gen-steps { text-align: left; max-width: 440px; width: 100%; }
-  .gen-step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 13px; color: var(--dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; transition: color 0.3s; border-bottom: 1px solid var(--border); }
+  .gen-step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 16px; color: var(--dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; transition: color 0.3s; border-bottom: 1px solid var(--border); }
   .gen-step-item:last-child { border-bottom: none; }
   .gen-step-item.done { color: var(--teal); }
   .gen-step-item.active { color: var(--text); }
@@ -150,11 +151,11 @@
   .result-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
   .result-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; text-align: center; }
   .result-title span { color: var(--teal); }
-  .result-sub { font-size: 14px; color: var(--muted); line-height: 1.6; text-align: center; margin-bottom: 32px; }
-  .result-plan { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 24px; font-size: 13px; color: var(--text); line-height: 1.8; white-space: pre-wrap; max-height: 360px; overflow-y: auto; }
+  .result-sub { font-size: 17px; color: var(--muted); line-height: 1.6; text-align: center; margin-bottom: 32px; }
+  .result-plan { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 24px; font-size: 16px; color: var(--text); line-height: 1.8; white-space: pre-wrap; max-height: 360px; overflow-y: auto; }
   .result-download-box { background: var(--surface2); border: 1px solid rgba(31,203,138,0.2); border-radius: 10px; padding: 24px; margin-bottom: 24px; text-align: center; }
   .result-download-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.04em; color: var(--teal); margin-bottom: 8px; }
-  .result-download-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .result-download-desc { font-size: 16px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
   .result-file-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; text-align: left; }
   .result-file-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
   .result-file-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
@@ -164,14 +165,14 @@
   .deploy-wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
   .deploy-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
   .deploy-title span { color: var(--blue); }
-  .deploy-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; max-width: 560px; }
+  .deploy-sub { font-size: 18px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; max-width: 560px; }
   .deploy-section-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--border); }
   .deploy-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
   .deploy-step { margin-bottom: 36px; }
   .deploy-step-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
   .deploy-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--blue); line-height: 1; min-width: 40px; }
-  .deploy-step-title { font-size: 18px; font-weight: 500; color: var(--text); }
-  .deploy-step-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; padding-left: 56px; }
+  .deploy-step-title { font-size: 22px; font-weight: 500; color: var(--text); }
+  .deploy-step-desc { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; padding-left: 56px; }
   .deploy-step-desc strong { color: var(--text); font-weight: 500; }
   .deploy-step-desc code { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; color: var(--blue); }
   .deploy-img { width: 100%; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 8px; background: var(--surface); }
@@ -288,12 +289,20 @@
     <div class="q-step" id="q-step-2">
       <div class="q-step-title">Your money situation</div>
       <div class="q-step-desc">Be honest — rough numbers are fine. This builds your savings plan.</div>
-      <div class="q-row">
-        <div class="q-field"><label class="q-field-label">Monthly income (after tax)</label><input type="text" class="q-input" id="q-income" placeholder="e.g. £2,200"></div>
-        <div class="q-field"><label class="q-field-label">Monthly expenses</label><input type="text" class="q-input" id="q-expenses" placeholder="e.g. £1,800"></div>
+      <div class="q-field"><label class="q-field-label">Your currency</label>
+        <select class="q-select" id="q-currency">
+          <option value="">Select your currency...</option>
+          <option value="GBP">GBP — British Pound (£)</option>
+          <option value="USD">USD — US Dollar ($)</option>
+          <option value="EUR">EUR — Euro (€)</option>
+        </select>
       </div>
-      <div class="q-field"><label class="q-field-label">Current savings</label><input type="text" class="q-input" id="q-savings" placeholder="e.g. £500 or 'none'"></div>
-      <div class="q-field"><label class="q-field-label">Any money coming in? (deposit, bonus etc)</label><input type="text" class="q-input" id="q-incoming" placeholder="e.g. £1,500 flat deposit in May, or 'none'"></div>
+      <div class="q-row">
+        <div class="q-field"><label class="q-field-label">Monthly income (after tax)</label><input type="text" class="q-input" id="q-income" placeholder="e.g. 2,200"></div>
+        <div class="q-field"><label class="q-field-label">Monthly expenses</label><input type="text" class="q-input" id="q-expenses" placeholder="e.g. 1,800"></div>
+      </div>
+      <div class="q-field"><label class="q-field-label">Current savings</label><input type="text" class="q-input" id="q-savings" placeholder="e.g. 500 or 'none'"></div>
+      <div class="q-field"><label class="q-field-label">Any money coming in? (deposit, bonus etc)</label><input type="text" class="q-input" id="q-incoming" placeholder="e.g. 1,500 flat deposit in May, or 'none'"></div>
       <div class="q-field"><label class="q-field-label">Will your expenses reduce before departure?</label>
         <select class="q-select" id="q-expenses-change">
           <option value="">Select...</option>
@@ -386,6 +395,7 @@
       </div>
     </div>
 
+    <div class="q-val-error" id="q-val-error"></div>
     <div class="q-nav">
       <div class="q-step-indicator" id="q-step-indicator">Step 1 of 6</div>
       <div style="display:flex;gap:10px">
@@ -767,7 +777,66 @@
   let currentStep = 1;
   const totalSteps = 6;
 
+  function validateStep(step) {
+    const err = document.getElementById('q-val-error');
+    const checks = {
+      1: [
+        { id: 'q-name', msg: 'Please enter your name.' },
+        { id: 'q-age', msg: 'Please enter your age.' },
+        { id: 'q-city', msg: 'Please enter your current city.' },
+        { id: 'q-destination', msg: 'Please enter your destination.' },
+        { id: 'q-departure', msg: 'Please enter your target departure date.' },
+      ],
+      2: [
+        { id: 'q-currency', msg: 'Please select your currency.' },
+        { id: 'q-income', msg: 'Please enter your monthly income.' },
+        { id: 'q-expenses', msg: 'Please enter your monthly expenses.' },
+        { id: 'q-savings', msg: 'Please enter your current savings (type "none" if you have none).' },
+        { id: 'q-incoming', msg: 'Please fill in the incoming money field (type "none" if none).' },
+        { id: 'q-expenses-change', msg: 'Please select whether your expenses will change.' },
+      ],
+      3: [
+        { id: 'q-job', msg: 'Please enter your current job.' },
+        { id: 'q-skill', msg: 'Please enter the skill you want to build income from.' },
+        { id: 'q-skill-level', msg: 'Please select your current skill level.' },
+        { id: 'q-strength', msg: 'Please enter your biggest strength.' },
+        { id: 'q-weakness', msg: 'Please enter your biggest weakness or fear.' },
+      ],
+      4: [
+        { id: 'q-living', msg: 'Please select your living situation.' },
+        { id: 'q-schedule', msg: 'Please select how predictable your schedule is.' },
+        { id: 'q-discipline', msg: 'Please describe your discipline honestly.' },
+        { id: 'q-connections', msg: 'Please fill in the connections field (type "none" if none).' },
+      ],
+      5: [
+        { id: 'q-why', msg: 'Please explain why you want to escape the 9-5.' },
+        { id: 'q-success', msg: 'Please describe what success looks like for you.' },
+        { id: 'q-blocker', msg: 'Please fill in what has stopped you before.' },
+        { id: 'q-extra', msg: 'Please fill in the extra field (type "none" if nothing else).' },
+      ],
+    };
+    const fields = checks[step];
+    if (!fields) return true;
+    for (const f of fields) {
+      const el = document.getElementById(f.id);
+      if (!el) continue;
+      const val = el.value.trim();
+      if (!val) {
+        err.textContent = f.msg;
+        el.focus();
+        el.style.borderColor = 'var(--red)';
+        el.addEventListener('input', () => { el.style.borderColor = ''; err.textContent = ''; }, { once: true });
+        return false;
+      }
+    }
+    err.textContent = '';
+    return true;
+  }
+
   function qNav(dir) {
+    if (dir === 1) {
+      if (!validateStep(currentStep)) return;
+    }
     if (dir === 1 && currentStep === totalSteps) {
       const pw = document.getElementById('q-password').value;
       const pwc = document.getElementById('q-password-confirm').value;
@@ -793,15 +862,20 @@
 
   // ---- COLLECT DATA ----
   function collectData() {
+    const currencyVal = document.getElementById('q-currency').value || 'GBP';
+    const symbols = { GBP: '£', USD: '$', EUR: '€' };
+    const sym = symbols[currencyVal] || '£';
     return {
       name: document.getElementById('q-name').value || 'Unknown',
       age: document.getElementById('q-age').value || 'Unknown',
       city: document.getElementById('q-city').value || 'Unknown',
       destination: document.getElementById('q-destination').value || 'your destination',
       departure: document.getElementById('q-departure').value || 'your departure date',
-      income: document.getElementById('q-income').value || 'Unknown',
-      expenses: document.getElementById('q-expenses').value || 'Unknown',
-      savings: document.getElementById('q-savings').value || 'none',
+      currency: currencyVal,
+      currencySymbol: sym,
+      income: sym + (document.getElementById('q-income').value || 'Unknown'),
+      expenses: sym + (document.getElementById('q-expenses').value || 'Unknown'),
+      savings: document.getElementById('q-savings').value !== 'none' ? sym + document.getElementById('q-savings').value : 'none',
       incoming: document.getElementById('q-incoming').value || 'none',
       expensesChange: document.getElementById('q-expenses-change').value || 'Unknown',
       job: document.getElementById('q-job').value || 'Unknown',
@@ -866,10 +940,11 @@
       advanceGenStep('gstep-1', 8);
       setStatus('Generating your personalised escape plan...');
 
-      const planPrompt = `You are a no-nonsense escape plan coach. Build a detailed, honest escape plan for this person. Be direct. Use their name. Don't sugarcoat.
+      const planPrompt = `You are a no-nonsense escape plan coach. Build a detailed, honest escape plan for this person. Be direct. Use their name. Don't sugarcoat. All money amounts should be in ${userData.currency} (${userData.currencySymbol}).
 
 Name: ${userData.name}, Age: ${userData.age}, Currently in: ${userData.city}
 Escaping to: ${userData.destination} by ${userData.departure}
+Currency: ${userData.currency} (${userData.currencySymbol})
 Income: ${userData.income}/month, Expenses: ${userData.expenses}/month
 Savings: ${userData.savings}, Incoming money: ${userData.incoming}
 Expenses changing: ${userData.expensesChange}
@@ -885,13 +960,13 @@ Extra: ${userData.extra}
 
 Write a comprehensive plan with:
 1. HONEST ASSESSMENT — where they are vs where they need to be
-2. SAVINGS TARGET — exact weekly target, total needed, timeline
+2. SAVINGS TARGET — exact weekly target in ${userData.currency}, total needed, timeline
 3. PHASE PLAN — 3-4 phases from now to departure with specific targets
 4. DAILY ROUTINE — output-based, fits their schedule and discipline level
 5. SKILL AND INCOME PLAN — specific steps to build portfolio and find first clients
 6. THE HARD TRUTH — one thing they need to hear
 
-Be specific with numbers. Make it personal.`;
+Be specific with numbers. Use ${userData.currency} for all money. Make it personal.`;
 
       const planText = await callAPI(planPrompt);
       window._generatedPlan = planText;
@@ -930,7 +1005,7 @@ Return ONLY a JSON object (no markdown, no backticks) with this exact structure:
       // STEP 4: Budget tracker
       advanceGenStep('gstep-4', 42);
       setStatus('Setting up your budget tracker...');
-      const budgetPrompt = `Calculate a savings plan for ${userData.name}. They earn ${userData.income}/month, spend ${userData.expenses}/month, have ${userData.savings} saved, have ${userData.incoming} incoming. They want to leave by ${userData.departure} for ${userData.destination}. Their expenses will change: ${userData.expensesChange}.
+      const budgetPrompt = `Calculate a savings plan for ${userData.name}. They earn ${userData.income}/month, spend ${userData.expenses}/month, have ${userData.savings} saved, have ${userData.incoming} incoming. They want to leave by ${userData.departure} for ${userData.destination}. Their expenses will change: ${userData.expensesChange}. All amounts are in ${userData.currency} (${userData.currencySymbol}).
 
 Return ONLY a JSON object (no markdown, no backticks):
 {
@@ -941,13 +1016,13 @@ Return ONLY a JSON object (no markdown, no backticks):
   "deadline_display": "1 Sep 2026",
   "departure_js_date": "new Date(2026, 8, 1)"
 }
-Use realistic numbers based on their situation. total_target should be enough to cover 3 months at destination plus safety net. Only include deposit_amount if they mentioned a deposit coming in.`;
+Use realistic numbers in ${userData.currency}. total_target should be enough to cover 3 months at destination plus safety net. Only include deposit_amount if they mentioned a deposit coming in.`;
       let budgetData = {};
       try {
         const budgetRaw = await callAPI(budgetPrompt);
         budgetData = JSON.parse(budgetRaw.replace(/```json|```/g, '').trim());
       } catch(e) { budgetData = { total_target: 5000, deposit_amount: 0, from_savings: 5000, weekly_avg: 385, deadline_display: userData.departure, departure_js_date: 'new Date(2026, 8, 1)' }; }
-      zip.file('budget_tracker.html', buildBudgetHTML(userData, budgetData));
+      zip.file('budget_tracker.html', buildBudgetHTML(userData, budgetData, userData.currencySymbol));
 
       // STEP 5: Portfolio roadmap
       advanceGenStep('gstep-5', 55);
@@ -1443,7 +1518,8 @@ function show(id){
   }
 
   // BUDGET TRACKER
-  function buildBudgetHTML(d, b) {
+  function buildBudgetHTML(d, b, sym) {
+    sym = sym || '£';
     const target = b.total_target || 5000;
     const deposit = b.deposit_amount || 0;
     const fromSavings = b.from_savings || target;
@@ -1527,23 +1603,23 @@ ${homeBtn()}
   </div>
 </div>
 <div class="target-strip">
-  <div class="target-item"><div class="target-label">Total target</div><div class="target-value" style="color:var(--teal)">£${target.toLocaleString()}</div></div>
+  <div class="target-item"><div class="target-label">Total target</div><div class="target-value" style="color:var(--teal)">${sym}${target.toLocaleString()}</div></div>
   <div class="target-divider"></div>
-  <div class="target-item"><div class="target-label">From savings</div><div class="target-value" style="color:var(--blue)">£${fromSavings.toLocaleString()}</div></div>
-  ${deposit > 0 ? `<div class="target-divider"></div><div class="target-item"><div class="target-label">Deposit incoming</div><div class="target-value" style="color:var(--purple)">£${deposit.toLocaleString()}</div></div>` : ''}
+  <div class="target-item"><div class="target-label">From savings</div><div class="target-value" style="color:var(--blue)">${sym}${fromSavings.toLocaleString()}</div></div>
+  ${deposit > 0 ? `<div class="target-divider"></div><div class="target-item"><div class="target-label">Deposit incoming</div><div class="target-value" style="color:var(--purple)">${sym}${deposit.toLocaleString()}</div></div>` : ''}
   <div class="target-divider"></div>
-  <div class="target-item"><div class="target-label">Weekly avg needed</div><div class="target-value" style="color:var(--orange)">£${weeklyAvg}</div></div>
+  <div class="target-item"><div class="target-label">Weekly avg needed</div><div class="target-value" style="color:var(--orange)">${sym}${weeklyAvg}</div></div>
   <div class="target-divider"></div>
   <div class="target-item"><div class="target-label">Deadline</div><div class="target-value" style="color:var(--muted)">${deadline}</div></div>
 </div>
 <div class="main">
   <div class="summary-grid">
-    <div class="summary-card"><div class="summary-card-label">Saved so far</div><div class="summary-card-value" id="saved-so-far" style="color:var(--teal)">£0</div><div class="summary-card-sub">keep logging every week</div></div>
-    <div class="summary-card"><div class="summary-card-label">Still needed</div><div class="summary-card-value" id="still-needed" style="color:var(--orange)">£${target.toLocaleString()}</div><div class="summary-card-sub">to hit £${target.toLocaleString()} target</div></div>
+    <div class="summary-card"><div class="summary-card-label">Saved so far</div><div class="summary-card-value" id="saved-so-far" style="color:var(--teal)">${sym}0</div><div class="summary-card-sub">keep logging every week</div></div>
+    <div class="summary-card"><div class="summary-card-label">Still needed</div><div class="summary-card-value" id="still-needed" style="color:var(--orange)">${sym}${target.toLocaleString()}</div><div class="summary-card-sub">to hit ${sym}${target.toLocaleString()} target</div></div>
     <div class="summary-card"><div class="summary-card-label">On track</div><div class="summary-card-value" id="on-track" style="color:var(--muted)">—</div><div class="summary-card-sub" id="track-sub">start logging to see</div></div>
   </div>
   <div class="progress-section">
-    <div class="progress-header"><span class="progress-title">Progress to £${target.toLocaleString()}</span><span class="progress-pct" id="progress-pct">0%</span></div>
+    <div class="progress-header"><span class="progress-title">Progress to ${sym}${target.toLocaleString()}</span><span class="progress-pct" id="progress-pct">0%</span></div>
     <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
   </div>
   <div class="week-section">
@@ -1553,12 +1629,12 @@ ${homeBtn()}
       <span class="ch-target">Target</span><span class="ch-actual">Actual saved</span><span class="ch-total">Running total</span>
     </div>
     <div id="weeks-container"></div>
-    ${deposit > 0 ? `<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(155,135,245,0.04);border:1px solid rgba(155,135,245,0.2);border-radius:8px;margin-bottom:6px;"><div style="flex:1"><div style="font-size:13px;color:var(--purple);font-weight:500;">Deposit incoming</div><div style="font-size:12px;color:var(--muted);margin-top:3px;">Mark received when it lands</div></div><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--muted);"><input type="checkbox" id="deposit-received" onchange="updateAll()" style="accent-color:var(--purple);width:16px;height:16px;">Received</label><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--purple);">+£${deposit.toLocaleString()}</div></div>` : ''}
+    ${deposit > 0 ? `<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(155,135,245,0.04);border:1px solid rgba(155,135,245,0.2);border-radius:8px;margin-bottom:6px;"><div style="flex:1"><div style="font-size:13px;color:var(--purple);font-weight:500;">Deposit incoming</div><div style="font-size:12px;color:var(--muted);margin-top:3px;">Mark received when it lands</div></div><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--muted);"><input type="checkbox" id="deposit-received" onchange="updateAll()" style="accent-color:var(--purple);width:16px;height:16px;">Received</label><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--purple);">+${sym}${deposit.toLocaleString()}</div></div>` : ''}
   </div>
-  <div class="callout" id="callout-text">Start logging your weekly savings. The tracker will tell you if you're ahead, behind, or on track for the £${target.toLocaleString()} target.</div>
+  <div class="callout" id="callout-text">Start logging your weekly savings. The tracker will tell you if you're ahead, behind, or on track for the ${sym}${target.toLocaleString()} target.</div>
 </div>
 <script>
-const TARGET=${target},DEPOSIT=${deposit};
+const TARGET=${target},DEPOSIT=${deposit},SYM='${sym}';
 const start=new Date();
 const end=new Date(${depJS.replace('new Date(','').replace(')','')} );
 const weeks=[];let d=new Date(start);let wn=1;
@@ -1568,9 +1644,9 @@ const weeklyTarget=Math.ceil((TARGET-DEPOSIT)/totalWeeks);
 function formatDate(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
 function isCurrentWeek(d){const now=new Date();const nw=new Date(d);nw.setDate(d.getDate()+7);return now>=d&&now<nw;}
 function getSaved(i){const v=parseFloat(localStorage.getItem('wk_'+i)||'');return isNaN(v)?null:v;}
-function buildWeeks(){const c=document.getElementById('weeks-container');c.innerHTML='';weeks.forEach((w,i)=>{const saved=getSaved(i);const isCur=isCurrentWeek(w.date);const row=document.createElement('div');row.className='week-input-row'+(isCur?' current':'');const sc=saved===null?'empty':(saved>=weeklyTarget?'good':'behind');row.innerHTML='<div class="week-num">W'+w.num+'</div><div class="week-date">'+formatDate(w.date)+'</div><div class="week-target-val">£'+weeklyTarget+' target</div><div class="week-actual-wrap"><input class="week-input" type="number" min="0" placeholder="£ saved" value="'+(saved!==null?saved:'')+'" data-idx="'+i+'" oninput="handleInput(this)"><div class="week-status '+sc+'" id="status-'+i+'"></div></div><div class="week-cumulative" id="cum-'+i+'">—</div>';c.appendChild(row);});}
+function buildWeeks(){const c=document.getElementById('weeks-container');c.innerHTML='';weeks.forEach((w,i)=>{const saved=getSaved(i);const isCur=isCurrentWeek(w.date);const row=document.createElement('div');row.className='week-input-row'+(isCur?' current':'');const sc=saved===null?'empty':(saved>=weeklyTarget?'good':'behind');row.innerHTML='<div class="week-num">W'+w.num+'</div><div class="week-date">'+formatDate(w.date)+'</div><div class="week-target-val">'+SYM+weeklyTarget+' target</div><div class="week-actual-wrap"><input class="week-input" type="number" min="0" placeholder="saved" value="'+(saved!==null?saved:'')+'" data-idx="'+i+'" oninput="handleInput(this)"><div class="week-status '+sc+'" id="status-'+i+'"></div></div><div class="week-cumulative" id="cum-'+i+'">—</div>';c.appendChild(row);});}
 function handleInput(inp){const i=parseInt(inp.dataset.idx);const v=parseFloat(inp.value);if(!isNaN(v)&&v>=0)localStorage.setItem('wk_'+i,v);else localStorage.removeItem('wk_'+i);updateAll();}
-function updateAll(){const dep=document.getElementById('deposit-received');let running=dep&&dep.checked?DEPOSIT:0;let logged=0,behind=0;weeks.forEach((w,i)=>{const s=getSaved(i);if(s!==null){running+=s;logged++;if(s<weeklyTarget)behind++; const se=document.getElementById('status-'+i);if(se)se.className='week-status '+(s>=weeklyTarget?'good':'behind');}else{const se=document.getElementById('status-'+i);if(se)se.className='week-status empty';}const ce=document.getElementById('cum-'+i);if(ce){if(getSaved(i)!==null){let tot=dep&&dep.checked?DEPOSIT:0;for(let j=0;j<=i;j++){const sv=getSaved(j);if(sv!==null)tot+=sv;}ce.textContent='£'+tot.toLocaleString();ce.style.color=tot>=TARGET?'var(--teal)':'var(--muted)';}else{ce.textContent='—';ce.style.color='var(--muted)';}}}); const pct=Math.min(100,Math.round((running/TARGET)*100));document.getElementById('saved-so-far').textContent='£'+running.toLocaleString();const sn=Math.max(0,TARGET-running);document.getElementById('still-needed').textContent='£'+sn.toLocaleString();document.getElementById('still-needed').style.color=sn===0?'var(--teal)':'var(--orange)';document.getElementById('progress-pct').textContent=pct+'%';document.getElementById('progress-fill').style.width=pct+'%';const te=document.getElementById('on-track'),ts=document.getElementById('track-sub');if(logged===0){te.textContent='—';te.style.color='var(--muted)';ts.textContent='start logging to see';}else{const wr=totalWeeks-logged;const npw=wr>0?Math.ceil(sn/wr):0;const avg=(running-(dep&&dep.checked?DEPOSIT:0))/logged;if(running>=TARGET){te.textContent='Done';te.style.color='var(--teal)';ts.textContent='target reached';}else if(avg>=npw){te.textContent='Yes';te.style.color='var(--teal)';ts.textContent='£'+Math.round(npw)+'/wk needed';}else{te.textContent='Behind';te.style.color='var(--red)';ts.textContent='need £'+Math.round(npw)+'/wk, avg £'+Math.round(avg)+'/wk';}} const cl=document.getElementById('callout-text');if(logged===0)cl.textContent='Start logging weekly. The tracker shows if you are on track for the £${target.toLocaleString()} target.';else if(running>=TARGET)cl.textContent='Target hit. Make sure everything else is ready — site, outreach, flights.';else{const wr=totalWeeks-logged;const sn2=TARGET-running;const npw=wr>0?Math.ceil(sn2/wr):sn2;cl.textContent=behind>logged/2?'More than half your weeks are below target. That is a pattern not a bad week. You need £'+npw.toLocaleString()+' per week from here.':behind>0?'A few weeks below target but manageable. You need £'+npw.toLocaleString()+' per week from here. Do not let the slow weeks become a habit.':'Every week at or above target. You need £'+npw.toLocaleString()+' per week from here to hit £${target.toLocaleString()}. Keep this up.';}}
+function updateAll(){const dep=document.getElementById('deposit-received');let running=dep&&dep.checked?DEPOSIT:0;let logged=0,behind=0;weeks.forEach((w,i)=>{const s=getSaved(i);if(s!==null){running+=s;logged++;if(s<weeklyTarget)behind++; const se=document.getElementById('status-'+i);if(se)se.className='week-status '+(s>=weeklyTarget?'good':'behind');}else{const se=document.getElementById('status-'+i);if(se)se.className='week-status empty';}const ce=document.getElementById('cum-'+i);if(ce){if(getSaved(i)!==null){let tot=dep&&dep.checked?DEPOSIT:0;for(let j=0;j<=i;j++){const sv=getSaved(j);if(sv!==null)tot+=sv;}ce.textContent=SYM+tot.toLocaleString();ce.style.color=tot>=TARGET?'var(--teal)':'var(--muted)';}else{ce.textContent='—';ce.style.color='var(--muted)';}}}); const pct=Math.min(100,Math.round((running/TARGET)*100));document.getElementById('saved-so-far').textContent=SYM+running.toLocaleString();const sn=Math.max(0,TARGET-running);document.getElementById('still-needed').textContent=SYM+sn.toLocaleString();document.getElementById('still-needed').style.color=sn===0?'var(--teal)':'var(--orange)';document.getElementById('progress-pct').textContent=pct+'%';document.getElementById('progress-fill').style.width=pct+'%';const te=document.getElementById('on-track'),ts=document.getElementById('track-sub');if(logged===0){te.textContent='—';te.style.color='var(--muted)';ts.textContent='start logging to see';}else{const wr=totalWeeks-logged;const npw=wr>0?Math.ceil(sn/wr):0;const avg=(running-(dep&&dep.checked?DEPOSIT:0))/logged;if(running>=TARGET){te.textContent='Done';te.style.color='var(--teal)';ts.textContent='target reached';}else if(avg>=npw){te.textContent='Yes';te.style.color='var(--teal)';ts.textContent=SYM+Math.round(npw)+'/wk needed';}else{te.textContent='Behind';te.style.color='var(--red)';ts.textContent='need '+SYM+Math.round(npw)+'/wk, avg '+SYM+Math.round(avg)+'/wk';}} const cl=document.getElementById('callout-text');if(logged===0)cl.textContent='Start logging weekly. The tracker shows if you are on track for the '+SYM+'${target.toLocaleString()}'+' target.';else if(running>=TARGET)cl.textContent='Target hit. Make sure everything else is ready — site, outreach, flights.';else{const wr=totalWeeks-logged;const sn2=TARGET-running;const npw=wr>0?Math.ceil(sn2/wr):sn2;cl.textContent=behind>logged/2?'More than half your weeks are below target. That is a pattern not a bad week. You need '+SYM+npw.toLocaleString()+' per week from here.':behind>0?'A few weeks below target but manageable. You need '+SYM+npw.toLocaleString()+' per week from here. Do not let the slow weeks become a habit.':'Every week at or above target. You need '+SYM+npw.toLocaleString()+' per week from here to hit '+SYM+'${target.toLocaleString()}'+'. Keep this up.';}}
 function updateCountdown(){const dep=new Date(${depJS.replace('new Date(','').replace(')','')} );const diff=Math.ceil((dep-new Date())/(1000*60*60*24));const el=document.getElementById('countdown-number');el.textContent=diff>0?diff:'0';el.className='countdown-number';if(diff<=15)el.classList.add('red');else if(diff<=30)el.classList.add('yellow');}
 window.addEventListener('DOMContentLoaded',()=>{if(document.getElementById('deposit-received')){const s=localStorage.getItem('deposit_received')==='true';document.getElementById('deposit-received').checked=s;}buildWeeks();updateAll();updateCountdown();setInterval(updateCountdown,60000);});
 if(document.getElementById('deposit-received'))document.getElementById('deposit-received').addEventListener('change',function(){localStorage.setItem('deposit_received',this.checked);updateAll();});
