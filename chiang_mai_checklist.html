@@ -1048,4 +1048,14 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAl
+    document.querySelectorAll('.check-item').forEach(item => {
+      const id = item.dataset.id;
+      if (localStorage.getItem(STORAGE_PREFIX + id) === '1') {
+        item.classList.add('done');
+      }
+    });
+    updateProgress();
+  });
+</script>
+</body>
+</html>
