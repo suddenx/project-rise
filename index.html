@@ -5,192 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project:Rise</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0d0d0d;
-    --surface: #161616;
-    --surface2: #1e1e1e;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #f0ece4;
-    --muted: #7a7670;
-    --dim: #3a3834;
-    --teal: #1fcb8a;
-    --purple: #9b87f5;
-    --blue: #4a9eff;
-    --orange: #ff7c3a;
-    --red: #ff4f4f;
-    --yellow: #f5c842;
-    --green: #4caf74;
+    --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+    --text: #f0ece4; --muted: #7a7670; --dim: #3a3834;
+    --teal: #1fcb8a; --purple: #9b87f5; --blue: #4a9eff;
+    --orange: #ff7c3a; --red: #ff4f4f; --yellow: #f5c842; --green: #4caf74;
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
   .screen { display: none; min-height: 100vh; }
   .screen.active { display: block; }
 
-  /* ===================== LANDING ===================== */
-  #screen-landing {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 40px 24px;
-    position: relative;
-  }
-
-  #screen-landing::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 40%, rgba(31,203,138,0.05) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .landing-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.1s;
-  }
-
-  .landing-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(80px, 18vw, 160px);
-    letter-spacing: 0.03em;
-    line-height: 0.88;
-    color: var(--text);
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.2s;
-  }
-
-  .landing-title .colon { color: var(--teal); }
-
-  .landing-sub {
-    font-size: 16px;
-    color: var(--muted);
-    max-width: 440px;
-    line-height: 1.7;
-    margin: 28px auto 0;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.35s;
-  }
-
-  .landing-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 44px;
-    flex-wrap: wrap;
-    justify-content: center;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.5s;
-  }
-
-  .btn-primary {
-    padding: 14px 32px;
-    background: var(--teal);
-    color: #0d0d0d;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 500;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.15s;
-  }
-
+  /* BUTTONS */
+  .btn-primary { padding: 14px 32px; background: var(--teal); color: #0d0d0d; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s, transform 0.15s; }
   .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
-
-  .btn-secondary {
-    padding: 14px 32px;
-    background: transparent;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-secondary { padding: 14px 32px; background: transparent; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--border2); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
   .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
 
-  .landing-stats {
-    display: flex;
-    gap: 40px;
-    margin-top: 64px;
-    opacity: 0;
-    animation: fadeUp 0.5s ease forwards 0.65s;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .landing-stat { text-align: center; }
+  /* LANDING */
+  #screen-landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; position: relative; }
+  #screen-landing::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(31,203,138,0.05) 0%, transparent 60%); pointer-events: none; }
+  .landing-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+  .landing-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 18vw, 160px); letter-spacing: 0.03em; line-height: 0.88; color: var(--text); opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
+  .landing-title .colon { color: var(--teal); }
+  .landing-sub { font-size: 16px; color: var(--muted); max-width: 440px; line-height: 1.7; margin: 28px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
+  .landing-buttons { display: flex; gap: 12px; margin-top: 44px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
+  .landing-stats { display: flex; gap: 40px; margin-top: 64px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.65s; flex-wrap: wrap; justify-content: center; }
   .landing-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--teal); letter-spacing: 0.04em; line-height: 1; }
   .landing-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
 
-  /* ===================== PASSWORD ===================== */
-  #screen-password {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 40px 24px;
-    text-align: center;
-  }
-
+  /* PASSWORD */
+  #screen-password { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 24px; text-align: center; }
   .pw-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
   .pw-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
-
-  .pw-input {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-size: 14px;
-    padding: 14px 20px;
-    width: 100%;
-    max-width: 320px;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.15s;
-    margin-bottom: 12px;
-    display: block;
-  }
-
+  .pw-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 14px 20px; width: 100%; max-width: 320px; text-align: center; outline: none; transition: border-color 0.15s; margin-bottom: 12px; display: block; }
   .pw-input:focus { border-color: var(--teal); }
   .pw-error { font-size: 12px; color: var(--red); margin-bottom: 12px; min-height: 18px; font-family: 'DM Mono', monospace; }
   .pw-back { margin-top: 20px; font-size: 12px; color: var(--dim); cursor: pointer; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.15s; }
   .pw-back:hover { color: var(--muted); }
 
-  /* ===================== DASHBOARD ===================== */
+  /* DASHBOARD */
   .dash-topbar { padding: 24px 48px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .dash-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
   .dash-logo span { color: var(--teal); }
   .dash-logout { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); cursor: pointer; transition: color 0.15s; }
   .dash-logout:hover { color: var(--muted); }
-
   .dash-hero { padding: 64px 48px 48px; text-align: center; position: relative; overflow: hidden; }
   .dash-hero::before { content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(31,203,138,0.05) 0%, transparent 70%); pointer-events: none; }
   .dash-hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
@@ -198,7 +61,6 @@
   .dash-hero-title .colon { color: var(--teal); }
   .dash-quote { margin: 36px auto 0; max-width: 560px; font-size: 15px; color: var(--text); line-height: 1.7; font-style: italic; }
   .dash-quote-author { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
-
   .dash-countdowns { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 52px 0 60px; }
   .dash-days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 16vw, 140px); letter-spacing: 0.02em; line-height: 0.85; color: var(--teal); transition: color 0.5s; }
   .dash-days-num.yellow { color: var(--yellow); }
@@ -213,10 +75,8 @@
   .money-bar-fill { height: 100%; border-radius: 2px; background: var(--orange); transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
   .money-bar-fill.done { background: var(--teal); }
   .money-bar-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); margin-top: 5px; text-align: center; }
-
   .dash-nav-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; padding: 0 48px; }
   .dash-nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 64px; padding: 0 48px; }
-
   .nav-card { display: flex; flex-direction: column; padding: 20px 20px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: border-color 0.2s, background 0.2s, transform 0.15s; position: relative; overflow: hidden; }
   .nav-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.2s; }
   .nav-card:hover { border-color: var(--border2); background: var(--surface2); transform: translateY(-2px); }
@@ -238,12 +98,11 @@
   .nav-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
   .nav-card-arrow { margin-top: 14px; font-size: 16px; color: var(--dim); transition: color 0.2s, transform 0.2s; display: inline-block; }
   .nav-card:hover .nav-card-arrow { color: var(--text); transform: translateX(4px); }
-
   .dash-footer { padding: 24px 48px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
   .dash-footer-left { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
   .dash-footer-right { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
 
-  /* ===================== QUESTIONNAIRE ===================== */
+  /* QUESTIONNAIRE */
   .q-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
   .q-back { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 40px; display: inline-block; transition: color 0.15s; }
   .q-back:hover { color: var(--muted); }
@@ -269,51 +128,64 @@
   .q-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .q-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
   .q-step-indicator { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.08em; }
+  .pw-strength { font-family: 'DM Mono', monospace; font-size: 11px; margin-top: 6px; min-height: 16px; }
 
-  /* ===================== GENERATING ===================== */
+  /* GENERATING */
   #screen-generating { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; }
   .gen-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 16px; }
-  .gen-status { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 32px; min-height: 20px; }
-  .gen-bar-wrap { width: 300px; margin-bottom: 48px; }
-  .gen-bar-track { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
-  .gen-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.8s ease; }
-  .gen-steps { text-align: left; max-width: 400px; }
-  .gen-step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 13px; color: var(--dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; transition: color 0.3s; }
+  .gen-status { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 32px; min-height: 20px; max-width: 500px; }
+  .gen-bar-wrap { width: 340px; margin-bottom: 48px; }
+  .gen-bar-track { height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .gen-bar-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width 0.8s ease; }
+  .gen-steps { text-align: left; max-width: 440px; width: 100%; }
+  .gen-step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 13px; color: var(--dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; transition: color 0.3s; border-bottom: 1px solid var(--border); }
+  .gen-step-item:last-child { border-bottom: none; }
   .gen-step-item.done { color: var(--teal); }
   .gen-step-item.active { color: var(--text); }
   .gen-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); flex-shrink: 0; transition: background 0.3s; }
   .gen-step-item.done .gen-step-dot { background: var(--teal); }
   .gen-step-item.active .gen-step-dot { background: var(--text); }
 
-  /* ===================== RESULT ===================== */
+  /* RESULT */
   .result-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
   .result-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; text-align: center; }
   .result-title span { color: var(--teal); }
   .result-sub { font-size: 14px; color: var(--muted); line-height: 1.6; text-align: center; margin-bottom: 32px; }
-  .result-plan { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 24px; font-size: 13px; color: var(--text); line-height: 1.8; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
-  .result-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+  .result-plan { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 24px; font-size: 13px; color: var(--text); line-height: 1.8; white-space: pre-wrap; max-height: 360px; overflow-y: auto; }
+  .result-download-box { background: var(--surface2); border: 1px solid rgba(31,203,138,0.2); border-radius: 10px; padding: 24px; margin-bottom: 24px; text-align: center; }
+  .result-download-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.04em; color: var(--teal); margin-bottom: 8px; }
+  .result-download-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .result-file-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; text-align: left; }
+  .result-file-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .result-file-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .result-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
-  /* ===================== DEPLOY ===================== */
-  .deploy-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
-  .deploy-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
+  /* DEPLOY GUIDE */
+  .deploy-wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+  .deploy-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
   .deploy-title span { color: var(--blue); }
-  .deploy-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 32px; }
-  .deploy-step { display: flex; gap: 20px; margin-bottom: 8px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; align-items: flex-start; transition: border-color 0.15s; }
-  .deploy-step:hover { border-color: var(--border2); }
-  .deploy-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--blue); flex-shrink: 0; line-height: 1; min-width: 28px; }
-  .deploy-step-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-  .deploy-step-desc { font-size: 12px; color: var(--muted); line-height: 1.65; }
-  .deploy-step-desc code { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--surface2); padding: 2px 6px; border-radius: 4px; color: var(--blue); }
-  .deploy-callout { margin-top: 28px; padding: 16px 20px 16px 32px; background: var(--surface2); border-radius: 8px; border: 1px solid var(--border); font-size: 13px; color: var(--muted); line-height: 1.65; position: relative; }
+  .deploy-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; max-width: 560px; }
+  .deploy-section-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--border); }
+  .deploy-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .deploy-step { margin-bottom: 36px; }
+  .deploy-step-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+  .deploy-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--blue); line-height: 1; min-width: 40px; }
+  .deploy-step-title { font-size: 18px; font-weight: 500; color: var(--text); }
+  .deploy-step-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; padding-left: 56px; }
+  .deploy-step-desc strong { color: var(--text); font-weight: 500; }
+  .deploy-step-desc code { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; color: var(--blue); }
+  .deploy-img { width: 100%; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 8px; background: var(--surface); }
+  .deploy-img svg { display: block; width: 100%; }
+  .deploy-img-caption { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); text-align: center; margin-bottom: 0; letter-spacing: 0.08em; }
+  .deploy-callout { padding: 16px 20px 16px 32px; background: var(--surface2); border-radius: 8px; border: 1px solid var(--border); font-size: 13px; color: var(--muted); line-height: 1.65; position: relative; margin-top: 48px; }
   .deploy-callout::before { content: '!'; position: absolute; left: 12px; top: 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--blue); font-weight: 500; }
 
-
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-
   @media (max-width: 600px) {
     .dash-topbar, .dash-hero, .dash-nav-label, .dash-nav-grid, .dash-footer { padding-left: 20px; padding-right: 20px; }
     .dash-nav-grid { grid-template-columns: 1fr 1fr; }
     .q-row { grid-template-columns: 1fr; }
+    .gen-bar-wrap { width: 280px; }
   }
 </style>
 </head>
@@ -349,7 +221,7 @@
 <div id="screen-dashboard" class="screen">
   <div class="dash-topbar">
     <div class="dash-logo">Project<span>:</span>Rise</div>
-    <div class="dash-logout" onclick="showScreen('landing')">Lock dashboard</div>
+    <div class="dash-logout" onclick="logout()">Lock dashboard</div>
   </div>
   <div class="dash-hero">
     <div class="dash-hero-label">Escape plan — the full stack</div>
@@ -378,7 +250,7 @@
     <a href="budget_tracker.html" class="nav-card c-blue"><div class="nav-card-num">02</div><div class="nav-card-title">Budget Tracker</div><div class="nav-card-desc">Weekly savings log, deposit tracking, on-track indicator.</div><span class="nav-card-arrow">→</span></a>
     <a href="portfolio_roadmap.html" class="nav-card c-purple"><div class="nav-card-num">03</div><div class="nav-card-title">Portfolio Roadmap</div><div class="nav-card-desc">Four phases, milestone checklists, output targets per stage.</div><span class="nav-card-arrow">→</span></a>
     <a href="outreach_plan.html" class="nav-card c-orange"><div class="nav-card-num">04</div><div class="nav-card-title">Outreach Plan</div><div class="nav-card-desc">Four channels, pitch templates, do's and don'ts.</div><span class="nav-card-arrow">→</span></a>
-    <a href="chiang_mai_checklist.html" class="nav-card c-green"><div class="nav-card-num">05</div><div class="nav-card-title">Chiang Mai Checklist</div><div class="nav-card-desc">Visa, health, money, tech, Thai citizenship, arrival.</div><span class="nav-card-arrow">→</span></a>
+    <a href="chiang_mai_checklist.html" class="nav-card c-green"><div class="nav-card-num">05</div><div class="nav-card-title">Destination Checklist</div><div class="nav-card-desc">Visa, health, money, tech, citizenship, arrival.</div><span class="nav-card-arrow">→</span></a>
     <a href="health_routine.html" class="nav-card c-yellow"><div class="nav-card-num">06</div><div class="nav-card-title">Health Routine</div><div class="nav-card-desc">Supplements stack, skincare routine, daily reference.</div><span class="nav-card-arrow">→</span></a>
   </div>
   <div class="dash-footer">
@@ -393,15 +265,16 @@
     <div class="q-back" onclick="showScreen('landing')">← Back</div>
     <div class="q-label">Project:Rise — plan builder</div>
     <div class="q-title">Build Your Plan</div>
-    <p class="q-sub">Answer honestly. The more detail you give, the more useful your plan will be. Takes about 5 minutes.</p>
+    <p class="q-sub">Answer honestly. The more detail you give, the better your plan. Takes about 5 minutes. Your site will be ready to download at the end.</p>
     <div class="q-progress">
-      <div class="q-progress-header"><span id="q-step-label">Step 1 of 5</span><span id="q-step-pct">20%</span></div>
-      <div class="q-progress-track"><div class="q-progress-fill" id="q-progress-fill" style="width:20%"></div></div>
+      <div class="q-progress-header"><span id="q-step-label">Step 1 of 6</span><span id="q-step-pct">17%</span></div>
+      <div class="q-progress-track"><div class="q-progress-fill" id="q-progress-fill" style="width:17%"></div></div>
     </div>
 
+    <!-- STEP 1 -->
     <div class="q-step active" id="q-step-1">
       <div class="q-step-title">About you</div>
-      <div class="q-step-desc">Basic info to personalise your plan.</div>
+      <div class="q-step-desc">Basic info to personalise your plan and your site.</div>
       <div class="q-field"><label class="q-field-label">Your first name</label><input type="text" class="q-input" id="q-name" placeholder="e.g. Marcus"></div>
       <div class="q-row">
         <div class="q-field"><label class="q-field-label">Your age</label><input type="number" class="q-input" id="q-age" placeholder="e.g. 26"></div>
@@ -411,9 +284,10 @@
       <div class="q-field"><label class="q-field-label">Target departure date</label><input type="text" class="q-input" id="q-departure" placeholder="e.g. September 2026"></div>
     </div>
 
+    <!-- STEP 2 -->
     <div class="q-step" id="q-step-2">
       <div class="q-step-title">Your money situation</div>
-      <div class="q-step-desc">Be honest — rough numbers are fine.</div>
+      <div class="q-step-desc">Be honest — rough numbers are fine. This builds your savings plan.</div>
       <div class="q-row">
         <div class="q-field"><label class="q-field-label">Monthly income (after tax)</label><input type="text" class="q-input" id="q-income" placeholder="e.g. £2,200"></div>
         <div class="q-field"><label class="q-field-label">Monthly expenses</label><input type="text" class="q-input" id="q-expenses" placeholder="e.g. £1,800"></div>
@@ -431,6 +305,7 @@
       </div>
     </div>
 
+    <!-- STEP 3 -->
     <div class="q-step" id="q-step-3">
       <div class="q-step-title">Your skills and current work</div>
       <div class="q-step-desc">What you're building toward and where you are now.</div>
@@ -449,6 +324,7 @@
       <div class="q-field"><label class="q-field-label">What is your biggest weakness or fear?</label><input type="text" class="q-input" id="q-weakness" placeholder="e.g. Fear of putting myself out there, inconsistency"></div>
     </div>
 
+    <!-- STEP 4 -->
     <div class="q-step" id="q-step-4">
       <div class="q-step-title">Your life situation</div>
       <div class="q-step-desc">Context that shapes your plan.</div>
@@ -478,20 +354,40 @@
           <option value="weak">Weak — I plan a lot but execution is my biggest problem</option>
         </select>
       </div>
-      <div class="q-field"><label class="q-field-label">Any connections or advantages in your chosen field?</label><input type="text" class="q-input" id="q-connections" placeholder="e.g. Friend in the industry, relevant degree, experience"></div>
+      <div class="q-field"><label class="q-field-label">Any connections or advantages in your chosen field?</label><input type="text" class="q-input" id="q-connections" placeholder="e.g. Friend in the industry, relevant degree, prior experience"></div>
     </div>
 
+    <!-- STEP 5 -->
     <div class="q-step" id="q-step-5">
       <div class="q-step-title">The vision</div>
-      <div class="q-step-desc">The most important section. Be specific.</div>
+      <div class="q-step-desc">The most important section. Be specific — vague answers produce vague plans.</div>
       <div class="q-field"><label class="q-field-label">Why do you want to escape the 9-5? Be honest.</label><textarea class="q-textarea" id="q-why" placeholder="What's driving this? What does your current life feel like vs what you want?"></textarea></div>
       <div class="q-field"><label class="q-field-label">What does success look like at the end of your first 3 months away?</label><textarea class="q-textarea" id="q-success" placeholder="e.g. 2 retainer clients, £2,000/month income, working from a cafe"></textarea></div>
       <div class="q-field"><label class="q-field-label">What has stopped you from doing this before?</label><input type="text" class="q-input" id="q-blocker" placeholder="e.g. Fear, money, not knowing where to start, comfort zone"></div>
       <div class="q-field"><label class="q-field-label">Anything else you want your plan to account for?</label><textarea class="q-textarea" id="q-extra" placeholder="Partner, health, financial obligations, specific constraints..."></textarea></div>
     </div>
 
+    <!-- STEP 6 — PASSWORD -->
+    <div class="q-step" id="q-step-6">
+      <div class="q-step-title">Set your dashboard password</div>
+      <div class="q-step-desc">This protects your personal dashboard. Choose something memorable — you'll enter it every time you access your site. It's built into your downloaded files so only you can get in.</div>
+      <div class="q-field">
+        <label class="q-field-label">Choose a password</label>
+        <input type="password" class="q-input" id="q-password" placeholder="Choose a strong password" oninput="checkPwStrength()">
+        <div class="pw-strength" id="pw-strength-indicator"></div>
+      </div>
+      <div class="q-field">
+        <label class="q-field-label">Confirm password</label>
+        <input type="password" class="q-input" id="q-password-confirm" placeholder="Type it again">
+      </div>
+      <div class="pw-error" id="q-pw-error"></div>
+      <div style="margin-top:16px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted);line-height:1.6;">
+        Write your password down somewhere safe. If you forget it, you'll need to re-generate your site to reset it.
+      </div>
+    </div>
+
     <div class="q-nav">
-      <div class="q-step-indicator" id="q-step-indicator">Step 1 of 5</div>
+      <div class="q-step-indicator" id="q-step-indicator">Step 1 of 6</div>
       <div style="display:flex;gap:10px">
         <button class="btn-secondary" id="q-btn-back" onclick="qNav(-1)" style="display:none">Back</button>
         <button class="btn-primary" id="q-btn-next" onclick="qNav(1)">Next</button>
@@ -502,89 +398,261 @@
 
 <!-- GENERATING -->
 <div id="screen-generating" class="screen">
-  <div class="gen-title">Building Your Plan</div>
+  <div class="gen-title">Building Your Site</div>
   <div class="gen-status" id="gen-status">Analysing your answers...</div>
-  <div class="gen-bar-wrap"><div class="gen-bar-track"><div class="gen-bar-fill" id="gen-bar" style="width:0%"></div></div></div>
+  <div class="gen-bar-wrap">
+    <div class="gen-bar-track"><div class="gen-bar-fill" id="gen-bar" style="width:0%"></div></div>
+  </div>
   <div class="gen-steps">
-    <div class="gen-step-item active" id="gstep-1"><div class="gen-step-dot"></div>Analysing your situation</div>
-    <div class="gen-step-item" id="gstep-2"><div class="gen-step-dot"></div>Calculating savings targets</div>
-    <div class="gen-step-item" id="gstep-3"><div class="gen-step-dot"></div>Building your phase timeline</div>
-    <div class="gen-step-item" id="gstep-4"><div class="gen-step-dot"></div>Crafting your daily routine</div>
-    <div class="gen-step-item" id="gstep-5"><div class="gen-step-dot"></div>Writing your outreach strategy</div>
-    <div class="gen-step-item" id="gstep-6"><div class="gen-step-dot"></div>Finalising your escape plan</div>
+    <div class="gen-step-item active" id="gstep-1"><div class="gen-step-dot"></div>Generating your escape plan</div>
+    <div class="gen-step-item" id="gstep-2"><div class="gen-step-dot"></div>Building your dashboard</div>
+    <div class="gen-step-item" id="gstep-3"><div class="gen-step-dot"></div>Creating daily routines</div>
+    <div class="gen-step-item" id="gstep-4"><div class="gen-step-dot"></div>Setting up budget tracker</div>
+    <div class="gen-step-item" id="gstep-5"><div class="gen-step-dot"></div>Building portfolio roadmap</div>
+    <div class="gen-step-item" id="gstep-6"><div class="gen-step-dot"></div>Writing outreach plan</div>
+    <div class="gen-step-item" id="gstep-7"><div class="gen-step-dot"></div>Packing destination checklist</div>
+    <div class="gen-step-item" id="gstep-8"><div class="gen-step-dot"></div>Adding health routine</div>
+    <div class="gen-step-item" id="gstep-9"><div class="gen-step-dot"></div>Packaging your files</div>
   </div>
 </div>
 
 <!-- RESULT -->
 <div id="screen-result" class="screen">
   <div class="result-wrap">
-    <div class="result-title">Your Plan is <span>Ready</span></div>
-    <p class="result-sub">Read it carefully. Download it, then follow the deployment guide to get your own Project:Rise site live.</p>
+    <div class="result-title">Your Site is <span>Ready</span></div>
+    <p class="result-sub">Your personalised plan is below. Your site files are packaged and ready to download. Then follow the deployment guide to get your site live.</p>
     <div class="result-plan" id="result-plan-content"></div>
-    <div class="result-actions">
-      <button class="btn-primary" onclick="downloadPlan()">Download plan.txt</button>
-      <button class="btn-secondary" onclick="showScreen('deploy')">How to get my site live →</button>
+    <div class="result-download-box">
+      <div class="result-download-title">Your Site — Ready to Deploy</div>
+      <div class="result-download-desc">One ZIP file containing all 7 personalised HTML files for your Project:Rise site.</div>
+      <div class="result-file-list" id="result-file-list"></div>
+      <div class="result-actions">
+        <button class="btn-primary" id="btn-download-zip" onclick="triggerDownload()">Download my site ZIP</button>
+        <button class="btn-secondary" onclick="showScreen('deploy')">How to go live →</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- DEPLOY -->
+<!-- DEPLOY GUIDE -->
 <div id="screen-deploy" class="screen">
   <div class="deploy-wrap">
-    <div class="deploy-title">Get Your Site <span>Live</span></div>
-    <p class="deploy-sub">Follow these steps exactly. Takes about 15 minutes. You only have to do this once.</p>
+    <div class="deploy-title">Going <span>Live</span></div>
+    <p class="deploy-sub">Follow every step below. Take your time. You've done the hard part — this is just clicking buttons in the right order.</p>
+
+    <!-- GITHUB SECTION -->
+    <div class="deploy-section-title">Part 1 — GitHub (where your files live)</div>
 
     <div class="deploy-step">
-      <div class="deploy-step-num">1</div>
-      <div>
-        <div class="deploy-step-title">Take your plan to Claude and build your full site</div>
-        <div class="deploy-step-desc">Go to <strong>claude.ai</strong> and start a new conversation. Paste this opening message:<br><br><em>"I want to build my personalised Project:Rise escape plan site. Here is my plan summary: [paste your downloaded plan.txt here]. Please build me all the HTML files — daily routines, budget tracker, portfolio roadmap, outreach plan, destination checklist, and health routine — fully personalised to my situation."</em><br><br>Claude will build each page for you. Download every HTML file it produces and save them in one folder.</div>
+      <div class="deploy-step-header"><div class="deploy-step-num">1</div><div class="deploy-step-title">Create a free GitHub account</div></div>
+      <div class="deploy-step-desc">Go to <strong>github.com</strong> in your browser. Click the big green <strong>Sign up</strong> button. Enter your email, create a password, and follow the steps. It's completely free.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="280" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <rect x="80" y="10" width="540" height="16" rx="8" fill="#1e1e1e"/>
+          <text x="350" y="22" text-anchor="middle" fill="#7a7670" font-size="10" font-family="monospace">github.com</text>
+          <text x="350" y="100" text-anchor="middle" fill="#f0ece4" font-size="28" font-weight="bold" font-family="sans-serif">GitHub</text>
+          <text x="350" y="128" text-anchor="middle" fill="#7a7670" font-size="13" font-family="sans-serif">Where the world builds software</text>
+          <rect x="245" y="148" width="210" height="44" rx="8" fill="#1fcb8a"/>
+          <text x="350" y="175" text-anchor="middle" fill="#0d0d0d" font-size="14" font-weight="bold" font-family="sans-serif">Sign up</text>
+          <rect x="242" y="145" width="216" height="50" rx="10" fill="none" stroke="#1fcb8a" stroke-width="2.5" stroke-dasharray="6 3"/>
+          <text x="350" y="230" text-anchor="middle" fill="#7a7670" font-size="11" font-family="sans-serif">Already have an account? Sign in →</text>
+          <text x="460" y="158" fill="#1fcb8a" font-size="20" font-family="sans-serif">←</text>
+          <text x="470" y="172" fill="#1fcb8a" font-size="10" font-family="monospace">Click this</text>
+        </svg>
       </div>
+      <div class="deploy-img-caption">github.com — click Sign up</div>
     </div>
 
     <div class="deploy-step">
-      <div class="deploy-step-num">2</div>
-      <div>
-        <div class="deploy-step-title">Create a free GitHub account</div>
-        <div class="deploy-step-desc">Go to <strong>github.com</strong> and sign up. This is where your files will live.</div>
+      <div class="deploy-step-header"><div class="deploy-step-num">2</div><div class="deploy-step-title">Create a new repository</div></div>
+      <div class="deploy-step-desc">Once logged in, look for the <strong>+</strong> icon in the top right corner of the page. Click it. A small menu will drop down — click <strong>New repository</strong>.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="200" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <rect x="80" y="10" width="400" height="16" rx="8" fill="#1e1e1e"/>
+          <text x="280" y="22" text-anchor="middle" fill="#7a7670" font-size="10" font-family="monospace">github.com</text>
+          <text x="540" y="15" fill="#f0ece4" font-size="13" font-family="monospace">🔔</text>
+          <rect x="560" y="6" width="24" height="24" rx="4" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <text x="572" y="22" text-anchor="middle" fill="#f0ece4" font-size="14" font-family="sans-serif">+</text>
+          <rect x="572" y="3" width="24" height="24" rx="6" fill="none" stroke="#1fcb8a" stroke-width="2" stroke-dasharray="5 2"/>
+          <rect x="548" y="36" width="140" height="120" rx="8" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <rect x="548" y="56" width="140" height="36" rx="0" fill="#1fcb8a"/>
+          <text x="618" y="79" text-anchor="middle" fill="#0d0d0d" font-size="13" font-weight="bold" font-family="sans-serif">New repository</text>
+          <text x="618" y="108" text-anchor="middle" fill="#7a7670" font-size="12" font-family="sans-serif">New gist</text>
+          <text x="618" y="132" text-anchor="middle" fill="#7a7670" font-size="12" font-family="sans-serif">New organization</text>
+          <text x="618" y="156" text-anchor="middle" fill="#7a7670" font-size="12" font-family="sans-serif">New project</text>
+          <text x="510" y="70" text-anchor="end" fill="#1fcb8a" font-size="18" font-family="sans-serif">←</text>
+          <text x="506" y="84" text-anchor="end" fill="#1fcb8a" font-size="10" font-family="monospace">Click here</text>
+        </svg>
       </div>
+      <div class="deploy-img-caption">Top right corner — click + then New repository</div>
     </div>
 
     <div class="deploy-step">
-      <div class="deploy-step-num">3</div>
-      <div>
-        <div class="deploy-step-title">Create a new repository</div>
-        <div class="deploy-step-desc">Click the <code>+</code> icon top right → <code>New repository</code>. Name it <code>project-rise</code>. Set to Public. Click <code>Create repository</code>.</div>
+      <div class="deploy-step-header"><div class="deploy-step-num">3</div><div class="deploy-step-title">Name it and create it</div></div>
+      <div class="deploy-step-desc">In the <strong>Repository name</strong> box, type <code>project-rise</code>. Make sure <strong>Public</strong> is selected. Scroll down and click the green <strong>Create repository</strong> button. Don't change anything else.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="260" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <text x="60" y="70" fill="#f0ece4" font-size="18" font-weight="bold" font-family="sans-serif">Create a new repository</text>
+          <text x="60" y="100" fill="#7a7670" font-size="12" font-family="sans-serif">Repository name</text>
+          <rect x="60" y="110" width="300" height="36" rx="6" fill="#0d0d0d" stroke="#1fcb8a" stroke-width="1.5"/>
+          <text x="74" y="132" fill="#f0ece4" font-size="13" font-family="monospace">project-rise</text>
+          <text x="60" y="170" fill="#7a7670" font-size="12" font-family="sans-serif">Visibility</text>
+          <circle cx="74" cy="188" r="7" fill="none" stroke="#1fcb8a" stroke-width="2"/>
+          <circle cx="74" cy="188" r="4" fill="#1fcb8a"/>
+          <text x="88" y="192" fill="#f0ece4" font-size="13" font-family="sans-serif">Public</text>
+          <circle cx="74" cy="212" r="7" fill="none" stroke="#3a3834" stroke-width="1.5"/>
+          <text x="88" y="216" fill="#7a7670" font-size="13" font-family="sans-serif">Private</text>
+          <rect x="60" y="232" width="200" height="20" rx="5" fill="#1fcb8a"/>
+          <text x="160" y="246" text-anchor="middle" fill="#0d0d0d" font-size="12" font-weight="bold" font-family="sans-serif">Create repository</text>
+          <rect x="57" y="229" width="206" height="26" rx="7" fill="none" stroke="#1fcb8a" stroke-width="2" stroke-dasharray="5 2"/>
+          <text x="274" y="246" fill="#1fcb8a" font-size="18" font-family="sans-serif">←</text>
+          <text x="278" y="228" fill="#1fcb8a" font-size="10" font-family="monospace">Click this</text>
+        </svg>
       </div>
+      <div class="deploy-img-caption">Name it project-rise, keep it Public, click Create repository</div>
     </div>
 
     <div class="deploy-step">
-      <div class="deploy-step-num">4</div>
-      <div>
-        <div class="deploy-step-title">Upload your HTML files individually</div>
-        <div class="deploy-step-desc">On your repository page click <code>Add file</code> → <code>Upload files</code>. Drag all your HTML files in <strong>one by one or all at once — but not inside a folder</strong>. Make sure your homepage is named exactly <code>index.html</code>. Click <code>Commit changes</code>.</div>
+      <div class="deploy-step-header"><div class="deploy-step-num">4</div><div class="deploy-step-title">Upload your files</div></div>
+      <div class="deploy-step-desc">You should now see your empty repository. Click <strong>uploading an existing file</strong> or click <strong>Add file</strong> → <strong>Upload files</strong>. Unzip the ZIP file you downloaded, then drag all 7 HTML files into the upload area. <strong>Important: drag the files themselves, not the folder they're in.</strong> Then click <strong>Commit changes</strong>.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="240" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <text x="60" y="66" fill="#f0ece4" font-size="15" font-weight="bold" font-family="sans-serif">yourname / project-rise</text>
+          <rect x="60" y="80" width="80" height="28" rx="5" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <text x="100" y="98" text-anchor="middle" fill="#f0ece4" font-size="11" font-family="sans-serif">Code</text>
+          <rect x="490" y="80" width="90" height="28" rx="5" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <text x="535" y="98" text-anchor="middle" fill="#f0ece4" font-size="11" font-family="sans-serif">Add file ▾</text>
+          <rect x="490" y="77" width="90" height="34" rx="5" fill="none" stroke="#1fcb8a" stroke-width="2" stroke-dasharray="5 2"/>
+          <rect x="490" y="115" width="130" height="60" rx="6" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <rect x="490" y="127" width="130" height="26" rx="0" fill="#1fcb8a"/>
+          <text x="555" y="144" text-anchor="middle" fill="#0d0d0d" font-size="12" font-weight="bold" font-family="sans-serif">Upload files</text>
+          <text x="555" y="166" text-anchor="middle" fill="#7a7670" font-size="12" font-family="sans-serif">Create new file</text>
+          <rect x="60" y="130" width="400" height="80" rx="8" fill="#0d0d0d" stroke="#3a3834" stroke-width="1" stroke-dasharray="6 3"/>
+          <text x="260" y="168" text-anchor="middle" fill="#7a7670" font-size="13" font-family="sans-serif">Drag your 7 HTML files here</text>
+          <text x="260" y="187" text-anchor="middle" fill="#3a3834" font-size="11" font-family="sans-serif">or click to browse</text>
+          <text x="484" y="100" text-anchor="end" fill="#1fcb8a" font-size="18" font-family="sans-serif">←</text>
+          <text x="482" y="115" text-anchor="end" fill="#1fcb8a" font-size="10" font-family="monospace">Start here</text>
+        </svg>
       </div>
+      <div class="deploy-img-caption">Click Add file → Upload files, then drag your 7 HTML files in</div>
+    </div>
+
+    <!-- VERCEL SECTION -->
+    <div class="deploy-section-title">Part 2 — Vercel (where your site goes live)</div>
+
+    <div class="deploy-step">
+      <div class="deploy-step-header"><div class="deploy-step-num">5</div><div class="deploy-step-title">Create a free Vercel account</div></div>
+      <div class="deploy-step-desc">Go to <strong>vercel.com</strong> in your browser. Click <strong>Sign Up</strong>. Choose <strong>Continue with GitHub</strong> — this links your two accounts together automatically, which is what you want.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="240" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <text x="350" y="90" text-anchor="middle" fill="#f0ece4" font-size="24" font-weight="bold" font-family="sans-serif">▲ Vercel</text>
+          <text x="350" y="116" text-anchor="middle" fill="#7a7670" font-size="13" font-family="sans-serif">Create your account</text>
+          <rect x="220" y="132" width="260" height="40" rx="8" fill="#f0ece4"/>
+          <text x="350" y="157" text-anchor="middle" fill="#0d0d0d" font-size="13" font-weight="bold" font-family="sans-serif">⬡ Continue with GitHub</text>
+          <rect x="217" y="129" width="266" height="46" rx="10" fill="none" stroke="#1fcb8a" stroke-width="2.5" stroke-dasharray="6 3"/>
+          <text x="494" y="148" fill="#1fcb8a" font-size="20" font-family="sans-serif">←</text>
+          <text x="498" y="163" fill="#1fcb8a" font-size="10" font-family="monospace">Click this</text>
+          <rect x="220" y="186" width="260" height="36" rx="8" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <text x="350" y="209" text-anchor="middle" fill="#7a7670" font-size="12" font-family="sans-serif">Continue with Email</text>
+        </svg>
+      </div>
+      <div class="deploy-img-caption">vercel.com — click Continue with GitHub</div>
     </div>
 
     <div class="deploy-step">
-      <div class="deploy-step-num">5</div>
-      <div>
-        <div class="deploy-step-title">Deploy on Vercel</div>
-        <div class="deploy-step-desc">Go to <strong>vercel.com</strong>, create a free account. Click <code>Add New</code> → <code>Project</code>. Connect GitHub, select your <code>project-rise</code> repository, click <code>Deploy</code>. Your site will be live in 30 seconds at <code>project-rise.vercel.app</code>.</div>
+      <div class="deploy-step-header"><div class="deploy-step-num">6</div><div class="deploy-step-title">Import your repository</div></div>
+      <div class="deploy-step-desc">Once logged into Vercel, click <strong>Add New</strong> then <strong>Project</strong>. You'll see a list of your GitHub repositories. Find <strong>project-rise</strong> and click <strong>Import</strong> next to it.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="220" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <text x="60" y="68" fill="#f0ece4" font-size="16" font-weight="bold" font-family="sans-serif">Import Git Repository</text>
+          <rect x="60" y="84" width="580" height="52" rx="8" fill="#1e1e1e" stroke="#3a3834" stroke-width="1"/>
+          <text x="80" y="115" fill="#7a7670" font-size="11" font-family="monospace">⬡</text>
+          <text x="100" y="107" fill="#f0ece4" font-size="14" font-family="sans-serif">project-rise</text>
+          <text x="100" y="124" fill="#7a7670" font-size="11" font-family="sans-serif">yourname/project-rise</text>
+          <rect x="555" y="96" width="70" height="30" rx="6" fill="#1fcb8a"/>
+          <text x="590" y="115" text-anchor="middle" fill="#0d0d0d" font-size="13" font-weight="bold" font-family="sans-serif">Import</text>
+          <rect x="552" y="93" width="76" height="36" rx="8" fill="none" stroke="#1fcb8a" stroke-width="2" stroke-dasharray="5 2"/>
+          <text x="548" y="112" text-anchor="end" fill="#1fcb8a" font-size="18" font-family="sans-serif">←</text>
+          <text x="546" y="126" text-anchor="end" fill="#1fcb8a" font-size="10" font-family="monospace">Click Import</text>
+          <rect x="60" y="148" width="580" height="52" rx="8" fill="#1e1e1e" stroke="#3a3834" stroke-width="1" opacity="0.4"/>
+          <text x="80" y="178" fill="#7a7670" font-size="14" font-family="sans-serif" opacity="0.4">another-repo</text>
+        </svg>
       </div>
+      <div class="deploy-img-caption">Find project-rise and click Import</div>
     </div>
 
     <div class="deploy-step">
-      <div class="deploy-step-num">6</div>
-      <div>
-        <div class="deploy-step-title">Bookmark it and start the plan</div>
-        <div class="deploy-step-desc">That's it. Open it every morning. Any time Claude updates a file for you, replace it in GitHub and Vercel redeploys automatically in 30 seconds. Now stop reading and start executing.</div>
+      <div class="deploy-step-header"><div class="deploy-step-num">7</div><div class="deploy-step-title">Deploy it</div></div>
+      <div class="deploy-step-desc">You'll see a configuration screen. <strong>Don't change anything.</strong> Just scroll down and click the big <strong>Deploy</strong> button. Vercel will build your site. It takes about 30 seconds. When it's done you'll see a preview of your site and your URL.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="220" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <text x="350" y="74" text-anchor="middle" fill="#f0ece4" font-size="16" font-weight="bold" font-family="sans-serif">Configure Project</text>
+          <text x="60" y="104" fill="#7a7670" font-size="12" font-family="sans-serif">Project Name</text>
+          <rect x="60" y="112" width="300" height="32" rx="6" fill="#0d0d0d" stroke="#3a3834" stroke-width="1"/>
+          <text x="74" y="132" fill="#7a7670" font-size="12" font-family="monospace">project-rise</text>
+          <text x="60" y="164" fill="#7a7670" font-size="12" font-family="sans-serif">Framework Preset</text>
+          <rect x="60" y="172" width="300" height="32" rx="6" fill="#0d0d0d" stroke="#3a3834" stroke-width="1"/>
+          <text x="74" y="192" fill="#7a7670" font-size="12" font-family="sans-serif">Other</text>
+          <rect x="530" y="155" width="120" height="48" rx="8" fill="#f0ece4"/>
+          <text x="590" y="184" text-anchor="middle" fill="#0d0d0d" font-size="18" font-weight="bold" font-family="sans-serif">Deploy</text>
+          <rect x="527" y="152" width="126" height="54" rx="10" fill="none" stroke="#1fcb8a" stroke-width="2.5" stroke-dasharray="6 3"/>
+          <text x="523" y="172" text-anchor="end" fill="#1fcb8a" font-size="20" font-family="sans-serif">←</text>
+          <text x="521" y="188" text-anchor="end" fill="#1fcb8a" font-size="10" font-family="monospace">Click Deploy!</text>
+        </svg>
       </div>
+      <div class="deploy-img-caption">Don't change anything — just click Deploy</div>
     </div>
 
-    <div class="deploy-callout">To update a file: go to your GitHub repo, click the file name, click the pencil edit icon, paste the new content, commit. Done.</div>
+    <div class="deploy-step">
+      <div class="deploy-step-header"><div class="deploy-step-num">8</div><div class="deploy-step-title">Bookmark your URL and you're done</div></div>
+      <div class="deploy-step-desc">When deployment finishes, Vercel shows you a preview of your site. Your URL will be something like <code>project-rise-yourname.vercel.app</code>. Click <strong>Visit</strong> to open it. Bookmark it. That's your site — live, working, and ready to use every day.</div>
+      <div class="deploy-img">
+        <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+          <rect width="700" height="180" fill="#161616"/>
+          <rect x="0" y="0" width="700" height="36" fill="#0d0d0d"/>
+          <circle cx="18" cy="18" r="5" fill="#ff5f57"/><circle cx="34" cy="18" r="5" fill="#ffbd2e"/><circle cx="50" cy="18" r="5" fill="#28c840"/>
+          <rect x="60" y="52" width="580" height="110" rx="10" fill="#0d0d0d" stroke="#1fcb8a" stroke-width="1.5"/>
+          <circle cx="90" cy="82" r="14" fill="#1fcb8a" opacity="0.2"/>
+          <text x="90" y="87" text-anchor="middle" fill="#1fcb8a" font-size="14" font-family="sans-serif">✓</text>
+          <text x="114" y="78" fill="#f0ece4" font-size="14" font-weight="bold" font-family="sans-serif">Deployment successful!</text>
+          <text x="114" y="96" fill="#7a7670" font-size="11" font-family="monospace">project-rise-yourname.vercel.app</text>
+          <rect x="520" y="62" width="100" height="32" rx="6" fill="#1fcb8a"/>
+          <text x="570" y="82" text-anchor="middle" fill="#0d0d0d" font-size="13" font-weight="bold" font-family="sans-serif">Visit →</text>
+          <rect x="517" y="59" width="106" height="38" rx="8" fill="none" stroke="#1fcb8a" stroke-width="2" stroke-dasharray="5 2"/>
+          <text x="512" y="78" text-anchor="end" fill="#1fcb8a" font-size="18" font-family="sans-serif">←</text>
+          <text x="510" y="92" text-anchor="end" fill="#1fcb8a" font-size="10" font-family="monospace">Visit your site!</text>
+          <text x="114" y="128" fill="#3a3834" font-size="11" font-family="sans-serif">To update a file: go to GitHub, click the file, click the pencil icon, paste new content, commit.</text>
+          <text x="114" y="146" fill="#3a3834" font-size="11" font-family="sans-serif">Vercel redeploys automatically in 30 seconds.</text>
+        </svg>
+      </div>
+      <div class="deploy-img-caption">Click Visit to open your live site — then bookmark it</div>
+    </div>
 
-    <div style="margin-top:32px;text-align:center">
+    <div class="deploy-callout">Every time you need to update a page on your site — go to your GitHub repository, click the file name, click the pencil edit icon, paste the new content, and click Commit changes. Vercel picks it up automatically in about 30 seconds. You never have to touch Vercel again.</div>
+
+    <div style="margin-top:40px;text-align:center;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="triggerDownload()">Download my site ZIP again</button>
       <button class="btn-secondary" onclick="showScreen('landing')">← Back to home</button>
     </div>
   </div>
@@ -616,22 +684,25 @@
     { text: "The grind is not glamorous. That's the point.", author: "Unknown" },
   ];
 
+  // ---- SCREEN ROUTING ----
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
     const target = document.getElementById('screen-' + id);
-    target.style.display = id === 'landing' ? 'flex' : (id === 'generating' ? 'flex' : 'block');
+    const flexScreens = ['landing', 'generating', 'password'];
+    target.style.display = flexScreens.includes(id) ? 'flex' : 'block';
     target.classList.add('active');
-    window.scrollTo(0, 0);
+    if (!['generating', 'result', 'deploy'].includes(id)) window.scrollTo(0, 0);
     if (id === 'dashboard') initDashboard();
   }
 
-
-    function checkPassword() {
+  // ---- PASSWORD ----
+  function checkPassword() {
     const val = document.getElementById('pw-input').value;
     const err = document.getElementById('pw-error');
     if (val === CORRECT_PASSWORD) {
       err.textContent = '';
       document.getElementById('pw-input').value = '';
+      localStorage.setItem('pr_logged_in', '1');
       showScreen('dashboard');
     } else {
       err.textContent = 'Incorrect password.';
@@ -639,6 +710,12 @@
     }
   }
 
+  function logout() {
+    localStorage.removeItem('pr_logged_in');
+    showScreen('landing');
+  }
+
+  // ---- DASHBOARD ----
   function initDashboard() {
     const day = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
     const q = QUOTES[day % QUOTES.length];
@@ -676,11 +753,31 @@
     else { moneyEl.textContent = '£' + stillNeeded.toLocaleString(); fillEl.style.width = pct + '%'; labelEl.textContent = '£' + saved.toLocaleString() + ' saved · ' + pct + '% there'; }
   }
 
+  // ---- PASSWORD STRENGTH ----
+  function checkPwStrength() {
+    const val = document.getElementById('q-password').value;
+    const el = document.getElementById('pw-strength-indicator');
+    if (!val) { el.textContent = ''; return; }
+    if (val.length < 6) { el.style.color = 'var(--red)'; el.textContent = 'Too short'; }
+    else if (val.length < 10) { el.style.color = 'var(--orange)'; el.textContent = 'Okay — could be stronger'; }
+    else { el.style.color = 'var(--teal)'; el.textContent = 'Strong'; }
+  }
+
+  // ---- QUESTIONNAIRE ----
   let currentStep = 1;
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   function qNav(dir) {
-    if (dir === 1 && currentStep === totalSteps) { generatePlan(); return; }
+    if (dir === 1 && currentStep === totalSteps) {
+      const pw = document.getElementById('q-password').value;
+      const pwc = document.getElementById('q-password-confirm').value;
+      const err = document.getElementById('q-pw-error');
+      if (!pw || pw.length < 6) { err.textContent = 'Please choose a password of at least 6 characters.'; return; }
+      if (pw !== pwc) { err.textContent = 'Passwords do not match.'; return; }
+      err.textContent = '';
+      generateEverything();
+      return;
+    }
     document.getElementById('q-step-' + currentStep).classList.remove('active');
     currentStep += dir;
     document.getElementById('q-step-' + currentStep).classList.add('active');
@@ -690,17 +787,18 @@
     document.getElementById('q-step-pct').textContent = pct + '%';
     document.getElementById('q-step-indicator').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
     document.getElementById('q-btn-back').style.display = currentStep > 1 ? 'block' : 'none';
-    document.getElementById('q-btn-next').textContent = currentStep === totalSteps ? 'Generate my plan' : 'Next';
+    document.getElementById('q-btn-next').textContent = currentStep === totalSteps ? 'Generate my site' : 'Next';
     window.scrollTo(0, 0);
   }
 
-  async function generatePlan() {
-    const data = {
+  // ---- COLLECT DATA ----
+  function collectData() {
+    return {
       name: document.getElementById('q-name').value || 'Unknown',
       age: document.getElementById('q-age').value || 'Unknown',
       city: document.getElementById('q-city').value || 'Unknown',
-      destination: document.getElementById('q-destination').value || 'Unknown',
-      departure: document.getElementById('q-departure').value || 'Unknown',
+      destination: document.getElementById('q-destination').value || 'your destination',
+      departure: document.getElementById('q-departure').value || 'your departure date',
       income: document.getElementById('q-income').value || 'Unknown',
       expenses: document.getElementById('q-expenses').value || 'Unknown',
       savings: document.getElementById('q-savings').value || 'none',
@@ -719,96 +817,1261 @@
       success: document.getElementById('q-success').value || 'Unknown',
       blocker: document.getElementById('q-blocker').value || 'Unknown',
       extra: document.getElementById('q-extra').value || 'none',
+      password: document.getElementById('q-password').value,
     };
+  }
 
+  // ---- API CALL ----
+  async function callAPI(prompt) {
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    if (!response.ok) { const e = await response.json(); throw new Error(e.error || 'Server error'); }
+    const result = await response.json();
+    return result.result;
+  }
+
+  // ---- STEP ANIMATION ----
+  let genStepIdx = 0;
+  function advanceGenStep(stepId, bar) {
+    if (genStepIdx > 0) {
+      const prev = document.getElementById('gstep-' + genStepIdx);
+      if (prev) { prev.classList.remove('active'); prev.classList.add('done'); }
+    }
+    genStepIdx++;
+    const cur = document.getElementById(stepId);
+    if (cur) cur.classList.add('active');
+    document.getElementById('gen-bar').style.width = bar + '%';
+  }
+
+  function setStatus(msg) {
+    document.getElementById('gen-status').textContent = msg;
+  }
+
+  // ---- GENERATE EVERYTHING ----
+  let generatedZip = null;
+  let userData = null;
+
+  async function generateEverything() {
+    userData = collectData();
     showScreen('generating');
+    genStepIdx = 0;
 
-    const steps = [
-      { id: 'gstep-1', label: 'Analysing your situation...', bar: 15 },
-      { id: 'gstep-2', label: 'Calculating savings targets...', bar: 30 },
-      { id: 'gstep-3', label: 'Building your phase timeline...', bar: 50 },
-      { id: 'gstep-4', label: 'Crafting your daily routine...', bar: 65 },
-      { id: 'gstep-5', label: 'Writing your outreach strategy...', bar: 82 },
-      { id: 'gstep-6', label: 'Finalising your escape plan...', bar: 95 },
-    ];
-
-    let stepIdx = 0;
-    const stepInterval = setInterval(() => {
-      if (stepIdx > 0) { document.getElementById(steps[stepIdx-1].id).classList.remove('active'); document.getElementById(steps[stepIdx-1].id).classList.add('done'); }
-      if (stepIdx < steps.length) { document.getElementById(steps[stepIdx].id).classList.add('active'); document.getElementById('gen-status').textContent = steps[stepIdx].label; document.getElementById('gen-bar').style.width = steps[stepIdx].bar + '%'; stepIdx++; }
-    }, 900);
-
-    const prompt = `You are a no-nonsense escape plan coach. A person wants to escape the 9-5 and has filled out a questionnaire. Build them a detailed, honest, and actionable personalised plan. Be direct and specific. Use their name throughout. Do not sugarcoat.
-
-Their answers:
-- Name: ${data.name}, Age: ${data.age}, Currently in: ${data.city}
-- Wants to escape to: ${data.destination} by ${data.departure}
-- Monthly income: ${data.income}, Monthly expenses: ${data.expenses}
-- Current savings: ${data.savings}, Incoming money: ${data.incoming}
-- Expenses changing: ${data.expensesChange}
-- Current job: ${data.job}
-- Skill building toward: ${data.skill}, Current level: ${data.skillLevel}
-- Biggest strength: ${data.strength}, Biggest weakness/fear: ${data.weakness}
-- Living situation: ${data.living}, Schedule: ${data.schedule}, Discipline: ${data.discipline}
-- Connections/advantages: ${data.connections}
-- Why escaping: ${data.why}
-- What success looks like: ${data.success}
-- What's stopped them before: ${data.blocker}
-- Extra context: ${data.extra}
-
-Write a comprehensive escape plan with these sections:
-1. HONEST ASSESSMENT — where they actually are vs where they need to be. Be real.
-2. SAVINGS TARGET — exact number to save, weekly target, timeline reality check with specific numbers
-3. PHASE PLAN — 3-4 phases from now to departure with specific targets and dates per phase
-4. DAILY ROUTINE — output-based routine that works around their schedule and discipline level
-5. SKILL AND INCOME PLAN — specific steps to build portfolio, find first clients, reach income targets before departure
-6. THE HARD TRUTH — one thing they need to hear that they probably don't want to
-
-Be specific with numbers. Make it feel personal and real.`;
+    const zip = new JSZip();
 
     try {
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
+      // STEP 1: Plan summary
+      advanceGenStep('gstep-1', 8);
+      setStatus('Generating your personalised escape plan...');
 
-      clearInterval(stepInterval);
-      steps.forEach(s => { const el = document.getElementById(s.id); el.classList.remove('active'); el.classList.add('done'); });
-      document.getElementById('gen-bar').style.width = '100%';
-      document.getElementById('gen-status').textContent = 'Plan complete.';
+      const planPrompt = `You are a no-nonsense escape plan coach. Build a detailed, honest escape plan for this person. Be direct. Use their name. Don't sugarcoat.
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || 'Server error');
-      }
+Name: ${userData.name}, Age: ${userData.age}, Currently in: ${userData.city}
+Escaping to: ${userData.destination} by ${userData.departure}
+Income: ${userData.income}/month, Expenses: ${userData.expenses}/month
+Savings: ${userData.savings}, Incoming money: ${userData.incoming}
+Expenses changing: ${userData.expensesChange}
+Current job: ${userData.job}
+Building skill: ${userData.skill}, Level: ${userData.skillLevel}
+Strength: ${userData.strength}, Weakness/fear: ${userData.weakness}
+Living: ${userData.living}, Schedule: ${userData.schedule}, Discipline: ${userData.discipline}
+Connections: ${userData.connections}
+Why escaping: ${userData.why}
+Success vision: ${userData.success}
+What's stopped them: ${userData.blocker}
+Extra: ${userData.extra}
 
-      const result = await response.json();
-      const planText = result.result;
+Write a comprehensive plan with:
+1. HONEST ASSESSMENT — where they are vs where they need to be
+2. SAVINGS TARGET — exact weekly target, total needed, timeline
+3. PHASE PLAN — 3-4 phases from now to departure with specific targets
+4. DAILY ROUTINE — output-based, fits their schedule and discipline level
+5. SKILL AND INCOME PLAN — specific steps to build portfolio and find first clients
+6. THE HARD TRUTH — one thing they need to hear
+
+Be specific with numbers. Make it personal.`;
+
+      const planText = await callAPI(planPrompt);
       window._generatedPlan = planText;
-      window._userName = data.name;
+      window._userName = userData.name;
 
-      setTimeout(() => { document.getElementById('result-plan-content').textContent = planText; showScreen('result'); }, 700);
+      // STEP 2: Dashboard (index.html)
+      advanceGenStep('gstep-2', 18);
+      setStatus('Building your personalised dashboard...');
+      const dashHTML = buildDashboardHTML(userData, planText);
+      zip.file('index.html', dashHTML);
+
+      // STEP 3: Daily routines
+      advanceGenStep('gstep-3', 30);
+      setStatus('Creating your daily routines...');
+      const routinesPrompt = `Generate the content for a personalised daily routines page for ${userData.name} who works as ${userData.job} with an unpredictable schedule, is building skills in ${userData.skill}, and is escaping to ${userData.destination}. Their discipline level is: ${userData.discipline}.
+
+Return ONLY a JSON object (no markdown, no backticks) with this exact structure:
+{
+  "non_negotiables": ["item 1", "item 2", "item 3", "item 4", "item 5"],
+  "scenario_a_note": "one sentence note for morning free days",
+  "scenario_b_note": "one sentence note for afternoon free days",
+  "scenario_c_note": "one sentence note for full days off",
+  "scenario_d_note": "one sentence note for recovery days",
+  "callout_a": "motivational callout for morning free scenario",
+  "callout_b": "motivational callout for afternoon free scenario",
+  "callout_c": "motivational callout for full day off scenario",
+  "callout_d": "motivational callout for recovery day scenario"
+}`;
+      let routinesData = {};
+      try {
+        const routinesRaw = await callAPI(routinesPrompt);
+        routinesData = JSON.parse(routinesRaw.replace(/```json|```/g, '').trim());
+      } catch(e) { routinesData = getDefaultRoutinesData(userData); }
+      zip.file('daily_routines.html', buildRoutinesHTML(userData, routinesData));
+
+      // STEP 4: Budget tracker
+      advanceGenStep('gstep-4', 42);
+      setStatus('Setting up your budget tracker...');
+      const budgetPrompt = `Calculate a savings plan for ${userData.name}. They earn ${userData.income}/month, spend ${userData.expenses}/month, have ${userData.savings} saved, have ${userData.incoming} incoming. They want to leave by ${userData.departure} for ${userData.destination}. Their expenses will change: ${userData.expensesChange}.
+
+Return ONLY a JSON object (no markdown, no backticks):
+{
+  "total_target": 5000,
+  "deposit_amount": 0,
+  "from_savings": 5000,
+  "weekly_avg": 385,
+  "deadline_display": "1 Sep 2026",
+  "departure_js_date": "new Date(2026, 8, 1)"
+}
+Use realistic numbers based on their situation. total_target should be enough to cover 3 months at destination plus safety net. Only include deposit_amount if they mentioned a deposit coming in.`;
+      let budgetData = {};
+      try {
+        const budgetRaw = await callAPI(budgetPrompt);
+        budgetData = JSON.parse(budgetRaw.replace(/```json|```/g, '').trim());
+      } catch(e) { budgetData = { total_target: 5000, deposit_amount: 0, from_savings: 5000, weekly_avg: 385, deadline_display: userData.departure, departure_js_date: 'new Date(2026, 8, 1)' }; }
+      zip.file('budget_tracker.html', buildBudgetHTML(userData, budgetData));
+
+      // STEP 5: Portfolio roadmap
+      advanceGenStep('gstep-5', 55);
+      setStatus('Building your portfolio roadmap...');
+      const portfolioPrompt = `Create a 4-phase portfolio roadmap for ${userData.name} who is building skills in ${userData.skill} (current level: ${userData.skillLevel}) and leaving for ${userData.destination} by ${userData.departure}. They are currently in ${userData.city}. Their connections: ${userData.connections}.
+
+Return ONLY a JSON object (no markdown, no backticks):
+{
+  "phase1_name": "Phase name",
+  "phase1_dates": "Now → Month Year",
+  "phase1_note": "brief italic note",
+  "phase1_targets": ["target 1", "target 2", "target 3"],
+  "phase1_milestones": ["milestone 1", "milestone 2", "milestone 3"],
+  "phase2_name": "Phase name",
+  "phase2_dates": "Month → Month Year",
+  "phase2_note": "brief italic note",
+  "phase2_targets": ["target 1", "target 2", "target 3"],
+  "phase2_milestones": ["milestone 1", "milestone 2", "milestone 3"],
+  "phase3_name": "Phase name",
+  "phase3_dates": "Month → Month Year",
+  "phase3_note": "brief italic note",
+  "phase3_targets": ["target 1", "target 2", "target 3"],
+  "phase3_milestones": ["milestone 1", "milestone 2", "milestone 3"],
+  "phase4_name": "${userData.destination}",
+  "phase4_dates": "${userData.departure} onwards",
+  "phase4_note": "brief italic note",
+  "phase4_goals": ["goal 1", "goal 2", "goal 3", "goal 4"]
+}`;
+      let portfolioData = {};
+      try {
+        const portfolioRaw = await callAPI(portfolioPrompt);
+        portfolioData = JSON.parse(portfolioRaw.replace(/```json|```/g, '').trim());
+      } catch(e) { portfolioData = getDefaultPortfolioData(userData); }
+      zip.file('portfolio_roadmap.html', buildPortfolioHTML(userData, portfolioData));
+
+      // STEP 6: Outreach plan
+      advanceGenStep('gstep-6', 68);
+      setStatus('Writing your outreach strategy...');
+      const outreachPrompt = `Create a personalised outreach strategy for ${userData.name} who offers ${userData.skill} services. Their biggest strength: ${userData.strength}. Their connections: ${userData.connections}.
+
+Return ONLY a JSON object (no markdown, no backticks):
+{
+  "positioning_line": "one powerful sentence describing their unique value",
+  "channel1_name": "Best warm channel name",
+  "channel1_tips": ["tip 1", "tip 2", "tip 3"],
+  "channel1_pitch": "2-3 sentence pitch template with [brackets] for personalisation",
+  "channel2_name": "Platform channel (e.g. Upwork/Fiverr)",
+  "channel2_tips": ["tip 1", "tip 2", "tip 3"],
+  "channel2_pitch": "2-3 sentence pitch template",
+  "channel3_name": "Cold outreach channel",
+  "channel3_tips": ["tip 1", "tip 2", "tip 3"],
+  "channel3_pitch": "2-3 sentence cold DM/email template",
+  "channel4_name": "Network channel",
+  "channel4_tips": ["tip 1", "tip 2", "tip 3"]
+}`;
+      let outreachData = {};
+      try {
+        const outreachRaw = await callAPI(outreachPrompt);
+        outreachData = JSON.parse(outreachRaw.replace(/```json|```/g, '').trim());
+      } catch(e) { outreachData = getDefaultOutreachData(userData); }
+      zip.file('outreach_plan.html', buildOutreachHTML(userData, outreachData));
+
+      // STEP 7: Destination checklist
+      advanceGenStep('gstep-7', 80);
+      setStatus(`Building your ${userData.destination} checklist...`);
+      const checklistPrompt = `Create a pre-departure checklist for someone moving to ${userData.destination} from the UK for 3+ months to work remotely as a ${userData.skill} freelancer.
+
+Return ONLY a JSON object (no markdown, no backticks):
+{
+  "categories": [
+    {
+      "name": "Documents & Visa",
+      "items": [
+        {"label": "item name", "desc": "brief description", "when": "Now/Phase 2/Phase 3/On arrival"},
+        {"label": "item name", "desc": "brief description", "when": "Phase 2"}
+      ]
+    },
+    {
+      "name": "Health",
+      "items": [{"label": "item", "desc": "desc", "when": "Phase 2"}]
+    },
+    {
+      "name": "Money & Banking",
+      "items": [{"label": "item", "desc": "desc", "when": "Phase 2"}]
+    },
+    {
+      "name": "Tech & Gear",
+      "items": [{"label": "item", "desc": "desc", "when": "Phase 3"}]
+    },
+    {
+      "name": "On Arrival",
+      "items": [{"label": "item", "desc": "desc", "when": "Day 1"}]
+    }
+  ]
+}
+Include 4-6 items per category. Make them specific to ${userData.destination}.`;
+      let checklistData = {};
+      try {
+        const checklistRaw = await callAPI(checklistPrompt);
+        checklistData = JSON.parse(checklistRaw.replace(/```json|```/g, '').trim());
+      } catch(e) { checklistData = { categories: [{ name: 'Documents', items: [{ label: 'Check visa requirements', desc: `Research visa options for ${userData.destination}`, when: 'Now' }] }] }; }
+      zip.file('destination_checklist.html', buildChecklistHTML(userData, checklistData));
+
+      // STEP 8: Health routine (generic — doesn't need personalisation)
+      advanceGenStep('gstep-8', 90);
+      setStatus('Adding health routine...');
+      zip.file('health_routine.html', buildHealthHTML(userData));
+
+      // STEP 9: Package
+      advanceGenStep('gstep-9', 98);
+      setStatus('Packaging your files...');
+      await new Promise(r => setTimeout(r, 600));
+
+      generatedZip = zip;
+
+      // Mark all done
+      for (let i = 1; i <= 9; i++) {
+        const el = document.getElementById('gstep-' + i);
+        if (el) { el.classList.remove('active'); el.classList.add('done'); }
+      }
+      document.getElementById('gen-bar').style.width = '100%';
+      setStatus('Everything ready.');
+
+      // Show result
+      await new Promise(r => setTimeout(r, 500));
+      const files = ['index.html', 'daily_routines.html', 'budget_tracker.html', 'portfolio_roadmap.html', 'outreach_plan.html', 'destination_checklist.html', 'health_routine.html'];
+      const fileList = document.getElementById('result-file-list');
+      fileList.innerHTML = files.map(f => `<div class="result-file-item"><div class="result-file-dot"></div>${f}</div>`).join('');
+      document.getElementById('result-plan-content').textContent = planText;
+      showScreen('result');
 
     } catch (err) {
-      clearInterval(stepInterval);
-      document.getElementById('gen-status').textContent = 'Something went wrong: ' + (err.message || 'Unknown error. Please try again.');
+      setStatus('Error: ' + (err.message || 'Something went wrong. Please try again.'));
       console.error(err);
     }
   }
 
-  function downloadPlan() {
-    const text = window._generatedPlan || 'No plan generated.';
-    const name = (window._userName || 'user').toLowerCase();
-    const blob = new Blob([text], { type: 'text/plain' });
+  // ---- DOWNLOAD ZIP ----
+  async function triggerDownload() {
+    if (!generatedZip) { alert('No files generated yet. Please complete the questionnaire first.'); return; }
+    const name = (userData && userData.name) ? userData.name.toLowerCase() : 'user';
+    const blob = await generatedZip.generateAsync({ type: 'blob' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = name + '-escape-plan.txt'; a.click();
+    a.href = url; a.download = name + '-project-rise.zip'; a.click();
     URL.revokeObjectURL(url);
   }
 
+  // ========================
+  // HTML BUILDERS
+  // ========================
+
+  function sharedStyles() {
+    return `<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12); --text: #f0ece4; --muted: #7a7670; --dim: #3a3834; --teal: #1fcb8a; --purple: #9b87f5; --blue: #4a9eff; --orange: #ff7c3a; --red: #ff4f4f; --yellow: #f5c842; --green: #4caf74; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+  .home-btn { position: fixed; top: 20px; right: 24px; z-index: 100; display: flex; align-items: center; gap: 9px; padding: 12px 22px; background: rgba(22,22,22,0.97); border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #f0ece4; backdrop-filter: blur(12px); transition: color 0.15s, border-color 0.15s, background 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .home-btn:hover { background: rgba(31,203,138,0.12); border-color: rgba(31,203,138,0.3); color: #1fcb8a; }
+  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
+</style>`;
+  }
+
+  function homeBtn() {
+    return `<a href="index.html" class="home-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a>`;
+  }
+
+  function googleFonts() {
+    return `<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">`;
+  }
+
+  // DASHBOARD
+  function buildDashboardHTML(d, planText) {
+    const pw = d.password.replace(/'/g, "\\'");
+    const dest = d.destination;
+    const depParts = d.departure.split(' ');
+    const depYear = depParts[depParts.length - 1] || '2026';
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project:Rise — ${d.name}</title>
+${googleFonts()}
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12); --text: #f0ece4; --muted: #7a7670; --dim: #3a3834; --teal: #1fcb8a; --purple: #9b87f5; --blue: #4a9eff; --orange: #ff7c3a; --red: #ff4f4f; --yellow: #f5c842; --green: #4caf74; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+#screen-password { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 24px; text-align: center; }
+.pw-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
+.pw-title span { color: var(--teal); }
+.pw-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+.pw-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 14px 20px; width: 100%; max-width: 300px; text-align: center; outline: none; transition: border-color 0.15s; margin-bottom: 10px; display: block; }
+.pw-input:focus { border-color: var(--teal); }
+.pw-error { font-size: 12px; color: var(--red); margin-bottom: 10px; min-height: 18px; font-family: 'DM Mono', monospace; }
+.btn-primary { padding: 14px 32px; background: var(--teal); color: #0d0d0d; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s; }
+.btn-primary:hover { opacity: 0.85; }
+.dash-topbar { padding: 24px 48px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.dash-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.dash-logo span { color: var(--teal); }
+.dash-logout { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); cursor: pointer; transition: color 0.15s; }
+.dash-logout:hover { color: var(--muted); }
+.dash-hero { padding: 64px 48px 48px; text-align: center; }
+.dash-hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+.dash-hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 12vw, 120px); letter-spacing: 0.04em; line-height: 0.9; color: var(--text); }
+.dash-hero-title .colon { color: var(--teal); }
+.dash-quote { margin: 32px auto 0; max-width: 540px; font-size: 15px; color: var(--text); line-height: 1.7; font-style: italic; }
+.dash-quote-author { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
+.dash-countdowns { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 48px 0 56px; }
+.days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 14vw, 130px); letter-spacing: 0.02em; line-height: 0.85; color: var(--teal); }
+.days-num.yellow { color: var(--yellow); }
+.days-num.red { color: var(--red); }
+.days-label { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.dash-divider { width: 1px; height: 28px; background: var(--border); }
+.money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px, 7vw, 64px); letter-spacing: 0.02em; line-height: 0.9; color: var(--orange); }
+.money-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.nav-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; padding: 0 48px; }
+.nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 48px; margin-bottom: 60px; }
+.nav-card { display: flex; flex-direction: column; padding: 18px 18px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden; }
+.nav-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.2s; }
+.nav-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.nav-card:hover::before { opacity: 1; }
+.nav-card.c-teal::before { background: var(--teal); } .nav-card.c-blue::before { background: var(--blue); } .nav-card.c-purple::before { background: var(--purple); } .nav-card.c-orange::before { background: var(--orange); } .nav-card.c-green::before { background: var(--green); } .nav-card.c-yellow::before { background: var(--yellow); }
+.nav-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); margin-bottom: 8px; }
+.nav-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; margin-bottom: 5px; }
+.nav-card.c-teal .nav-title { color: var(--teal); } .nav-card.c-blue .nav-title { color: var(--blue); } .nav-card.c-purple .nav-title { color: var(--purple); } .nav-card.c-orange .nav-title { color: var(--orange); } .nav-card.c-green .nav-title { color: var(--green); } .nav-card.c-yellow .nav-title { color: var(--yellow); }
+.nav-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.nav-arrow { margin-top: 12px; font-size: 15px; color: var(--dim); display: inline-block; }
+.dash-footer { padding: 20px 48px 36px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+.footer-txt { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
+@media (max-width: 600px) { .dash-topbar, .dash-hero, .nav-label, .nav-grid, .dash-footer { padding-left: 20px; padding-right: 20px; } .nav-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div id="screen-password" class="screen active">
+  <div class="pw-title">Project<span>:</span>Rise</div>
+  <p class="pw-sub">Enter your password to access your dashboard.</p>
+  <input type="password" class="pw-input" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <div class="pw-error" id="pw-error"></div>
+  <button class="btn-primary" onclick="checkPw()">Enter</button>
+</div>
+<div id="screen-dashboard" class="screen">
+  <div class="dash-topbar">
+    <div class="dash-logo">Project<span>:</span>Rise — ${d.name}</div>
+    <div class="dash-logout" onclick="logout()">Lock dashboard</div>
+  </div>
+  <div class="dash-hero">
+    <div class="dash-hero-label">${d.name}'s escape plan</div>
+    <div class="dash-hero-title">Project<span class="colon">:</span>Rise</div>
+    <div class="dash-quote" id="dash-quote"></div>
+    <div class="dash-quote-author" id="dash-quote-author"></div>
+  </div>
+  <div class="dash-countdowns">
+    <div style="text-align:center">
+      <div class="days-num" id="days-num">—</div>
+      <div class="days-label">days to ${dest}</div>
+    </div>
+    <div class="dash-divider"></div>
+    <div style="text-align:center">
+      <div class="money-num" id="money-num">—</div>
+      <div class="money-label">still needed to get there</div>
+    </div>
+  </div>
+  <div class="nav-label">Your plan</div>
+  <div class="nav-grid">
+    <a href="daily_routines.html" class="nav-card c-teal"><div class="nav-num">01</div><div class="nav-title">Daily Routines</div><div class="nav-desc">Non-negotiables and shift scenarios.</div><span class="nav-arrow">→</span></a>
+    <a href="budget_tracker.html" class="nav-card c-blue"><div class="nav-num">02</div><div class="nav-title">Budget Tracker</div><div class="nav-desc">Weekly savings log and progress.</div><span class="nav-arrow">→</span></a>
+    <a href="portfolio_roadmap.html" class="nav-card c-purple"><div class="nav-num">03</div><div class="nav-title">Portfolio Roadmap</div><div class="nav-desc">Phases, milestones, and targets.</div><span class="nav-arrow">→</span></a>
+    <a href="outreach_plan.html" class="nav-card c-orange"><div class="nav-num">04</div><div class="nav-title">Outreach Plan</div><div class="nav-desc">Channels, templates, and strategy.</div><span class="nav-arrow">→</span></a>
+    <a href="destination_checklist.html" class="nav-card c-green"><div class="nav-num">05</div><div class="nav-title">${dest} Checklist</div><div class="nav-desc">Everything to sort before you go.</div><span class="nav-arrow">→</span></a>
+    <a href="health_routine.html" class="nav-card c-yellow"><div class="nav-num">06</div><div class="nav-title">Health Routine</div><div class="nav-desc">Supplements and skincare stack.</div><span class="nav-arrow">→</span></a>
+  </div>
+  <div class="dash-footer">
+    <div class="footer-txt">Project:Rise — built with intent</div>
+    <div class="footer-txt" id="footer-phase"></div>
+  </div>
+</div>
+<script>
+const PW = '${pw}';
+const QUOTES = [
+  { text: "You don't rise to the level of your goals. You fall to the level of your systems.", author: "James Clear" },
+  { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
+  { text: "The only way out is through.", author: "Robert Frost" },
+  { text: "Stop waiting for the right moment. It's being wasted right now.", author: "Unknown" },
+  { text: "Every day you don't show up is a vote against the life you want.", author: "Unknown" },
+  { text: "Don't count the days. Make the days count.", author: "Muhammad Ali" },
+  { text: "Nobody is coming to save you. Get up.", author: "Unknown" },
+  { text: "One day or day one. You decide.", author: "Unknown" },
+  { text: "Earn it. Every single day.", author: "Unknown" },
+  { text: "The cost of discipline is always less than the cost of regret.", author: "Unknown" },
+  { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
+  { text: "Comfort is the enemy of progress.", author: "P.T. Barnum" },
+  { text: "Locked in is not a mood. It's a decision.", author: "Unknown" },
+  { text: "The grind is not glamorous. That's the point.", author: "Unknown" },
+];
+function checkPw() {
+  const v = document.getElementById('pw-input').value;
+  const e = document.getElementById('pw-error');
+  if (v === PW) { e.textContent=''; document.getElementById('pw-input').value=''; localStorage.setItem('pr_li','1'); showDash(); }
+  else { e.textContent='Incorrect password.'; document.getElementById('pw-input').value=''; }
+}
+function showDash() {
+  document.getElementById('screen-password').style.display='none';
+  document.getElementById('screen-dashboard').style.display='block';
+  const day=Math.floor(Date.now()/(1000*60*60*24));
+  const q=QUOTES[day%QUOTES.length];
+  document.getElementById('dash-quote').textContent=q.text;
+  document.getElementById('dash-quote-author').textContent='— '+q.author;
+  document.getElementById('days-num').textContent=Math.max(0,Math.ceil((new Date(${depYear},6,1)-new Date())/(1000*60*60*24)));
+  const t=parseInt(localStorage.getItem('pr_target')||'5000');
+  let s=0;
+  for(let i=0;i<20;i++){const v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))s+=v;}
+  document.getElementById('money-num').textContent='£'+Math.max(0,t-s).toLocaleString();
+  const now=new Date();
+  document.getElementById('footer-phase').textContent=now<new Date(${depYear},3,1)?'Phase 1 — Building':now<new Date(${depYear},5,1)?'Phase 2 — Outreach':'Phase 3 — ${dest}';
+}
+function logout(){localStorage.removeItem('pr_li');location.reload();}
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('screen-dashboard').style.display='none';
+  if(localStorage.getItem('pr_li')==='1')showDash();
+  else { document.getElementById('screen-password').style.display='flex'; document.getElementById('screen-password').style.flexDirection='column'; document.getElementById('screen-password').style.alignItems='center'; document.getElementById('screen-password').style.justifyContent='center'; }
+});
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});
+<\/script>
+</body>
+</html>`;
+  }
+
+  // ROUTINES
+  function getDefaultRoutinesData(d) {
+    return {
+      non_negotiables: [`Work on ${d.skill} daily`, '4L water', 'Gym 5x/week', '30min learning', 'No social media — first 2hrs'],
+      scenario_a_note: 'Morning free days are your best creative days. Protect them.',
+      scenario_b_note: 'Use the gym as a reset between your shift and your work session.',
+      scenario_c_note: 'Full day off means full output day. Treat it seriously.',
+      scenario_d_note: 'Recovery days are part of the plan. Keep the learning blocks only.',
+      callout_a: 'The real work is done before you leave for your job. That is the mindset.',
+      callout_b: 'If you skip the gym on afternoon free days, the evening session will not happen.',
+      callout_c: 'One full day done right is worth three half-hearted afternoons.',
+      callout_d: 'Rest is part of the plan. The people who burn out are the ones who never take recovery days.'
+    };
+  }
+
+  function buildRoutinesHTML(d, r) {
+    const pills = (r.non_negotiables || []).map((n,i) => {
+      const colors = ['teal','blue','purple','orange','blue'];
+      return `<span class="pill ${colors[i%colors.length]}">${n}</span>`;
+    }).join('');
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Routines — ${d.name}</title>
+${googleFonts()}
+${sharedStyles()}
+<style>
+.header{padding:48px 48px 36px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(31,203,138,0.06) 0%,transparent 70%);pointer-events:none;}
+.header-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);letter-spacing:0.02em;line-height:0.95;}
+.header h1 span{color:var(--teal);}
+.header-sub{font-size:14px;color:var(--muted);margin-top:14px;max-width:480px;line-height:1.6;}
+.nonneg{padding:20px 48px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.nonneg-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-right:8px;}
+.pill{font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;border:1px solid;}
+.pill.teal{color:var(--teal);border-color:rgba(31,203,138,0.25);background:rgba(31,203,138,0.08);}
+.pill.blue{color:var(--blue);border-color:rgba(74,158,255,0.25);background:rgba(74,158,255,0.08);}
+.pill.purple{color:var(--purple);border-color:rgba(155,135,245,0.25);background:rgba(155,135,245,0.08);}
+.pill.orange{color:var(--orange);border-color:rgba(255,124,58,0.25);background:rgba(255,124,58,0.08);}
+.main{padding:0 48px 60px;}
+.tabs{display:flex;gap:0;margin:36px 0 0;border-bottom:1px solid var(--border);}
+.tab{padding:14px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;user-select:none;position:relative;bottom:-1px;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--text);border-bottom-color:var(--teal);}
+.tab .sl{font-size:18px;font-family:'Bebas Neue',sans-serif;display:block;margin-bottom:2px;}
+.panel{display:none;padding-top:32px;}
+.panel.active{display:block;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.04em;}
+.panel-note{margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6;max-width:600px;padding-left:12px;border-left:2px solid var(--dim);font-style:italic;}
+.timeline{display:flex;flex-direction:column;gap:4px;position:relative;margin-top:24px;}
+.timeline::before{content:'';position:absolute;left:91px;top:20px;bottom:20px;width:1px;background:var(--border);}
+.block{display:grid;grid-template-columns:88px 1fr;position:relative;}
+.block-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);padding:14px 20px 14px 0;text-align:right;padding-top:18px;}
+.block-dot{position:absolute;left:86px;top:20px;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--bg);z-index:1;}
+.block-content{margin-left:24px;padding:12px 16px;border-radius:8px;border:1px solid var(--border);background:var(--surface);margin-bottom:4px;}
+.block-label{font-size:14px;font-weight:500;margin-bottom:4px;}
+.block-desc{font-size:12px;color:var(--muted);line-height:1.55;}
+.block.work .block-dot{background:var(--teal);} .block.work .block-content{border-left:2px solid var(--teal);}
+.block.create .block-dot{background:var(--purple);} .block.create .block-content{border-left:2px solid var(--purple);}
+.block.learn .block-dot{background:var(--blue);} .block.learn .block-content{border-left:2px solid var(--blue);}
+.block.body .block-dot{background:var(--orange);} .block.body .block-content{border-left:2px solid var(--orange);}
+.block.rest .block-dot{background:var(--gray,#5a5755);} .block.rest .block-content{border-left:2px solid #5a5755;}
+.callout{margin-top:28px;padding:16px 20px 16px 32px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.65;position:relative;}
+.callout::before{content:'!';position:absolute;left:12px;top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--teal);font-weight:500;}
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:36px;padding-top:24px;border-top:1px solid var(--border);}
+.leg{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.leg-dot{width:8px;height:8px;border-radius:50%;}
+@media(max-width:600px){.header,.nonneg,.main{padding-left:20px;padding-right:20px;}.timeline::before{left:71px;}.block{grid-template-columns:68px 1fr;}.block-dot{left:66px;}.block-content{margin-left:18px;}}
+</style>
+</head>
+<body>
+${homeBtn()}
+<div class="header">
+  <div class="header-label">${d.name}'s escape plan</div>
+  <h1>Daily<br><span>Routines</span></h1>
+  <p class="header-sub">Output-based, not time-based. The goal is to hit your targets regardless of when your shift falls.</p>
+</div>
+<div class="nonneg">
+  <span class="nonneg-label">Every day</span>
+  ${pills}
+</div>
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="show('a')"><span class="sl">A</span>Morning free</div>
+    <div class="tab" onclick="show('b')"><span class="sl">B</span>Afternoon free</div>
+    <div class="tab" onclick="show('c')"><span class="sl">C</span>Full day off</div>
+    <div class="tab" onclick="show('d')"><span class="sl">D</span>Post night shift</div>
+  </div>
+  <div class="panel active" id="panel-a">
+    <div class="panel-title">Morning free — afternoon/evening shift</div>
+    <p class="panel-note">${r.scenario_a_note || ''}</p>
+    <div class="timeline">
+      <div class="block body"><div class="block-time">Wake up</div><div class="block-dot"></div><div class="block-content"><div class="block-label">No phone — water — get moving</div><div class="block-desc">Start strong. No social media for the first 2 hours. This is non-negotiable.</div></div></div>
+      <div class="block learn"><div class="block-time">30 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Study and learn</div><div class="block-desc">Study your craft. Dissect what's working in your niche. Do this before creating anything.</div></div></div>
+      <div class="block create"><div class="block-time">2–3 hrs</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Main work block — ${d.skill}</div><div class="block-desc">Primary creative/work session. Phone away, full focus. This is the most important block of the day.</div></div></div>
+      <div class="block learn"><div class="block-time">30 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Learning and strategy</div><div class="block-desc">Absorb something new before you leave for your shift.</div></div></div>
+      <div class="block body"><div class="block-time">Pre-shift</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Gym</div><div class="block-desc">Keep it under 60 min. This energises you for the shift.</div></div></div>
+      <div class="block work"><div class="block-time">Shift</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Day job</div><div class="block-desc">Show up, do the job, get paid. This funds everything.</div></div></div>
+    </div>
+    <div class="callout">${r.callout_a || ''}</div>
+  </div>
+  <div class="panel" id="panel-b">
+    <div class="panel-title">Morning shift — afternoon/evening free</div>
+    <p class="panel-note">${r.scenario_b_note || ''}</p>
+    <div class="timeline">
+      <div class="block body"><div class="block-time">Wake up</div><div class="block-dot"></div><div class="block-content"><div class="block-label">No phone — water — get moving</div><div class="block-desc">Same rule every day. Don't negotiate with yourself.</div></div></div>
+      <div class="block work"><div class="block-time">Shift</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Day job</div><div class="block-desc">Get it done. Stay professional.</div></div></div>
+      <div class="block rest"><div class="block-time">Post-shift</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Decompress — eat — reset</div><div class="block-desc">30–45 minutes only. Don't let this bleed into the afternoon.</div></div></div>
+      <div class="block body"><div class="block-time">—</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Gym</div><div class="block-desc">Sharpens your focus for the work session ahead.</div></div></div>
+      <div class="block learn"><div class="block-time">30 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Study your craft</div><div class="block-desc">Calibrate your eye before you start creating.</div></div></div>
+      <div class="block create"><div class="block-time">2 hrs</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Work block — ${d.skill}</div><div class="block-desc">One solid, complete piece of work. Quality over quantity.</div></div></div>
+      <div class="block learn"><div class="block-time">30 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Learning and strategy</div><div class="block-desc">End the work day with learning, not Netflix.</div></div></div>
+    </div>
+    <div class="callout">${r.callout_b || ''}</div>
+  </div>
+  <div class="panel" id="panel-c">
+    <div class="panel-title">Full day off — no shift</div>
+    <p class="panel-note">${r.scenario_c_note || ''}</p>
+    <div class="timeline">
+      <div class="block body"><div class="block-time">Wake up</div><div class="block-dot"></div><div class="block-content"><div class="block-label">No phone — water — get moving</div><div class="block-desc">Full day off means full output day. Treat it seriously.</div></div></div>
+      <div class="block learn"><div class="block-time">30 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Study your craft</div><div class="block-desc">Start sharp, not scrolling.</div></div></div>
+      <div class="block create"><div class="block-time">2.5–3 hrs</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Morning work block</div><div class="block-desc">Best creative window of the week. Push for a full deliverable.</div></div></div>
+      <div class="block body"><div class="block-time">Midday</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Gym — eat — walk outside</div><div class="block-desc">Full reset. Get daylight. This makes the afternoon session work.</div></div></div>
+      <div class="block create"><div class="block-time">1.5–2 hrs</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Afternoon work block</div><div class="block-desc">Second session. Finish what you started, or begin something new.</div></div></div>
+      <div class="block learn"><div class="block-time">30–45 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Learning and community</div><div class="block-desc">Stay plugged in. Study, connect, check job boards.</div></div></div>
+      <div class="block rest"><div class="block-time">Evening</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Switch off properly</div><div class="block-desc">You earned it. Rest is part of the plan.</div></div></div>
+    </div>
+    <div class="callout">${r.callout_c || ''}</div>
+  </div>
+  <div class="panel" id="panel-d">
+    <div class="panel-title">Post night shift — recovery day</div>
+    <p class="panel-note">${r.scenario_d_note || ''}</p>
+    <div class="timeline">
+      <div class="block rest"><div class="block-time">Morning</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Sleep — properly</div><div class="block-desc">No alarm unless you have to. Your brain worked all night.</div></div></div>
+      <div class="block body"><div class="block-time">After sleep</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Water — food — daylight</div><div class="block-desc">Get outside even for 15 minutes. Reset your body clock.</div></div></div>
+      <div class="block learn"><div class="block-time">30 min</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Passive learning</div><div class="block-desc">Watch, absorb, take a note or two. Low effort, high value.</div></div></div>
+      <div class="block rest"><div class="block-time">Rest of day</div><div class="block-dot"></div><div class="block-content"><div class="block-label">Recover fully</div><div class="block-desc">No gym. No heavy creative work. Tomorrow needs you sharp.</div></div></div>
+    </div>
+    <div class="callout">${r.callout_d || ''}</div>
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--teal)"></div>Day job</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--purple)"></div>${d.skill}</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--blue)"></div>Learning</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--orange)"></div>Gym/body</div>
+    <div class="leg"><div class="leg-dot" style="background:#5a5755"></div>Rest/life</div>
+  </div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.tab')[['a','b','c','d'].indexOf(id)].classList.add('active');
+}
+<\/script>
+</body>
+</html>`;
+  }
+
+  // BUDGET TRACKER
+  function buildBudgetHTML(d, b) {
+    const target = b.total_target || 5000;
+    const deposit = b.deposit_amount || 0;
+    const fromSavings = b.from_savings || target;
+    const weeklyAvg = b.weekly_avg || Math.ceil(fromSavings / 13);
+    const deadline = b.deadline_display || d.departure;
+    const depJS = b.departure_js_date || 'new Date(2026, 8, 1)';
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Tracker — ${d.name}</title>
+${googleFonts()}
+${sharedStyles()}
+<style>
+.header{padding:48px 48px 36px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(74,158,255,0.05) 0%,transparent 70%);pointer-events:none;}
+.header-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);letter-spacing:0.02em;line-height:0.95;}
+.header h1 span{color:var(--blue);}
+.header-sub{font-size:14px;color:var(--muted);margin-top:14px;max-width:480px;line-height:1.6;}
+.countdown-block{text-align:right;flex-shrink:0;}
+.countdown-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.countdown-number{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,96px);letter-spacing:0.02em;line-height:0.9;color:var(--teal);transition:color 0.5s;}
+.countdown-number.yellow{color:var(--yellow);}
+.countdown-number.red{color:var(--red);}
+.countdown-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;}
+.target-strip{padding:20px 48px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.target-item{display:flex;flex-direction:column;gap:3px;}
+.target-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.target-value{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.04em;line-height:1;}
+.target-divider{width:1px;height:36px;background:var(--border);}
+.main{padding:36px 48px 60px;}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:36px;}
+.summary-card{padding:16px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;}
+.summary-card-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.summary-card-value{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.03em;line-height:1;}
+.summary-card-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+.progress-section{margin-bottom:40px;}
+.progress-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
+.progress-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.progress-pct{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--teal);}
+.progress-track{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:var(--teal);transition:width 0.6s cubic-bezier(0.4,0,0.2,1);}
+.week-section{margin-bottom:40px;}
+.section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.col-header{display:flex;align-items:center;gap:12px;padding:0 16px;margin-bottom:8px;}
+.col-header span{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);}
+.ch-week{min-width:56px;} .ch-date{min-width:110px;} .ch-target{min-width:90px;text-align:right;} .ch-actual{min-width:90px;text-align:right;margin-left:auto;margin-right:16px;} .ch-total{min-width:80px;text-align:right;}
+.week-input-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;transition:border-color 0.15s;}
+.week-input-row:hover{border-color:var(--border2);}
+.week-input-row.current{border-color:rgba(74,158,255,0.25);background:rgba(74,158,255,0.04);}
+.week-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);min-width:56px;}
+.week-date{font-size:13px;min-width:110px;}
+.week-target-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);min-width:90px;text-align:right;}
+.week-actual-wrap{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.week-input{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:6px 10px;width:90px;text-align:right;outline:none;transition:border-color 0.15s;}
+.week-input:focus{border-color:var(--blue);}
+.week-input::placeholder{color:var(--dim);}
+.week-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.week-status.good{background:var(--teal);} .week-status.behind{background:var(--red);} .week-status.empty{background:var(--dim);}
+.week-cumulative{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);min-width:80px;text-align:right;}
+.callout{margin-top:28px;padding:16px 20px 16px 32px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.65;position:relative;}
+.callout::before{content:'!';position:absolute;left:12px;top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--blue);font-weight:500;}
+@media(max-width:700px){.header,.target-strip,.main{padding-left:20px;padding-right:20px;}.summary-grid{grid-template-columns:1fr 1fr;}.week-target-val,.week-cumulative{display:none;}}
+</style>
+</head>
+<body>
+${homeBtn()}
+<div class="header">
+  <div>
+    <div class="header-label">${d.name}'s financial tracker</div>
+    <h1>Budget<br><span>Tracker</span></h1>
+    <p class="header-sub">Log your weekly savings. Enter what you actually saved, not what you planned to.</p>
+  </div>
+  <div class="countdown-block">
+    <div class="countdown-label">Days to departure</div>
+    <div class="countdown-number" id="countdown-number">—</div>
+    <div class="countdown-sub">${deadline} — ${d.destination}</div>
+  </div>
+</div>
+<div class="target-strip">
+  <div class="target-item"><div class="target-label">Total target</div><div class="target-value" style="color:var(--teal)">£${target.toLocaleString()}</div></div>
+  <div class="target-divider"></div>
+  <div class="target-item"><div class="target-label">From savings</div><div class="target-value" style="color:var(--blue)">£${fromSavings.toLocaleString()}</div></div>
+  ${deposit > 0 ? `<div class="target-divider"></div><div class="target-item"><div class="target-label">Deposit incoming</div><div class="target-value" style="color:var(--purple)">£${deposit.toLocaleString()}</div></div>` : ''}
+  <div class="target-divider"></div>
+  <div class="target-item"><div class="target-label">Weekly avg needed</div><div class="target-value" style="color:var(--orange)">£${weeklyAvg}</div></div>
+  <div class="target-divider"></div>
+  <div class="target-item"><div class="target-label">Deadline</div><div class="target-value" style="color:var(--muted)">${deadline}</div></div>
+</div>
+<div class="main">
+  <div class="summary-grid">
+    <div class="summary-card"><div class="summary-card-label">Saved so far</div><div class="summary-card-value" id="saved-so-far" style="color:var(--teal)">£0</div><div class="summary-card-sub">keep logging every week</div></div>
+    <div class="summary-card"><div class="summary-card-label">Still needed</div><div class="summary-card-value" id="still-needed" style="color:var(--orange)">£${target.toLocaleString()}</div><div class="summary-card-sub">to hit £${target.toLocaleString()} target</div></div>
+    <div class="summary-card"><div class="summary-card-label">On track</div><div class="summary-card-value" id="on-track" style="color:var(--muted)">—</div><div class="summary-card-sub" id="track-sub">start logging to see</div></div>
+  </div>
+  <div class="progress-section">
+    <div class="progress-header"><span class="progress-title">Progress to £${target.toLocaleString()}</span><span class="progress-pct" id="progress-pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+  <div class="week-section">
+    <div class="section-title">Weekly log</div>
+    <div class="col-header">
+      <span class="ch-week">Week</span><span class="ch-date">Pay date</span>
+      <span class="ch-target">Target</span><span class="ch-actual">Actual saved</span><span class="ch-total">Running total</span>
+    </div>
+    <div id="weeks-container"></div>
+    ${deposit > 0 ? `<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(155,135,245,0.04);border:1px solid rgba(155,135,245,0.2);border-radius:8px;margin-bottom:6px;"><div style="flex:1"><div style="font-size:13px;color:var(--purple);font-weight:500;">Deposit incoming</div><div style="font-size:12px;color:var(--muted);margin-top:3px;">Mark received when it lands</div></div><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--muted);"><input type="checkbox" id="deposit-received" onchange="updateAll()" style="accent-color:var(--purple);width:16px;height:16px;">Received</label><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--purple);">+£${deposit.toLocaleString()}</div></div>` : ''}
+  </div>
+  <div class="callout" id="callout-text">Start logging your weekly savings. The tracker will tell you if you're ahead, behind, or on track for the £${target.toLocaleString()} target.</div>
+</div>
+<script>
+const TARGET=${target},DEPOSIT=${deposit};
+const start=new Date();
+const end=new Date(${depJS.replace('new Date(','').replace(')','')} );
+const weeks=[];let d=new Date(start);let wn=1;
+while(d<=end){weeks.push({num:wn,date:new Date(d)});d.setDate(d.getDate()+7);wn++;}
+const totalWeeks=weeks.length;
+const weeklyTarget=Math.ceil((TARGET-DEPOSIT)/totalWeeks);
+function formatDate(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+function isCurrentWeek(d){const now=new Date();const nw=new Date(d);nw.setDate(d.getDate()+7);return now>=d&&now<nw;}
+function getSaved(i){const v=parseFloat(localStorage.getItem('wk_'+i)||'');return isNaN(v)?null:v;}
+function buildWeeks(){const c=document.getElementById('weeks-container');c.innerHTML='';weeks.forEach((w,i)=>{const saved=getSaved(i);const isCur=isCurrentWeek(w.date);const row=document.createElement('div');row.className='week-input-row'+(isCur?' current':'');const sc=saved===null?'empty':(saved>=weeklyTarget?'good':'behind');row.innerHTML='<div class="week-num">W'+w.num+'</div><div class="week-date">'+formatDate(w.date)+'</div><div class="week-target-val">£'+weeklyTarget+' target</div><div class="week-actual-wrap"><input class="week-input" type="number" min="0" placeholder="£ saved" value="'+(saved!==null?saved:'')+'" data-idx="'+i+'" oninput="handleInput(this)"><div class="week-status '+sc+'" id="status-'+i+'"></div></div><div class="week-cumulative" id="cum-'+i+'">—</div>';c.appendChild(row);});}
+function handleInput(inp){const i=parseInt(inp.dataset.idx);const v=parseFloat(inp.value);if(!isNaN(v)&&v>=0)localStorage.setItem('wk_'+i,v);else localStorage.removeItem('wk_'+i);updateAll();}
+function updateAll(){const dep=document.getElementById('deposit-received');let running=dep&&dep.checked?DEPOSIT:0;let logged=0,behind=0;weeks.forEach((w,i)=>{const s=getSaved(i);if(s!==null){running+=s;logged++;if(s<weeklyTarget)behind++; const se=document.getElementById('status-'+i);if(se)se.className='week-status '+(s>=weeklyTarget?'good':'behind');}else{const se=document.getElementById('status-'+i);if(se)se.className='week-status empty';}const ce=document.getElementById('cum-'+i);if(ce){if(getSaved(i)!==null){let tot=dep&&dep.checked?DEPOSIT:0;for(let j=0;j<=i;j++){const sv=getSaved(j);if(sv!==null)tot+=sv;}ce.textContent='£'+tot.toLocaleString();ce.style.color=tot>=TARGET?'var(--teal)':'var(--muted)';}else{ce.textContent='—';ce.style.color='var(--muted)';}}}); const pct=Math.min(100,Math.round((running/TARGET)*100));document.getElementById('saved-so-far').textContent='£'+running.toLocaleString();const sn=Math.max(0,TARGET-running);document.getElementById('still-needed').textContent='£'+sn.toLocaleString();document.getElementById('still-needed').style.color=sn===0?'var(--teal)':'var(--orange)';document.getElementById('progress-pct').textContent=pct+'%';document.getElementById('progress-fill').style.width=pct+'%';const te=document.getElementById('on-track'),ts=document.getElementById('track-sub');if(logged===0){te.textContent='—';te.style.color='var(--muted)';ts.textContent='start logging to see';}else{const wr=totalWeeks-logged;const npw=wr>0?Math.ceil(sn/wr):0;const avg=(running-(dep&&dep.checked?DEPOSIT:0))/logged;if(running>=TARGET){te.textContent='Done';te.style.color='var(--teal)';ts.textContent='target reached';}else if(avg>=npw){te.textContent='Yes';te.style.color='var(--teal)';ts.textContent='£'+Math.round(npw)+'/wk needed';}else{te.textContent='Behind';te.style.color='var(--red)';ts.textContent='need £'+Math.round(npw)+'/wk, avg £'+Math.round(avg)+'/wk';}} const cl=document.getElementById('callout-text');if(logged===0)cl.textContent='Start logging weekly. The tracker shows if you are on track for the £${target.toLocaleString()} target.';else if(running>=TARGET)cl.textContent='Target hit. Make sure everything else is ready — site, outreach, flights.';else{const wr=totalWeeks-logged;const sn2=TARGET-running;const npw=wr>0?Math.ceil(sn2/wr):sn2;cl.textContent=behind>logged/2?'More than half your weeks are below target. That is a pattern not a bad week. You need £'+npw.toLocaleString()+' per week from here.':behind>0?'A few weeks below target but manageable. You need £'+npw.toLocaleString()+' per week from here. Do not let the slow weeks become a habit.':'Every week at or above target. You need £'+npw.toLocaleString()+' per week from here to hit £${target.toLocaleString()}. Keep this up.';}}
+function updateCountdown(){const dep=new Date(${depJS.replace('new Date(','').replace(')','')} );const diff=Math.ceil((dep-new Date())/(1000*60*60*24));const el=document.getElementById('countdown-number');el.textContent=diff>0?diff:'0';el.className='countdown-number';if(diff<=15)el.classList.add('red');else if(diff<=30)el.classList.add('yellow');}
+window.addEventListener('DOMContentLoaded',()=>{if(document.getElementById('deposit-received')){const s=localStorage.getItem('deposit_received')==='true';document.getElementById('deposit-received').checked=s;}buildWeeks();updateAll();updateCountdown();setInterval(updateCountdown,60000);});
+if(document.getElementById('deposit-received'))document.getElementById('deposit-received').addEventListener('change',function(){localStorage.setItem('deposit_received',this.checked);updateAll();});
+<\/script>
+</body>
+</html>`;
+  }
+
+  // PORTFOLIO ROADMAP
+  function getDefaultPortfolioData(d) {
+    return {
+      phase1_name: 'Current city — build', phase1_dates: 'Now → ' + d.departure.split(' ').slice(0,-1).join(' '),
+      phase1_note: 'Stay focused. Build the foundation before you go anywhere.',
+      phase1_targets: ['Complete any courses or training', 'Build your first portfolio pieces', 'Get first feedback'],
+      phase1_milestones: ['Finish your skill training', 'Get first real feedback from a client or peer', 'Set up your professional profiles'],
+      phase2_name: 'Build and outreach', phase2_dates: 'Mid-period',
+      phase2_note: 'Volume and quality. Get enough work to start real conversations.',
+      phase2_targets: ['Build a portfolio page', 'Submit to 5+ clients or projects', 'Get documented feedback'],
+      phase2_milestones: ['Portfolio page live', 'First client conversation', 'Update CV and LinkedIn'],
+      phase3_name: 'Land clients', phase3_dates: '6-8 weeks before departure',
+      phase3_note: 'The goal is at least one retainer before you board the plane.',
+      phase3_targets: ['Apply to every relevant job posting', 'Cold outreach to 5+ brands/week', 'Sign one retainer'],
+      phase3_milestones: ['First proposal sent', 'First client conversation', 'First retainer signed', 'Flights booked'],
+      phase4_name: d.destination, phase4_dates: d.departure + ' onwards',
+      phase4_note: 'You arrive with money, a client, and a portfolio. Now you scale.',
+      phase4_goals: ['Scale to 2-3 retainer clients', 'Keep building your portfolio', 'Document everything', 'Decide your next move from results not hope']
+    };
+  }
+
+  function buildPortfolioHTML(d, p) {
+    function milestoneCards(items, phase) {
+      return (items || []).map((m, i) => `<div class="milestone-card" onclick="toggleMilestone(this)" data-id="${phase}-${i}"><div class="milestone-card-header"><div class="milestone-card-title">${m}</div><div class="milestone-check"></div></div></div>`).join('');
+    }
+    function targetRows(items, color) {
+      return (items || []).map(t => `<div class="target-row"><div class="target-icon" style="background:${color}"></div><div class="target-label">${t}</div></div>`).join('');
+    }
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Roadmap — ${d.name}</title>
+${googleFonts()}
+${sharedStyles()}
+<style>
+.header{padding:48px 48px 36px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(155,135,245,0.06) 0%,transparent 70%);pointer-events:none;}
+.header-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);letter-spacing:0.02em;line-height:0.95;}
+.header h1 span{color:var(--purple);}
+.header-sub{font-size:14px;color:var(--muted);margin-top:14px;max-width:520px;line-height:1.6;}
+.phase-strip{padding:20px 48px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;overflow-x:auto;}
+.phase-item{display:flex;flex-direction:column;gap:4px;padding-right:32px;margin-right:32px;border-right:1px solid var(--border);flex-shrink:0;}
+.phase-item:last-child{border-right:none;}
+.phase-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.phase-value{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.04em;line-height:1;}
+.phase-date{font-size:12px;color:var(--muted);}
+.main{padding:36px 48px 60px;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);}
+.tab{padding:14px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;user-select:none;position:relative;bottom:-1px;white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--text);border-bottom-color:var(--purple);}
+.tab .pn{font-size:18px;font-family:'Bebas Neue',sans-serif;display:block;margin-bottom:2px;}
+.panel{display:none;padding-top:32px;} .panel.active{display:block;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.04em;}
+.panel-dates{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;}
+.panel-note{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.6;max-width:600px;padding-left:12px;border-left:2px solid var(--dim);font-style:italic;margin-bottom:28px;}
+.section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;margin-top:24px;}
+.target-row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;font-size:13px;}
+.target-icon{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.target-label{flex:1;color:var(--text);}
+.milestone-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.milestone-card{padding:16px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color 0.15s;}
+.milestone-card:hover{border-color:var(--border2);}
+.milestone-card.completed{border-color:rgba(31,203,138,0.2);background:rgba(31,203,138,0.04);}
+.milestone-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.milestone-card-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.35;}
+.milestone-check{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--dim);flex-shrink:0;transition:all 0.2s;}
+.milestone-card.completed .milestone-check{background:var(--teal);border-color:var(--teal);}
+.milestone-card.completed .milestone-check::after{content:'';display:block;width:5px;height:9px;border:1.5px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);margin:2px auto;}
+.callout{margin-top:4px;padding:16px 20px 16px 32px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.65;position:relative;}
+.callout::before{content:'!';position:absolute;left:12px;top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--purple);font-weight:500;}
+.strategy-item{display:flex;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:8px;}
+.strategy-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--dim);padding-top:1px;flex-shrink:0;min-width:20px;}
+@media(max-width:600px){.header,.phase-strip,.main{padding-left:20px;padding-right:20px;}.milestone-grid{grid-template-columns:1fr;}.tabs{overflow-x:auto;}}
+</style>
+</head>
+<body>
+${homeBtn()}
+<div class="header">
+  <div class="header-label">${d.name}'s portfolio roadmap</div>
+  <h1>Portfolio<br><span>Roadmap</span></h1>
+  <p class="header-sub">From zero portfolio to first retainer. Each phase has specific targets — not vibes, not feelings. Numbers.</p>
+</div>
+<div class="phase-strip">
+  <div class="phase-item"><div class="phase-label">Phase 1</div><div class="phase-value" style="color:var(--orange)">${p.phase1_name||'Build'}</div><div class="phase-date">${p.phase1_dates||'Now'}</div></div>
+  <div class="phase-item"><div class="phase-label">Phase 2</div><div class="phase-value" style="color:var(--teal)">${p.phase2_name||'Outreach'}</div><div class="phase-date">${p.phase2_dates||''}</div></div>
+  <div class="phase-item"><div class="phase-label">Phase 3</div><div class="phase-value" style="color:var(--purple)">${p.phase3_name||'Land clients'}</div><div class="phase-date">${p.phase3_dates||''}</div></div>
+  <div class="phase-item"><div class="phase-label">Phase 4</div><div class="phase-value" style="color:var(--blue)">${p.phase4_name||d.destination}</div><div class="phase-date">${p.phase4_dates||d.departure}</div></div>
+</div>
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="show('1')"><span class="pn">1</span>Build</div>
+    <div class="tab" onclick="show('2')"><span class="pn">2</span>Outreach</div>
+    <div class="tab" onclick="show('3')"><span class="pn">3</span>Land</div>
+    <div class="tab" onclick="show('4')"><span class="pn">4</span>${d.destination}</div>
+  </div>
+  <div class="panel active" id="panel-1">
+    <div class="panel-title">Phase 1 — ${p.phase1_name||'Build'}</div>
+    <div class="panel-dates">${p.phase1_dates||''}</div>
+    <p class="panel-note">${p.phase1_note||''}</p>
+    <div class="section-title">Targets</div>
+    ${targetRows(p.phase1_targets, 'var(--purple)')}
+    <div class="section-title">Milestones</div>
+    <div class="milestone-grid" id="milestones-1">${milestoneCards(p.phase1_milestones,'1')}</div>
+  </div>
+  <div class="panel" id="panel-2">
+    <div class="panel-title">Phase 2 — ${p.phase2_name||'Outreach'}</div>
+    <div class="panel-dates">${p.phase2_dates||''}</div>
+    <p class="panel-note">${p.phase2_note||''}</p>
+    <div class="section-title">Targets</div>
+    ${targetRows(p.phase2_targets, 'var(--teal)')}
+    <div class="section-title">Milestones</div>
+    <div class="milestone-grid" id="milestones-2">${milestoneCards(p.phase2_milestones,'2')}</div>
+  </div>
+  <div class="panel" id="panel-3">
+    <div class="panel-title">Phase 3 — ${p.phase3_name||'Land clients'}</div>
+    <div class="panel-dates">${p.phase3_dates||''}</div>
+    <p class="panel-note">${p.phase3_note||''}</p>
+    <div class="section-title">Targets</div>
+    ${targetRows(p.phase3_targets, 'var(--orange)')}
+    <div class="section-title">Milestones</div>
+    <div class="milestone-grid" id="milestones-3">${milestoneCards(p.phase3_milestones,'3')}</div>
+    <div class="callout">Rejection is part of this phase. You will apply and hear nothing. That is not failure — stopping is failure. Keep applying, keep creating, keep refining the pitch.</div>
+  </div>
+  <div class="panel" id="panel-4">
+    <div class="panel-title">Phase 4 — ${p.phase4_name||d.destination}</div>
+    <div class="panel-dates">${p.phase4_dates||d.departure} · 3 months</div>
+    <p class="panel-note">${p.phase4_note||''}</p>
+    <div class="section-title">Goals for 3 months</div>
+    ${(p.phase4_goals||[]).map((g,i)=>`<div class="strategy-item"><div class="strategy-num">0${i+1}</div><div>${g}</div></div>`).join('')}
+    <div class="callout">${d.destination} is not the reward. It is the next level of the same work. The routine travels with you.</div>
+  </div>
+</div>
+<script>
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab')[['1','2','3','4'].indexOf(id)].classList.add('active');}
+function toggleMilestone(card){const id=card.dataset.id;const done=card.classList.toggle('completed');localStorage.setItem('ms_'+id,done?'1':'0');}
+window.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.milestone-card').forEach(c=>{if(localStorage.getItem('ms_'+c.dataset.id)==='1')c.classList.add('completed');});});
+<\/script>
+</body>
+</html>`;
+  }
+
+  // OUTREACH
+  function getDefaultOutreachData(d) {
+    return {
+      positioning_line: `I combine deep knowledge of ${d.skill} with an understanding of what makes people stop and pay attention.`,
+      channel1_name: 'Job boards and communities', channel1_tips: ['Apply to every relevant posting immediately', 'Reference something specific about each brand', 'Keep your pitch under 200 words'],
+      channel1_pitch: `Hi [name], I specialise in ${d.skill} and have a strong understanding of what converts in [their niche]. Portfolio: [link]. I noticed [something specific about their brand] — I have a clear angle on how I'd approach your briefs. Happy to show you before we talk.`,
+      channel2_name: 'Upwork', channel2_tips: ['Apply only to jobs posted in last 24 hours', 'End every proposal with a genuine question', 'First goal is your first review, not the highest rate'],
+      channel2_pitch: `I noticed you're looking for [what they asked for]. I specialise in ${d.skill} for [niche] brands. Portfolio: [link]. What's been working for you so far and where are you seeing drop-off?`,
+      channel3_name: 'Cold outreach', channel3_tips: ['Research every brand before reaching out', 'Offer a free sample concept — it removes risk', 'Follow up once, 5-7 days later, then move on'],
+      channel3_pitch: `Hey [name], I've been following [brand] — [one specific observation]. I put together a quick concept based on what I'm seeing in your current creative. Would it be useful if I sent it over?`,
+      channel4_name: 'Your network', channel4_tips: ['Ask your connections directly for introductions', 'Be visible in your community', 'Over-deliver on any referral — it reflects on everyone']
+    };
+  }
+
+  function buildOutreachHTML(d, o) {
+    function tips(arr) { return (arr||[]).map(t=>`<div class="tip-item"><div class="tip-dot"></div><div>${t}</div></div>`).join(''); }
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach Plan — ${d.name}</title>
+${googleFonts()}
+${sharedStyles()}
+<style>
+.header{padding:48px 48px 36px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(74,158,255,0.06) 0%,transparent 70%);pointer-events:none;}
+.header-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);letter-spacing:0.02em;line-height:0.95;}
+.header h1 span{color:var(--blue);}
+.header-sub{font-size:14px;color:var(--muted);margin-top:14px;max-width:520px;line-height:1.6;}
+.pos-strip{padding:24px 48px;border-bottom:1px solid var(--border);background:rgba(74,158,255,0.03);}
+.pos-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.pos-line{font-size:16px;color:var(--text);line-height:1.6;max-width:680px;border-left:2px solid var(--blue);padding-left:16px;font-style:italic;}
+.main{padding:36px 48px 60px;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);}
+.tab{padding:14px 22px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;user-select:none;position:relative;bottom:-1px;white-space:nowrap;}
+.tab:hover{color:var(--text);} .tab.active{color:var(--text);border-bottom-color:var(--blue);}
+.tab .cn{font-size:16px;font-family:'Bebas Neue',sans-serif;display:block;margin-bottom:2px;}
+.panel{display:none;padding-top:32px;} .panel.active{display:block;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.04em;}
+.panel-note{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.6;max-width:600px;padding-left:12px;border-left:2px solid var(--dim);font-style:italic;margin-bottom:28px;}
+.section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;margin-top:24px;}
+.tip-item{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:6px;}
+.tip-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:6px;}
+.pitch-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.pitch-header{padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.pitch-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.pitch-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);}
+.pitch-body{padding:16px;font-size:13px;color:var(--text);line-height:1.75;}
+.callout{margin-top:28px;padding:16px 20px 16px 32px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.65;position:relative;}
+.callout::before{content:'!';position:absolute;left:12px;top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--blue);font-weight:500;}
+@media(max-width:600px){.header,.pos-strip,.main{padding-left:20px;padding-right:20px;}.tabs{overflow-x:auto;}}
+</style>
+</head>
+<body>
+${homeBtn()}
+<div class="header">
+  <div class="header-label">${d.name}'s outreach strategy</div>
+  <h1>Outreach<br><span>Plan</span></h1>
+  <p class="header-sub">Four channels, one goal — a signed retainer before you board the plane.</p>
+</div>
+<div class="pos-strip">
+  <div class="pos-label">Your positioning line — use this everywhere</div>
+  <div class="pos-line">${o.positioning_line||''}</div>
+</div>
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="show('1')"><span class="cn">01</span>${o.channel1_name||'Job boards'}</div>
+    <div class="tab" onclick="show('2')"><span class="cn">02</span>${o.channel2_name||'Platform'}</div>
+    <div class="tab" onclick="show('3')"><span class="cn">03</span>${o.channel3_name||'Cold outreach'}</div>
+    <div class="tab" onclick="show('4')"><span class="cn">04</span>${o.channel4_name||'Network'}</div>
+  </div>
+  <div class="panel active" id="panel-1">
+    <div class="panel-title">${o.channel1_name||'Job boards and communities'}</div>
+    <p class="panel-note">This is your highest priority channel. Apply to every relevant post the moment it goes up. Speed matters.</p>
+    <div class="section-title">How to approach</div>
+    ${tips(o.channel1_tips)}
+    <div class="section-title">Pitch template</div>
+    <div class="pitch-block"><div class="pitch-header"><div class="pitch-label">Application pitch</div><div class="pitch-tag">Adapt per brand</div></div><div class="pitch-body">${(o.channel1_pitch||'').replace(/\n/g,'<br>')}</div></div>
+    <div class="callout">If you're applying and hearing nothing after 2 weeks, rewrite the opening two lines and test again. The pitch is always the first variable to fix.</div>
+  </div>
+  <div class="panel" id="panel-2">
+    <div class="panel-title">${o.channel2_name||'Platform'}</div>
+    <p class="panel-note">Your first goal isn't the best rate — it's your first review. One strong review changes everything on a platform.</p>
+    <div class="section-title">How to approach</div>
+    ${tips(o.channel2_tips)}
+    <div class="section-title">Proposal template</div>
+    <div class="pitch-block"><div class="pitch-header"><div class="pitch-label">Proposal</div><div class="pitch-tag">Under 150 words</div></div><div class="pitch-body">${(o.channel2_pitch||'').replace(/\n/g,'<br>')}</div></div>
+    <div class="callout">End every proposal with a question. People answer questions. They ignore pitches.</div>
+  </div>
+  <div class="panel" id="panel-3">
+    <div class="panel-title">${o.channel3_name||'Cold outreach'}</div>
+    <p class="panel-note">Hardest channel, highest upside. You pick the brands, you set the terms.</p>
+    <div class="section-title">How to approach</div>
+    ${tips(o.channel3_tips)}
+    <div class="section-title">Cold outreach template</div>
+    <div class="pitch-block"><div class="pitch-header"><div class="pitch-label">Cold DM or email</div><div class="pitch-tag">Personalise every one</div></div><div class="pitch-body">${(o.channel3_pitch||'').replace(/\n/g,'<br>')}</div></div>
+    <div class="callout">The "I put together a concept" line is the key. It shows you've already done work for them before they've paid a penny. Most people don't do this. That's why it works.</div>
+  </div>
+  <div class="panel" id="panel-4">
+    <div class="panel-title">${o.channel4_name||'Network'}</div>
+    <p class="panel-note">The warmest leads you have. One warm introduction is worth twenty cold DMs.</p>
+    <div class="section-title">How to approach</div>
+    ${tips(o.channel4_tips)}
+    <div class="callout">The network gets you in the door. Your work keeps you there. Don't use connections as a substitute for a strong portfolio — it is a multiplier, not a replacement.</div>
+  </div>
+</div>
+<script>
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab')[['1','2','3','4'].indexOf(id)].classList.add('active');}
+<\/script>
+</body>
+</html>`;
+  }
+
+  // CHECKLIST
+  function buildChecklistHTML(d, cl) {
+    const cats = cl.categories || [];
+    const tabs = cats.map((c,i) => `<div class="tab${i===0?' active':''}" onclick="show(${i})"><span class="tn">0${i+1}</span>${c.name}</div>`).join('');
+    const panels = cats.map((c,i) => {
+      const items = (c.items||[]).map((item,j) => `<div class="check-item" onclick="toggleCheck(this)" data-id="${i}-${j}"><div class="check-box"></div><div class="check-content"><div class="check-label">${item.label||''}</div><div class="check-desc">${item.desc||''}</div></div><div class="check-tag">${item.when||''}</div></div>`).join('');
+      return `<div class="panel${i===0?' active':''}" id="panel-${i}"><div class="panel-title">${c.name}</div><div class="checklist" style="margin-top:20px">${items}</div></div>`;
+    }).join('');
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${d.destination} Checklist — ${d.name}</title>
+${googleFonts()}
+${sharedStyles()}
+<style>
+.header{padding:48px 48px 36px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(76,175,116,0.06) 0%,transparent 70%);pointer-events:none;}
+.header-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);letter-spacing:0.02em;line-height:0.95;}
+.header h1 span{color:var(--green);}
+.header-sub{font-size:14px;color:var(--muted);margin-top:14px;max-width:520px;line-height:1.6;}
+.progress-strip{padding:20px 48px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.prog-item{display:flex;flex-direction:column;gap:3px;}
+.prog-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.prog-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:0.04em;line-height:1;color:var(--green);}
+.prog-divider{width:1px;height:32px;background:var(--border);}
+.overall-progress{margin:24px 48px 0;}
+.op-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+.op-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.op-pct{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--green);}
+.op-track{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.op-fill{height:100%;border-radius:3px;background:var(--green);transition:width 0.5s cubic-bezier(0.4,0,0.2,1);}
+.main{padding:24px 48px 60px;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0;overflow-x:auto;}
+.tab{padding:14px 20px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;user-select:none;position:relative;bottom:-1px;white-space:nowrap;}
+.tab:hover{color:var(--text);} .tab.active{color:var(--text);border-bottom-color:var(--green);}
+.tab .tn{font-size:16px;font-family:'Bebas Neue',sans-serif;display:block;margin-bottom:2px;}
+.panel{display:none;padding-top:28px;} .panel.active{display:block;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:0.04em;margin-bottom:0;}
+.checklist{display:flex;flex-direction:column;gap:6px;}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color 0.15s;user-select:none;}
+.check-item:hover{border-color:var(--border2);}
+.check-item.done{border-color:rgba(76,175,116,0.2);background:rgba(76,175,116,0.04);}
+.check-box{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--dim);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.check-item.done .check-box{background:var(--green);border-color:var(--green);}
+.check-item.done .check-box::after{content:'';display:block;width:4px;height:8px;border:1.5px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);}
+.check-content{flex:1;}
+.check-label{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.check-item.done .check-label{text-decoration:line-through;color:var(--muted);}
+.check-desc{font-size:12px;color:var(--muted);line-height:1.55;}
+.check-tag{font-family:'DM Mono',monospace;font-size:10px;padding:2px 7px;border-radius:10px;border:1px solid var(--border);color:var(--muted);white-space:nowrap;align-self:flex-start;margin-top:2px;}
+@media(max-width:600px){.header,.progress-strip,.overall-progress,.main{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+${homeBtn()}
+<div class="header">
+  <div class="header-label">${d.name}'s pre-departure</div>
+  <h1>${d.destination}<br><span>Checklist</span></h1>
+  <p class="header-sub">Everything to sort before you board that plane. Tick items off as you go.</p>
+</div>
+<div class="progress-strip">
+  <div class="prog-item"><div class="prog-label">Total items</div><div class="prog-value" id="total-count">—</div></div>
+  <div class="prog-divider"></div>
+  <div class="prog-item"><div class="prog-label">Completed</div><div class="prog-value" id="done-count" style="color:var(--green)">0</div></div>
+  <div class="prog-divider"></div>
+  <div class="prog-item"><div class="prog-label">Remaining</div><div class="prog-value" id="remaining-count" style="color:var(--orange)">—</div></div>
+</div>
+<div class="overall-progress">
+  <div class="op-header"><span class="op-label">Overall completion</span><span class="op-pct" id="op-pct">0%</span></div>
+  <div class="op-track"><div class="op-fill" id="op-fill" style="width:0%"></div></div>
+</div>
+<div class="main">
+  <div class="tabs">${tabs}</div>
+  ${panels}
+</div>
+<script>
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab')[id].classList.add('active');}
+function toggleCheck(item){const id=item.dataset.id;item.classList.toggle('done');localStorage.setItem('ck_'+id,item.classList.contains('done')?'1':'0');updateProgress();}
+function updateProgress(){const all=document.querySelectorAll('.check-item');const done=document.querySelectorAll('.check-item.done');const t=all.length,c=done.length,pct=t>0?Math.round((c/t)*100):0;document.getElementById('total-count').textContent=t;document.getElementById('done-count').textContent=c;document.getElementById('remaining-count').textContent=t-c;document.getElementById('op-pct').textContent=pct+'%';document.getElementById('op-fill').style.width=pct+'%';}
+window.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.check-item').forEach(i=>{if(localStorage.getItem('ck_'+i.dataset.id)==='1')i.classList.add('done');});updateProgress();});
+<\/script>
+</body>
+</html>`;
+  }
+
+  // HEALTH (generic — same for everyone)
+  function buildHealthHTML(d) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Routine — ${d.name}</title>
+${googleFonts()}
+${sharedStyles()}
+<style>
+.header{padding:48px 48px 36px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(76,175,116,0.06) 0%,transparent 70%);pointer-events:none;}
+.header-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,7vw,72px);letter-spacing:0.02em;line-height:0.95;}
+.header h1 span{color:var(--green);}
+.header-sub{font-size:14px;color:var(--muted);margin-top:14px;max-width:520px;line-height:1.6;}
+.cost-strip{padding:20px 48px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.cost-item{display:flex;flex-direction:column;gap:3px;}
+.cost-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.cost-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:0.04em;line-height:1;}
+.cost-divider{width:1px;height:32px;background:var(--border);}
+.main{padding:36px 48px 60px;}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);}
+.tab{padding:14px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;user-select:none;position:relative;bottom:-1px;white-space:nowrap;}
+.tab:hover{color:var(--text);} .tab.active{color:var(--text);border-bottom-color:var(--green);}
+.tab .tn{font-size:18px;font-family:'Bebas Neue',sans-serif;display:block;margin-bottom:2px;}
+.panel{display:none;padding-top:32px;} .panel.active{display:block;}
+.section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.supp-card{display:grid;grid-template-columns:1fr auto;gap:16px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+.supp-card.priority{border-left:2px solid var(--green);}
+.supp-card.secondary{border-left:2px solid var(--blue);}
+.supp-card.optional{border-left:2px solid var(--dim);}
+.supp-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.supp-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:6px;}
+.supp-tag{font-family:'DM Mono',monospace;font-size:10px;padding:2px 7px;border-radius:10px;border:1px solid;white-space:nowrap;display:inline-block;}
+.tag-morning{color:var(--yellow);border-color:rgba(245,200,66,0.25);background:rgba(245,200,66,0.08);}
+.tag-evening{color:var(--purple);border-color:rgba(155,135,245,0.25);background:rgba(155,135,245,0.08);}
+.tag-withfood{color:var(--orange);border-color:rgba(255,124,58,0.25);background:rgba(255,124,58,0.08);}
+.supp-right{text-align:right;flex-shrink:0;}
+.supp-dose{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);}
+.supp-cost{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.skin-step{display:flex;gap:14px;padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;}
+.skin-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--dim);flex-shrink:0;line-height:1;min-width:20px;}
+.skin-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.skin-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:4px;}
+.skin-product{font-family:'DM Mono',monospace;font-size:11px;color:var(--green);}
+.skin-right{text-align:right;flex-shrink:0;}
+.skin-timing{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;border:1px solid;white-space:nowrap;font-family:'DM Mono',monospace;}
+.timing-am{color:var(--yellow);border-color:rgba(245,200,66,0.25);background:rgba(245,200,66,0.08);}
+.timing-pm{color:var(--purple);border-color:rgba(155,135,245,0.25);background:rgba(155,135,245,0.08);}
+.timing-both{color:var(--green);border-color:rgba(76,175,116,0.25);background:rgba(76,175,116,0.08);}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ref-card{padding:16px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;}
+.ref-card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.ref-dot{width:6px;height:6px;border-radius:50%;}
+.ref-item{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.ref-item:last-child{border-bottom:none;}
+.ref-item-name{color:var(--text);}
+.ref-item-detail{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:right;}
+.callout{margin-top:28px;padding:16px 20px 16px 32px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.65;position:relative;}
+.callout::before{content:'!';position:absolute;left:12px;top:16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--green);font-weight:500;}
+@media(max-width:600px){.header,.cost-strip,.main{padding-left:20px;padding-right:20px;}.ref-grid{grid-template-columns:1fr;}.supp-card{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+${homeBtn()}
+<div class="header">
+  <div class="header-label">${d.name}'s health stack</div>
+  <h1>Health<br><span>Routine</span></h1>
+  <p class="header-sub">Supplements and skincare built from zero. Consistency beats complexity every time.</p>
+</div>
+<div class="cost-strip">
+  <div class="cost-item"><div class="cost-label">Supplements/month</div><div class="cost-value" style="color:var(--green)">~£35</div></div>
+  <div class="cost-divider"></div>
+  <div class="cost-item"><div class="cost-label">Skincare one-off</div><div class="cost-value" style="color:var(--blue)">~£50</div></div>
+  <div class="cost-divider"></div>
+  <div class="cost-item"><div class="cost-label">Skincare/month</div><div class="cost-value" style="color:var(--blue)">~£15</div></div>
+  <div class="cost-divider"></div>
+  <div class="cost-item"><div class="cost-label">Total/month</div><div class="cost-value" style="color:var(--orange)">~£50</div></div>
+</div>
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="show('s')"><span class="tn">01</span>Supplements</div>
+    <div class="tab" onclick="show('k')"><span class="tn">02</span>Skincare</div>
+    <div class="tab" onclick="show('r')"><span class="tn">03</span>Daily ref</div>
+  </div>
+  <div class="panel active" id="panel-s">
+    <div class="section-title">Priority — start here</div>
+    <div class="supp-card priority"><div><div class="supp-name">Creatine Monohydrate</div><div class="supp-desc">Most research-backed supplement. Increases strength, recovery, and has documented cognitive benefits — sharper thinking, better memory. Useful when training hard and doing mentally demanding work simultaneously.</div><div><span class="supp-tag tag-morning">Morning</span></div></div><div class="supp-right"><div class="supp-dose">5g daily</div><div class="supp-cost">~£8/month</div></div></div>
+    <div class="supp-card priority"><div><div class="supp-name">Vitamin D3 + K2</div><div class="supp-desc">UK sunlight is not enough. D deficiency tanks mood, energy, immune system. K2 directs calcium to bones. Non-negotiable if you're indoors a lot.</div><div><span class="supp-tag tag-morning">Morning</span><span class="supp-tag tag-withfood">With food</span></div></div><div class="supp-right"><div class="supp-dose">2000–4000 IU D3</div><div class="supp-cost">~£6/month</div></div></div>
+    <div class="supp-card priority"><div><div class="supp-name">Magnesium Glycinate</div><div class="supp-desc">Most people are deficient. Improves sleep quality, stress response, muscle recovery, focus. Take at night — your sleep will noticeably improve within a week.</div><div><span class="supp-tag tag-evening">Evening — before bed</span></div></div><div class="supp-right"><div class="supp-dose">300–400mg</div><div class="supp-cost">~£8/month</div></div></div>
+    <div class="supp-card priority"><div><div class="supp-name">Omega-3 Fish Oil</div><div class="supp-desc">Critical for brain function, reducing inflammation, joint health, and skin quality. Your skin will look better in 4–6 weeks. Your brain needs it for sustained focus.</div><div><span class="supp-tag tag-morning">Morning</span><span class="supp-tag tag-withfood">With food</span></div></div><div class="supp-right"><div class="supp-dose">2–3g EPA/DHA</div><div class="supp-cost">~£8/month</div></div></div>
+    <div class="section-title">Secondary — add after month 1</div>
+    <div class="supp-card secondary"><div><div class="supp-name">Zinc</div><div class="supp-desc">Supports testosterone, immune function, and skin healing. Intense exercise depletes zinc. Max 25–30mg/day.</div><div><span class="supp-tag tag-evening">Evening</span><span class="supp-tag tag-withfood">With food</span></div></div><div class="supp-right"><div class="supp-dose">15–25mg</div><div class="supp-cost">~£4/month</div></div></div>
+    <div class="supp-card secondary"><div><div class="supp-name">Ashwagandha KSM-66</div><div class="supp-desc">Adaptogen. Reduces cortisol and stress response. Relevant if you're under pressure. KSM-66 is the most studied extract — don't buy cheap generic powder.</div><div><span class="supp-tag tag-evening">Evening</span><span class="supp-tag tag-withfood">With food</span></div></div><div class="supp-right"><div class="supp-dose">300–600mg</div><div class="supp-cost">~£8/month</div></div></div>
+    <div class="callout">Start with the priority four. That's ~£30/month, 30 seconds to take, covers the biggest gaps for someone training hard and doing mentally demanding work. Add secondary after month one.</div>
+  </div>
+  <div class="panel" id="panel-k">
+    <div class="section-title">Morning routine</div>
+    <div class="skin-step"><div class="skin-num">1</div><div style="flex:1"><div class="skin-name">Gentle cleanser</div><div class="skin-desc">Not soap, not shower gel. Removes overnight oil without stripping. If skin feels tight after washing you're using something too harsh.</div><div class="skin-product">CeraVe Hydrating Cleanser or La Roche-Posay Toleriane</div></div><div class="skin-right"><span class="skin-timing timing-both">AM + PM</span></div></div>
+    <div class="skin-step"><div class="skin-num">2</div><div style="flex:1"><div class="skin-name">Vitamin C Serum</div><div class="skin-desc">Brightens skin tone, reduces hyperpigmentation, boosts SPF. Apply before moisturiser. Replace when it turns orange.</div><div class="skin-product">The Ordinary Vitamin C Suspension 23% — ~£6</div></div><div class="skin-right"><span class="skin-timing timing-am">AM only</span></div></div>
+    <div class="skin-step"><div class="skin-num">3</div><div style="flex:1"><div class="skin-name">SPF moisturiser</div><div class="skin-desc">The single most impactful product you can use. UV damage causes premature ageing. Non-negotiable. Essential in hot countries.</div><div class="skin-product">La Roche-Posay Fluide SPF50+ or Altruist SPF50</div></div><div class="skin-right"><span class="skin-timing timing-am">AM only</span></div></div>
+    <div class="section-title">Evening routine</div>
+    <div class="skin-step"><div class="skin-num">1</div><div style="flex:1"><div class="skin-name">Cleanser</div><div class="skin-desc">Evening cleanse is more important than morning. Remove SPF, sweat, and the day's buildup.</div><div class="skin-product">Same as morning</div></div><div class="skin-right"><span class="skin-timing timing-both">AM + PM</span></div></div>
+    <div class="skin-step"><div class="skin-num">2</div><div style="flex:1"><div class="skin-name">Retinol (2–3x per week)</div><div class="skin-desc">Gold standard active. Increases cell turnover, clears pores, improves texture. Start at 0.1–0.2% and build up slowly. Initial flaking is normal. Results at 8–12 weeks.</div><div class="skin-product">The Ordinary Retinol 0.2% in Squalane — ~£6</div></div><div class="skin-right"><span class="skin-timing timing-pm">PM only</span></div></div>
+    <div class="skin-step"><div class="skin-num">3</div><div style="flex:1"><div class="skin-name">Night moisturiser</div><div class="skin-desc">Locks in hydration while you sleep. Thicker than your day moisturiser. No SPF needed at night.</div><div class="skin-product">CeraVe Moisturising Cream — ~£12</div></div><div class="skin-right"><span class="skin-timing timing-pm">PM only</span></div></div>
+    <div class="callout">The two products that make the biggest difference: SPF every morning without fail, and retinol 2–3 nights a week consistently. Start both now — by the time you arrive in ${d.destination} you'll be 8–12 weeks in.</div>
+  </div>
+  <div class="panel" id="panel-r">
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-card-title"><div class="ref-dot" style="background:var(--yellow)"></div>Morning</div>
+        <div class="ref-item"><span class="ref-item-name">Cleanser</span><span class="ref-item-detail">30 sec</span></div>
+        <div class="ref-item"><span class="ref-item-name">Vitamin C serum</span><span class="ref-item-detail">2–3 drops</span></div>
+        <div class="ref-item"><span class="ref-item-name">SPF moisturiser</span><span class="ref-item-detail">generous</span></div>
+        <div class="ref-item"><span class="ref-item-name">Creatine</span><span class="ref-item-detail">5g in water</span></div>
+        <div class="ref-item"><span class="ref-item-name">Vitamin D3 + K2</span><span class="ref-item-detail">with breakfast</span></div>
+        <div class="ref-item"><span class="ref-item-name">Omega-3</span><span class="ref-item-detail">with breakfast</span></div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-title"><div class="ref-dot" style="background:var(--purple)"></div>Evening</div>
+        <div class="ref-item"><span class="ref-item-name">Cleanser</span><span class="ref-item-detail">most important wash</span></div>
+        <div class="ref-item"><span class="ref-item-name">Retinol</span><span class="ref-item-detail">2–3x/week only</span></div>
+        <div class="ref-item"><span class="ref-item-name">Night moisturiser</span><span class="ref-item-detail">generous</span></div>
+        <div class="ref-item"><span class="ref-item-name">Magnesium glycinate</span><span class="ref-item-detail">300–400mg</span></div>
+        <div class="ref-item"><span class="ref-item-name">Zinc</span><span class="ref-item-detail">with dinner</span></div>
+        <div class="ref-item"><span class="ref-item-name">Ashwagandha</span><span class="ref-item-detail">with dinner</span></div>
+      </div>
+    </div>
+    <div class="callout">Buy supplements in Phase 2 — start them immediately. Benefits are cumulative and slow-building. Bring a 3-month supply to ${d.destination}. Don't assume you can find magnesium glycinate easily there.</div>
+  </div>
+</div>
+<script>
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.querySelectorAll('.tab')[['s','k','r'].indexOf(id)].classList.add('active');}
+<\/script>
+</body>
+</html>`;
+  }
+
+  // ---- INIT ----
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
+    if (localStorage.getItem('pr_logged_in') === '1') showScreen('dashboard');
   });
 </script>
 </body>
