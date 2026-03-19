@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach Plan — Escape Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ece4;
+    --muted: #7a7670;
+    --dim: #3a3834;
+
+    --teal: #1fcb8a;
+    --purple: #9b87f5;
+    --blue: #4a9eff;
+    --orange: #ff7c3a;
+    --red: #ff4f4f;
+    --yellow: #f5c842;
+
+    --teal-bg: rgba(31,203,138,0.08);
+    --purple-bg: rgba(155,135,245,0.08);
+    --blue-bg: rgba(74,158,255,0.08);
+    --orange-bg: rgba(255,124,58,0.08);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .header {
+    padding: 48px 48px 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(74,158,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 7vw, 72px);
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+
+  .header h1 span { color: var(--blue); }
+
+  .header-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 14px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* Positioning strip */
+  .positioning-strip {
+    padding: 24px 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(74,158,255,0.03);
+  }
+
+  .positioning-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .positioning-line {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 680px;
+    border-left: 2px solid var(--blue);
+    padding-left: 16px;
+    font-style: italic;
+  }
+
+  .positioning-line span { color: var(--blue); font-style: normal; font-weight: 500; }
+
+  /* Main */
+  .main { padding: 36px 48px 60px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    padding: 14px 22px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    bottom: -1px;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--blue); }
+
+  .tab .ch-num {
+    font-size: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Panel */
+  .panel { display: none; padding-top: 32px; }
+  .panel.active { display: block; }
+
+  .panel-header { margin-bottom: 28px; }
+
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .channel-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid;
+    margin-top: 6px;
+  }
+
+  .tag-warm { color: var(--teal); border-color: rgba(31,203,138,0.25); background: var(--teal-bg); }
+  .tag-cold { color: var(--orange); border-color: rgba(255,124,58,0.25); background: var(--orange-bg); }
+  .tag-platform { color: var(--purple); border-color: rgba(155,135,245,0.25); background: var(--purple-bg); }
+  .tag-network { color: var(--blue); border-color: rgba(74,158,255,0.25); background: var(--blue-bg); }
+
+  .panel-note {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 600px;
+    padding-left: 12px;
+    border-left: 2px solid var(--dim);
+    font-style: italic;
+  }
+
+  /* Section title */
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+
+  /* Step list */
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    align-items: flex-start;
+    transition: border-color 0.15s;
+  }
+
+  .step-item:hover { border-color: var(--border2); }
+
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    padding-top: 2px;
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+
+  .step-content { flex: 1; }
+
+  .step-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Pitch template */
+  .pitch-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .pitch-block-header {
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pitch-block-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .pitch-block-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--blue);
+  }
+
+  .pitch-block-body {
+    padding: 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .pitch-block-body .placeholder {
+    color: var(--blue);
+    font-style: italic;
+  }
+
+  .pitch-block-body .note {
+    display: block;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Do/don't grid */
+  .dodont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .dodont-card {
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .dodont-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dodont-header.do { color: var(--teal); }
+  .dodont-header.dont { color: var(--red); }
+
+  .dodont-item {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    align-items: flex-start;
+  }
+
+  .dodont-item:last-child { margin-bottom: 0; }
+
+  .dodont-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .do .dodont-dot { background: var(--teal); }
+  .dont .dodont-dot { background: var(--red); }
+
+  /* Metrics row */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .metric-card {
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .metric-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .metric-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  /* Callout */
+  .callout {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .callout::before {
+    content: '!';
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--blue);
+    font-weight: 500;
+  }
+
+  @media (max-width: 650px) {
+    .header, .positioning-strip, .main { padding-left: 20px; padding-right: 20px; }
+    .dodont-grid, .metrics-row { grid-template-columns: 1fr; }
+    .tabs { overflow-x: auto; }
+    .tab { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">Escape plan — outreach strategy</div>
+  <h1>Outreach<br><span>Plan</span></h1>
+  <p class="header-sub">Four channels, one goal — a signed retainer before you board the plane. Each channel has a different approach. Don't treat them the same.</p>
+</div>
+
+<div class="positioning-strip">
+  <div class="positioning-label">Your positioning line — use this everywhere</div>
+  <div class="positioning-line">
+    "I combine <span>4+ years of high-attention visual editing</span> with a deep understanding of <span>social media psychology</span> — I don't just make ads that look good, I make ads built around <span>why people stop scrolling</span>."
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="tabs">
+    <div class="tab active" onclick="show('1')">
+      <span class="ch-num">01</span>Job board
+    </div>
+    <div class="tab" onclick="show('2')">
+      <span class="ch-num">02</span>Upwork
+    </div>
+    <div class="tab" onclick="show('3')">
+      <span class="ch-num">03</span>Cold outreach
+    </div>
+    <div class="tab" onclick="show('4')">
+      <span class="ch-num">04</span>Network
+    </div>
+  </div>
+
+  <!-- CHANNEL 1: JOB BOARD -->
+  <div class="panel active" id="panel-1">
+    <div class="panel-header">
+      <div class="panel-title">EcomTalent job board</div>
+      <span class="channel-tag tag-warm">Warmest leads</span>
+      <p class="panel-note">This is your highest priority channel. The brands posting here already trust the EcomTalent ecosystem — half the battle is already won. Apply to every relevant post the moment it goes up. Speed matters.</p>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Lead temp</div>
+        <div class="metric-value" style="color:var(--teal)">Hot</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Start date</div>
+        <div class="metric-value" style="color:var(--purple)">Mid May</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Apply pace</div>
+        <div class="metric-value" style="color:var(--orange)">Every post</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Pitch format</div>
+        <div class="metric-value" style="color:var(--blue)">Written + portfolio</div>
+      </div>
+    </div>
+
+    <div class="section-title">How to approach each application</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-label">Read the brief properly before writing anything</div>
+          <div class="step-desc">Most applicants write a generic pitch. You write one that proves you read theirs. Mirror their language, reference their niche, mention something specific about their brand. Takes 10 minutes and separates you immediately.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-label">Lead with your positioning line, then prove it fast</div>
+          <div class="step-desc">Open with your one-line pitch. Then immediately back it up — one concrete example from your work. Not a long paragraph. One sentence, one example, one link.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-label">FunPunch as your anchor reference</div>
+          <div class="step-desc">Mention it early. "I've worked directly with FunPunch, a scaling e-com brand, and have a strong understanding of what actually converts." This is your credibility shortcut — use it on every application.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-label">Portfolio link prominent, not buried</div>
+          <div class="step-desc">Don't make them scroll to find it. First or second paragraph, clean link, no excuses for not clicking. If your best work isn't immediately visible, you've lost them.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-label">End with a specific, low-friction ask</div>
+          <div class="step-desc">Not "let me know if you're interested." Something like: "Happy to put together a sample concept for your brand before we talk — just let me know." Gives them a reason to reply that isn't a commitment.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Job board pitch template</div>
+    <div class="pitch-block">
+      <div class="pitch-block-header">
+        <div class="pitch-block-label">Application pitch — job board</div>
+        <div class="pitch-block-tag">Adapt per brand</div>
+      </div>
+      <div class="pitch-block-body">
+        Hi <span class="placeholder">[name if visible]</span>,<br><br>
+        I combine 4+ years of high-attention visual editing with a strong understanding of social media psychology — I make ads built around why people stop scrolling, not just what looks good.<br><br>
+        I've been working directly with <span class="placeholder">[FunPunch / a scaling e-com brand in X niche]</span> and have developed a sharp eye for what converts in <span class="placeholder">[their niche]</span>. My recent work covers <span class="placeholder">[briefly mention relevant brands/niches from your bounty submissions]</span>.<br><br>
+        Portfolio: <span class="placeholder">[link]</span><br><br>
+        I noticed <span class="placeholder">[something specific about their brand / ad creative / offer]</span> — I have a clear angle on how I'd approach your briefs and I'd love to show you rather than just tell you. Happy to put together a sample concept before we talk.<br><br>
+        <span class="placeholder">[Your name]</span>
+        <span class="note">Keep this under 200 words. Every word should earn its place. If you're going over, cut — don't explain more.</span>
+      </div>
+    </div>
+
+    <div class="section-title">Do's and don'ts</div>
+    <div class="dodont-grid">
+      <div class="dodont-card">
+        <div class="dodont-header do">Do</div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Apply within hours of a post going live</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Reference something specific about their brand</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Keep it short and confident</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Offer a sample concept — low commitment ask</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Refine your pitch after every non-response</div></div>
+      </div>
+      <div class="dodont-card">
+        <div class="dodont-header dont">Don't</div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Send the same pitch to every posting</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Open with "I hope this finds you well"</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>List every skill you have — one strong angle wins</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Apologise for being new or having a small portfolio</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Follow up more than once if no reply</div></div>
+      </div>
+    </div>
+
+    <div class="callout">If you're applying and hearing nothing back after 2 weeks, the pitch isn't working — not the portfolio, not you. Rewrite the opening two lines and test again. The pitch is always the first variable to fix.</div>
+  </div>
+
+  <!-- CHANNEL 2: UPWORK -->
+  <div class="panel" id="panel-2">
+    <div class="panel-header">
+      <div class="panel-title">Upwork</div>
+      <span class="channel-tag tag-platform">Platform</span>
+      <p class="panel-note">Upwork is harder to break into without reviews but the volume of potential clients is enormous. Your first goal isn't the best rate — it's your first review. One strong review changes everything on this platform.</p>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Lead temp</div>
+        <div class="metric-value" style="color:var(--orange)">Cold</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Start date</div>
+        <div class="metric-value" style="color:var(--purple)">Mid May</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Proposals/week</div>
+        <div class="metric-value" style="color:var(--orange)">5–10</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">First goal</div>
+        <div class="metric-value" style="color:var(--teal)">1 review</div>
+      </div>
+    </div>
+
+    <div class="section-title">Setting up your profile</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-label">Title — be specific, not generic</div>
+          <div class="step-desc">Not "Video Editor" or "Social Media Marketer." Something like: "Performance Ad Creative | Video Editor & Creative Strategist for E-com Brands." Specific titles rank better and attract the right clients.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-label">Overview — lead with results, not credentials</div>
+          <div class="step-desc">Open with the positioning line. Then explain what you do in plain terms. Then FunPunch. Then portfolio link. No fluff, no "passionate creative professional" language. Treat it like a pitch, not a CV.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-label">Portfolio section — your best 4–6 pieces only</div>
+          <div class="step-desc">Don't upload everything. Pick the strongest work across the most different niches. Add a one-line description to each that explains the strategy behind the creative — not just what it looks like.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-label">Rate — start slightly below where you want to be</div>
+          <div class="step-desc">You need that first review more than you need the extra money. Once you have 2–3 strong reviews you can raise your rate. Don't underprice yourself significantly — just enough to be competitive without reviews.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Upwork proposal template</div>
+    <div class="pitch-block">
+      <div class="pitch-block-header">
+        <div class="pitch-block-label">Upwork proposal</div>
+        <div class="pitch-block-tag">Keep under 150 words</div>
+      </div>
+      <div class="pitch-block-body">
+        I noticed you're looking for <span class="placeholder">[what they asked for — mirror their words]</span>.<br><br>
+        I specialise in performance ad creative for e-com brands — combining high-attention visual editing with an understanding of social media psychology to make ads that actually stop the scroll.<br><br>
+        I've worked directly with <span class="placeholder">[FunPunch / scaling e-com brands]</span> and have built a portfolio across <span class="placeholder">[niches relevant to them]</span>.<br><br>
+        Portfolio: <span class="placeholder">[link]</span><br><br>
+        I'd like to understand your current creative approach before I say too much — what's been working for you so far and where are you seeing drop-off?
+        <span class="note">End with a question — it gets replies. People answer questions. They ignore pitches.</span>
+      </div>
+    </div>
+
+    <div class="section-title">Do's and don'ts</div>
+    <div class="dodont-grid">
+      <div class="dodont-card">
+        <div class="dodont-header do">Do</div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Answer their question in the first line</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>End every proposal with a genuine question</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Apply to jobs posted in last 24 hours only</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Accept a lower first rate for a strong review</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Over-deliver on the first job — reviews compound</div></div>
+      </div>
+      <div class="dodont-card">
+        <div class="dodont-header dont">Don't</div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Use Upwork's auto-generated proposals</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Apply to jobs with 50+ proposals already</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Mention you're new or building your profile</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Write more than 150 words — they won't read it</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Race to the bottom on price past a certain point</div></div>
+      </div>
+    </div>
+
+    <div class="callout">Upwork is a long game. Don't expect a response in the first week. Your first job might come in week 3 or week 4. What matters is consistent proposal volume and a profile that does its job when someone finally clicks it.</div>
+  </div>
+
+  <!-- CHANNEL 3: COLD OUTREACH -->
+  <div class="panel" id="panel-3">
+    <div class="panel-header">
+      <div class="panel-title">Cold outreach — direct to brands</div>
+      <span class="channel-tag tag-cold">Hardest — highest upside</span>
+      <p class="panel-note">Cold outreach has the lowest conversion rate and the highest reward. You pick the brands, you set the terms, you build the relationship from scratch. Requires the most research but gives you the most control.</p>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Lead temp</div>
+        <div class="metric-value" style="color:var(--red)">Cold</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Start date</div>
+        <div class="metric-value" style="color:var(--purple)">Mid May</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Brands/week</div>
+        <div class="metric-value" style="color:var(--orange)">5+</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Find brands via</div>
+        <div class="metric-value" style="color:var(--blue)">Ads library</div>
+      </div>
+    </div>
+
+    <div class="section-title">How to find the right brands</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-label">Facebook Ad Library — find brands actively spending</div>
+          <div class="step-desc">Search your niche. Filter for ads running 30+ days — that means the brand is actively investing in paid creative and has budget. A brand running one ad for a week is not your target. A brand with 10+ active ads is.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-label">TikTok Creative Center — find what's performing</div>
+          <div class="step-desc">Use it to identify brands whose ads are trending. If they're spending on TikTok, they're serious. If their creative looks weak or repetitive, that's your in — you can see a gap before you even reach out.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-label">Instagram and TikTok — find mid-size brands in your niche</div>
+          <div class="step-desc">Look for brands with 50k–500k followers, regular posting, and active ad creative. Too small and they have no budget. Too large and they have a full in-house team. The mid-size sweet spot is your target.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-label">Find the decision maker — not the brand inbox</div>
+          <div class="step-desc">Email the brand's generic inbox and it goes nowhere. Find the founder, CMO or head of marketing on LinkedIn. DM them directly on Instagram or Twitter if they're active. A human connection beats a contact form every time.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Cold DM / email template</div>
+    <div class="pitch-block">
+      <div class="pitch-block-header">
+        <div class="pitch-block-label">Cold outreach — DM or email</div>
+        <div class="pitch-block-tag">Personalise every single one</div>
+      </div>
+      <div class="pitch-block-body">
+        Hey <span class="placeholder">[name]</span>,<br><br>
+        I've been following <span class="placeholder">[brand]</span> for a while — <span class="placeholder">[one specific genuine observation about their brand, product or current ads]</span>.<br><br>
+        I'm a performance ad creative specialising in e-com — I combine visual editing with social media psychology to build ads around why people actually stop scrolling. I've worked with <span class="placeholder">[FunPunch / brands in your niche]</span>.<br><br>
+        I put together a quick concept for <span class="placeholder">[their brand]</span> based on what I'm seeing in your current creative — would it be useful if I sent it over?<br><br>
+        <span class="placeholder">[Your name]</span>
+        <span class="note">The "I put together a concept" line is the key. It's a low-friction ask and it shows you've already done work for them — before they've paid you a penny. Most people don't do this. That's why it works.</span>
+      </div>
+    </div>
+
+    <div class="section-title">Do's and don'ts</div>
+    <div class="dodont-grid">
+      <div class="dodont-card">
+        <div class="dodont-header do">Do</div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Research every brand before reaching out</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Lead with something specific — show you've looked</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Offer a free concept — it removes risk for them</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Target brands whose ads look weak or repetitive</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Follow up once, 5–7 days later, then move on</div></div>
+      </div>
+      <div class="dodont-card">
+        <div class="dodont-header dont">Don't</div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Send mass identical messages</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Pitch in the first message — ask, don't tell</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Target brands with polished in-house teams</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Follow up more than twice</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Mention your rate before they ask</div></div>
+      </div>
+    </div>
+
+    <div class="callout">5 cold outreaches a week is 30 over 6 weeks. If your conversion is even 5% that's 1–2 serious conversations. One of those becomes a retainer. The math works if the volume is there and the message is good.</div>
+  </div>
+
+  <!-- CHANNEL 4: NETWORK -->
+  <div class="panel" id="panel-4">
+    <div class="panel-header">
+      <div class="panel-title">Network — FunPunch &amp; cousin</div>
+      <span class="channel-tag tag-network">Warmest of all</span>
+      <p class="panel-note">You have a genuine unfair advantage here. Most people starting out have nobody vouching for them. Your cousin has two years of real results in this exact space and has offered to back you. Use it properly — don't waste it.</p>
+    </div>
+
+    <div class="section-title">How to use this properly</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-label">Have the formal conversation with your cousin in Phase 2</div>
+          <div class="step-desc">Sit down properly. Agree the exact title, dates, and scope of what you did for FunPunch. Get it confirmed in writing — even a WhatsApp message counts. You need to be able to reference it confidently without it feeling vague.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-label">Ask him to introduce you directly to anyone he knows</div>
+          <div class="step-desc">He's been in this community for two years. He knows media buyers, brand owners, other creative strategists. One warm introduction from him is worth twenty cold DMs from you. Ask him explicitly — don't hint.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-label">Use the EcomTalent community actively</div>
+          <div class="step-desc">You're paying for this community. The Discord, the weekly calls, the connections — use all of it. Introduce yourself properly. Engage on other people's work. Be visible. People hire people they recognise from the community first.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-label">Set up LinkedIn in Phase 2 — one afternoon, no excuses</div>
+          <div class="step-desc">Creative Strategist / Performance Ad Creative. FunPunch listed under experience. EcomTalent noted. Portfolio link in the header. A clean LinkedIn profile is your digital handshake — when someone Googles you after a pitch, this is what they find.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-label">Don't over-rely on this channel</div>
+          <div class="step-desc">The network gets you in the door. Your work keeps you there. Don't use your cousin's backing as a substitute for a strong portfolio — it's a multiplier, not a replacement. The worst outcome is getting a retainer through him and then underdelivering.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Do's and don'ts</div>
+    <div class="dodont-grid">
+      <div class="dodont-card">
+        <div class="dodont-header do">Do</div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Ask your cousin directly for introductions</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Be visible and engaged in the Discord</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Get LinkedIn live before you start outreaching</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Reference FunPunch confidently — it's legitimate</div></div>
+        <div class="dodont-item do"><div class="dodont-dot"></div><div>Over-deliver if you get work through this channel</div></div>
+      </div>
+      <div class="dodont-card">
+        <div class="dodont-header dont">Don't</div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Rely on your cousin to sell you for you</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Be passive in the community — lurking doesn't build a reputation</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Use the network as an excuse not to cold outreach</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Underdeliver on a referral — it reflects on him too</div></div>
+        <div class="dodont-item dont"><div class="dodont-dot"></div><div>Leave LinkedIn until after you start outreaching</div></div>
+      </div>
+    </div>
+
+    <div class="callout">The network is your head start, not your finish line. Every person in EcomTalent is a potential collaborator, referral, or client. The people who get the most out of these communities are the ones who give the most first — feedback, ideas, engagement. Start doing that now, not in May.</div>
+  </div>
+
+</div>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    const idx = ['1','2','3','4'].indexOf(id);
+    document.querySelectorAll('.tab')[idx].classList.add('active');
+  }
+</script>
+</body>
+</html>

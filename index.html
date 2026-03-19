@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project:Rise</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ece4;
+    --muted: #7a7670;
+    --dim: #3a3834;
+    --teal: #1fcb8a;
+    --purple: #9b87f5;
+    --blue: #4a9eff;
+    --orange: #ff7c3a;
+    --red: #ff4f4f;
+    --yellow: #f5c842;
+    --green: #4caf74;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Top bar */
+  .topbar {
+    padding: 24px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .topbar-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .topbar-logo span { color: var(--teal); }
+
+  .topbar-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 64px 0 48px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(31,203,138,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 14vw, 130px);
+    letter-spacing: 0.04em;
+    line-height: 0.9;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .hero-title .colon { color: var(--teal); }
+
+  /* Quote */
+  .quote-block {
+    margin: 40px auto 0;
+    max-width: 580px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .quote-text {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.7;
+    font-weight: 300;
+    font-style: italic;
+    padding: 0 20px;
+    position: relative;
+  }
+
+
+
+  .quote-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  /* Countdowns */
+  .countdowns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 56px 0 64px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.5s;
+  }
+
+  .countdown-main {
+    text-align: center;
+  }
+
+  .countdown-main-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 16vw, 140px);
+    letter-spacing: 0.02em;
+    line-height: 0.85;
+    color: var(--teal);
+    transition: color 0.5s;
+    display: block;
+  }
+
+  .countdown-main-num.yellow { color: var(--yellow); }
+  .countdown-main-num.red { color: var(--red); }
+
+  .countdown-main-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .countdown-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+  }
+
+  .countdown-money {
+    text-align: center;
+  }
+
+  .countdown-money-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 8vw, 72px);
+    letter-spacing: 0.02em;
+    line-height: 0.9;
+    color: var(--orange);
+    display: block;
+    transition: color 0.5s;
+  }
+
+  .countdown-money-num.done { color: var(--teal); }
+
+  .countdown-money-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .money-progress-wrap {
+    margin-top: 10px;
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .money-progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .money-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--orange);
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1), background 0.5s;
+  }
+
+  .money-progress-fill.done { background: var(--teal); }
+
+  .money-progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  /* Nav grid */
+  .nav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 0.6s;
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 64px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.7s;
+  }
+
+  .nav-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 20px 20px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .nav-card:hover {
+    border-color: var(--border2);
+    background: var(--surface2);
+    transform: translateY(-2px);
+  }
+
+  .nav-card:hover::before { opacity: 1; }
+
+  .nav-card.c-teal::before { background: var(--teal); }
+  .nav-card.c-blue::before { background: var(--blue); }
+  .nav-card.c-purple::before { background: var(--purple); }
+  .nav-card.c-orange::before { background: var(--orange); }
+  .nav-card.c-green::before { background: var(--green); }
+  .nav-card.c-yellow::before { background: var(--yellow); }
+
+  .nav-card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    margin-bottom: 10px;
+  }
+
+  .nav-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .nav-card.c-teal .nav-card-title { color: var(--teal); }
+  .nav-card.c-blue .nav-card-title { color: var(--blue); }
+  .nav-card.c-purple .nav-card-title { color: var(--purple); }
+  .nav-card.c-orange .nav-card-title { color: var(--orange); }
+  .nav-card.c-green .nav-card-title { color: var(--green); }
+  .nav-card.c-yellow .nav-card-title { color: var(--yellow); }
+
+  .nav-card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .nav-card-arrow {
+    margin-top: 14px;
+    font-size: 16px;
+    color: var(--dim);
+    transition: color 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .nav-card:hover .nav-card-arrow {
+    color: var(--text);
+    transform: translateX(4px);
+  }
+
+  /* Footer */
+  .footer {
+    padding: 24px 0 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 20px; }
+    .nav-grid { grid-template-columns: 1fr 1fr; }
+    .hero-title { font-size: clamp(60px, 18vw, 100px); }
+    .countdown-main-num { font-size: clamp(64px, 18vw, 100px); }
+  }
+
+  @media (max-width: 400px) {
+    .nav-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="topbar-logo">Project<span>:</span>Rise</div>
+    <div class="topbar-date" id="today-date"></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-label">Escape plan — the full stack</div>
+    <div class="hero-title">Project<span class="colon">:</span>Rise</div>
+    <div class="quote-block">
+      <div class="quote-text" id="quote-text">Loading...</div>
+      <div class="quote-author" id="quote-author"></div>
+    </div>
+  </div>
+
+  <div class="countdowns">
+    <div class="countdown-main">
+      <span class="countdown-main-num" id="days-num">—</span>
+      <div class="countdown-main-label">days to Chiang Mai · 1 Jul 2026</div>
+    </div>
+    <div class="countdown-divider"></div>
+    <div class="countdown-money">
+      <span class="countdown-money-num" id="money-num">£—</span>
+      <div class="countdown-money-label">still needed · £6,000 target</div>
+      <div class="money-progress-wrap">
+        <div class="money-progress-track">
+          <div class="money-progress-fill" id="money-fill" style="width:0%"></div>
+        </div>
+        <div class="money-progress-label" id="money-progress-label">log savings to track</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-label">The plan</div>
+  <div class="nav-grid">
+    <a href="daily_routines.html" class="nav-card c-teal">
+      <div class="nav-card-num">01</div>
+      <div class="nav-card-title">Daily Routines</div>
+      <div class="nav-card-desc">Four shift scenarios, non-negotiables, output-based structure.</div>
+      <span class="nav-card-arrow">→</span>
+    </a>
+    <a href="budget_tracker.html" class="nav-card c-blue">
+      <div class="nav-card-num">02</div>
+      <div class="nav-card-title">Budget Tracker</div>
+      <div class="nav-card-desc">Weekly savings log, deposit tracking, on-track indicator.</div>
+      <span class="nav-card-arrow">→</span>
+    </a>
+    <a href="portfolio_roadmap.html" class="nav-card c-purple">
+      <div class="nav-card-num">03</div>
+      <div class="nav-card-title">Portfolio Roadmap</div>
+      <div class="nav-card-desc">Four phases, milestone checklists, output targets per stage.</div>
+      <span class="nav-card-arrow">→</span>
+    </a>
+    <a href="outreach_plan.html" class="nav-card c-orange">
+      <div class="nav-card-num">04</div>
+      <div class="nav-card-title">Outreach Plan</div>
+      <div class="nav-card-desc">Four channels, pitch templates, do's and don'ts.</div>
+      <span class="nav-card-arrow">→</span>
+    </a>
+    <a href="chiang_mai_checklist.html" class="nav-card c-green">
+      <div class="nav-card-num">05</div>
+      <div class="nav-card-title">Chiang Mai Checklist</div>
+      <div class="nav-card-desc">Visa, health, money, tech, Thai citizenship, arrival.</div>
+      <span class="nav-card-arrow">→</span>
+    </a>
+    <a href="health_routine.html" class="nav-card c-yellow">
+      <div class="nav-card-num">06</div>
+      <div class="nav-card-title">Health Routine</div>
+      <div class="nav-card-desc">Supplements stack, skincare routine, daily reference.</div>
+      <span class="nav-card-arrow">→</span>
+    </a>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Project:Rise — built with intent</div>
+    <div class="footer-right" id="footer-phase"></div>
+  </div>
+
+</div>
+
+<script>
+  const QUOTES = [
+    { text: "You don't rise to the level of your goals. You fall to the level of your systems.", author: "James Clear" },
+    { text: "The man who moves a mountain begins by carrying away small stones.", author: "Confucius" },
+    { text: "Stop waiting for the right moment. The moment you are waiting for is being wasted right now.", author: "Unknown" },
+    { text: "Every day you don't show up is a vote against the life you say you want.", author: "Unknown" },
+    { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
+    { text: "The only way out is through.", author: "Robert Frost" },
+    { text: "You are not tired. You are uninspired. Find your reason.", author: "Unknown" },
+    { text: "Small disciplines repeated with consistency every day lead to great achievements gained slowly over time.", author: "John C. Maxwell" },
+    { text: "The future depends on what you do today.", author: "Mahatma Gandhi" },
+    { text: "Don't count the days. Make the days count.", author: "Muhammad Ali" },
+    { text: "Somebody out there is working while you're making excuses.", author: "Unknown" },
+    { text: "It's not about having time. It's about making time.", author: "Unknown" },
+    { text: "A year from now you'll wish you had started today.", author: "Karen Lamb" },
+    { text: "The cost of discipline is always less than the cost of regret.", author: "Unknown" },
+    { text: "You have to be willing to be uncomfortable. That's where growth lives.", author: "Unknown" },
+    { text: "Stop telling yourself you'll do it when you feel ready. You'll feel ready when you do it.", author: "Unknown" },
+    { text: "One day or day one. You decide.", author: "Unknown" },
+    { text: "The man on top of the mountain didn't fall there.", author: "Vince Lombardi" },
+    { text: "Success is the sum of small efforts repeated day in and day out.", author: "Robert Collier" },
+    { text: "Don't wish it were easier. Wish you were better.", author: "Jim Rohn" },
+    { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
+    { text: "The pain of discipline is far less than the pain of regret.", author: "Unknown" },
+    { text: "Locked in is not a mood. It's a decision.", author: "Unknown" },
+    { text: "Every version of you that you admire was built in moments you didn't feel like showing up.", author: "Unknown" },
+    { text: "Nobody is coming to save you. Get up.", author: "Unknown" },
+    { text: "The difference between who you are and who you want to be is what you do.", author: "Unknown" },
+    { text: "Comfort is the enemy of progress.", author: "P.T. Barnum" },
+    { text: "You are one decision away from a completely different life.", author: "Unknown" },
+    { text: "Earn it. Every single day.", author: "Unknown" },
+    { text: "The grind is not glamorous. That's the point.", author: "Unknown" },
+  ];
+
+  // Daily quote — changes by day, consistent across the day
+  function getDailyQuote() {
+    const day = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+    return QUOTES[day % QUOTES.length];
+  }
+
+  // Date display
+  function formatDate(d) {
+    return d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Countdown
+  function updateCountdown() {
+    const departure = new Date(2026, 6, 1);
+    const now = new Date();
+    const diff = Math.ceil((departure - now) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('days-num');
+    el.textContent = diff > 0 ? diff : '0';
+    el.className = 'countdown-main-num';
+    if (diff <= 15) el.classList.add('red');
+    else if (diff <= 30) el.classList.add('yellow');
+  }
+
+  // Money tracker — reads from budget tracker localStorage
+  function updateMoneyCountdown() {
+    const TARGET = 6000;
+    const DEPOSIT = 1800;
+    let saved = 0;
+
+    const depositReceived = localStorage.getItem('deposit_received') === 'true';
+    if (depositReceived) saved += DEPOSIT;
+
+    for (let i = 0; i < 20; i++) {
+      const val = parseFloat(localStorage.getItem('week_' + i) || '');
+      if (!isNaN(val)) saved += val;
+    }
+
+    const stillNeeded = Math.max(0, TARGET - saved);
+    const pct = Math.min(100, Math.round((saved / TARGET) * 100));
+
+    const moneyEl = document.getElementById('money-num');
+    const fillEl = document.getElementById('money-fill');
+    const labelEl = document.getElementById('money-progress-label');
+
+    if (saved === 0 && !depositReceived) {
+      moneyEl.textContent = '£6,000';
+      moneyEl.className = 'countdown-money-num';
+      fillEl.style.width = '0%';
+      labelEl.textContent = 'log savings in budget tracker';
+    } else if (stillNeeded === 0) {
+      moneyEl.textContent = 'Done';
+      moneyEl.className = 'countdown-money-num done';
+      fillEl.style.width = '100%';
+      fillEl.className = 'money-progress-fill done';
+      labelEl.textContent = 'target reached — £' + saved.toLocaleString() + ' saved';
+    } else {
+      moneyEl.textContent = '£' + stillNeeded.toLocaleString();
+      moneyEl.className = 'countdown-money-num';
+      fillEl.style.width = pct + '%';
+      labelEl.textContent = '£' + saved.toLocaleString() + ' saved · ' + pct + '% there';
+    }
+  }
+
+  // Phase indicator
+  function updatePhase() {
+    const now = new Date();
+    const phase2Start = new Date(2026, 3, 15);
+    const phase3Start = new Date(2026, 4, 15);
+    const phase4Start = new Date(2026, 6, 1);
+    let phase = '';
+    if (now < phase2Start) phase = 'Phase 1 — Cutty Sark';
+    else if (now < phase3Start) phase = "Phase 2 — Mom's: build";
+    else if (now < phase4Start) phase = "Phase 3 — Mom's: outreach";
+    else phase = 'Phase 4 — Chiang Mai';
+    document.getElementById('footer-phase').textContent = phase;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const q = getDailyQuote();
+    document.getElementById('quote-text').textContent = q.text;
+    document.getElementById('quote-author').textContent = '— ' + q.author;
+    document.getElementById('today-date').textContent = formatDate(new Date());
+    updateCountdown();
+    updateMoneyCountdown();
+    updatePhase();
+    setInterval(updateCountdown, 60000);
+  });
+</script>
+</body>
+</html>
