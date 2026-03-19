@@ -1,25 +1,36 @@
 export default async function handler(req, res) {
-  // Only allow POST requests
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Pull the API key from Vercel environment variables — never from the frontend
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured. Add ANTHROPIC_API_KEY to your Vercel environment variables.' });
+    return res.status(500).json({ error: 'ANTHROPIC_API_KEY not set in environment variables.' });
   }
 
-  // Validate the incoming request has a prompt
-  const { prompt } = req.body;
+  let prompt;
+  try {
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    prompt = body?.prompt;
+  } catch (e) {
+    return res.status(400).json({ error: 'Invalid request body.' });
+  }
 
   if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
     return res.status(400).json({ error: 'No prompt provided.' });
   }
 
-  // Cap prompt length to prevent abuse
-  if (prompt.length > 8000) {
+  if (prompt.length > 12000) {
     return res.status(400).json({ error: 'Prompt too long.' });
   }
 
@@ -32,7 +43,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 2000,
         messages: [
           { role: 'user', content: prompt }
@@ -40,23 +51,24 @@ export default async function handler(req, res) {
       }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Anthropic API error:', errorData);
-      return res.status(response.status).json({ error: 'Anthropic API error. Please try again.' });
+      const detail = data?.error?.message || JSON.stringify(data);
+      console.error('Anthropic error:', detail);
+      return res.status(response.status).json({ error: 'Anthropic: ' + detail });
     }
 
-    const data = await response.json();
     const text = data.content?.[0]?.text;
 
     if (!text) {
-      return res.status(500).json({ error: 'No response from API. Please try again.' });
+      return res.status(500).json({ error: 'Empty response from API.' });
     }
 
     return res.status(200).json({ result: text });
 
   } catch (err) {
     console.error('Server error:', err);
-    return res.status(500).json({ error: 'Server error. Please try again.' });
+    return res.status(500).json({ error: 'Server error: ' + err.message });
   }
 }
