@@ -66,6 +66,13 @@
   .dash-days-num.yellow { color: var(--yellow); }
   .dash-days-num.red { color: var(--red); }
   .dash-days-label { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .dash-date-edit { display: flex; align-items: center; gap: 10px; margin-top: 10px; justify-content: center; }
+  .dash-date-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 12px; padding: 7px 12px; outline: none; transition: border-color 0.15s; color-scheme: dark; cursor: pointer; }
+  .dash-date-input:focus { border-color: var(--teal); }
+  .dash-date-input::-webkit-calendar-picker-indicator { filter: invert(0.6) sepia(1) saturate(3) hue-rotate(110deg); cursor: pointer; }
+  .dash-date-save { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 14px; background: rgba(31,203,138,0.12); border: 1px solid rgba(31,203,138,0.3); border-radius: 6px; color: var(--teal); cursor: pointer; transition: all 0.15s; }
+  .dash-date-save:hover { background: rgba(31,203,138,0.22); }
+  .dash-date-saved { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0; transition: opacity 0.3s; }
   .dash-divider { width: 1px; height: 32px; background: var(--border); }
   .dash-money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 8vw, 72px); letter-spacing: 0.02em; line-height: 0.9; color: var(--orange); transition: color 0.5s; }
   .dash-money-num.done { color: var(--teal); }
@@ -124,6 +131,8 @@
   .q-input::placeholder, .q-textarea::placeholder { color: var(--dim); }
   .q-select { appearance: none; cursor: pointer; }
   .q-select option { background: var(--surface2); }
+  .q-input[type="date"] { color-scheme: dark; cursor: pointer; }
+  .q-input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.6) sepia(1) saturate(3) hue-rotate(110deg); cursor: pointer; }
   .q-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
   .q-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .q-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
@@ -233,7 +242,12 @@
   <div class="dash-countdowns">
     <div style="text-align:center">
       <div class="dash-days-num" id="dash-days-num">—</div>
-      <div class="dash-days-label">days to Chiang Mai · 1 Jul 2026</div>
+      <div class="dash-days-label" id="dash-days-label">days to departure</div>
+      <div class="dash-date-edit">
+        <input type="date" class="dash-date-input" id="dash-date-input" min="2025-01-01" max="2030-12-31">
+        <button class="dash-date-save" onclick="saveDepartureDate()">Update</button>
+        <span class="dash-date-saved" id="dash-date-saved">Saved ✓</span>
+      </div>
     </div>
     <div class="dash-divider"></div>
     <div style="text-align:center">
@@ -282,7 +296,7 @@
         <div class="q-field"><label class="q-field-label">Current city</label><input type="text" class="q-input" id="q-city" placeholder="e.g. Manchester"></div>
       </div>
       <div class="q-field"><label class="q-field-label">Where do you want to escape to?</label><input type="text" class="q-input" id="q-destination" placeholder="e.g. Chiang Mai, Bali, Lisbon"></div>
-      <div class="q-field"><label class="q-field-label">Target departure date</label><input type="text" class="q-input" id="q-departure" placeholder="e.g. September 2026"></div>
+      <div class="q-field"><label class="q-field-label">Target departure date — pick a specific date</label><input type="date" class="q-input" id="q-departure" min="2025-01-01" max="2030-12-31"></div>
     </div>
 
     <!-- STEP 2 -->
@@ -731,14 +745,15 @@
     const q = QUOTES[day % QUOTES.length];
     document.getElementById('dash-quote').textContent = q.text;
     document.getElementById('dash-quote-author').textContent = '— ' + q.author;
-    const departure = new Date(2026, 6, 1);
-    const diff = Math.ceil((departure - new Date()) / (1000 * 60 * 60 * 24));
-    const el = document.getElementById('dash-days-num');
-    el.textContent = diff > 0 ? diff : '0';
-    el.className = 'dash-days-num';
-    if (diff <= 15) el.classList.add('red');
-    else if (diff <= 30) el.classList.add('yellow');
+
+    // Load stored departure date, fall back to default
+    const storedDate = localStorage.getItem('pr_departure') || '2026-07-01';
+    const dateInput = document.getElementById('dash-date-input');
+    if (dateInput) dateInput.value = storedDate;
+
+    updateDepartureDays(storedDate);
     updateMoneyCountdown();
+
     const now = new Date();
     let phase = '';
     if (now < new Date(2026, 3, 15)) phase = 'Phase 1 — Cutty Sark';
@@ -746,6 +761,33 @@
     else if (now < new Date(2026, 6, 1)) phase = "Phase 3 — Mom's: outreach";
     else phase = 'Phase 4 — Chiang Mai';
     document.getElementById('dash-phase').textContent = phase;
+  }
+
+  function updateDepartureDays(isoDate) {
+    if (!isoDate) return;
+    const departure = new Date(isoDate + 'T12:00:00');
+    const diff = Math.ceil((departure - new Date()) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('dash-days-num');
+    el.textContent = diff > 0 ? diff : '0';
+    el.className = 'dash-days-num';
+    if (diff <= 15) el.classList.add('red');
+    else if (diff <= 30) el.classList.add('yellow');
+    // Update the label with the formatted date
+    const label = document.getElementById('dash-days-label');
+    if (label) {
+      const d = new Date(isoDate + 'T12:00:00');
+      label.textContent = 'days to ' + d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+  }
+
+  function saveDepartureDate() {
+    const val = document.getElementById('dash-date-input').value;
+    if (!val) return;
+    localStorage.setItem('pr_departure', val);
+    updateDepartureDays(val);
+    const saved = document.getElementById('dash-date-saved');
+    saved.style.opacity = '1';
+    setTimeout(() => { saved.style.opacity = '0'; }, 1800);
   }
 
   function updateMoneyCountdown() {
@@ -870,7 +912,8 @@
       age: document.getElementById('q-age').value || 'Unknown',
       city: document.getElementById('q-city').value || 'Unknown',
       destination: document.getElementById('q-destination').value || 'your destination',
-      departure: document.getElementById('q-departure').value || 'your departure date',
+      departure: (() => { const v = document.getElementById('q-departure').value; if (!v) return 'your departure date'; const d = new Date(v + 'T12:00:00'); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); })(),
+      departureISO: document.getElementById('q-departure').value || '',
       currency: currencyVal,
       currencySymbol: sym,
       income: sym + (document.getElementById('q-income').value || 'Unknown'),
@@ -1180,8 +1223,8 @@ Include 4-6 items per category. Make them specific to ${userData.destination}.`;
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root { --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12); --text: #f0ece4; --muted: #7a7670; --dim: #3a3834; --teal: #1fcb8a; --purple: #9b87f5; --blue: #4a9eff; --orange: #ff7c3a; --red: #ff4f4f; --yellow: #f5c842; --green: #4caf74; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
-  .home-btn { position: fixed; top: 20px; right: 24px; z-index: 100; display: flex; align-items: center; gap: 9px; padding: 12px 22px; background: rgba(22,22,22,0.97); border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #f0ece4; backdrop-filter: blur(12px); transition: color 0.15s, border-color 0.15s, background 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-  .home-btn:hover { background: rgba(31,203,138,0.12); border-color: rgba(31,203,138,0.3); color: #1fcb8a; }
+  .home-btn { position: fixed; top: 20px; right: 24px; z-index: 100; display: flex; align-items: center; gap: 9px; padding: 12px 24px; background: rgba(31,203,138,0.1); border: 1px solid rgba(31,203,138,0.4); border-radius: 28px; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #1fcb8a; backdrop-filter: blur(12px); transition: color 0.15s, border-color 0.15s, background 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .home-btn:hover { background: rgba(31,203,138,0.22); border-color: rgba(31,203,138,0.7); }
   .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
 </style>`;
   }
