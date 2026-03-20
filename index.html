@@ -5,10 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project:Rise</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -239,23 +236,95 @@
   </div>
 </div>
 <script>
-// Minimal navigation — runs immediately, no dependencies
+// Self-contained navigation — runs immediately before main script, no dependencies
 (function() {
-  function nav(id) {
-    var screens = document.querySelectorAll('.screen');
-    for (var i = 0; i < screens.length; i++) {
-      screens[i].classList.remove('active');
-      screens[i].style.display = 'none';
-    }
-    var t = document.getElementById('screen-' + id);
-    if (!t) return;
-    t.style.display = ['landing','generating','password'].indexOf(id) >= 0 ? 'flex' : 'block';
-    t.classList.add('active');
-    window.scrollTo(0, 0);
+  var PW = 'Theparadoxoflife';
+
+function nav(id) {
+var screens = document.querySelectorAll(’.screen’);
+for (var i = 0; i < screens.length; i++) {
+screens[i].classList.remove(‘active’);
+screens[i].style.display = ‘none’;
+}
+var t = document.getElementById(‘screen-’ + id);
+if (!t) return;
+t.style.display = ([‘landing’,‘generating’,‘password’].indexOf(id) >= 0) ? ‘flex’ : ‘block’;
+t.classList.add(‘active’);
+window.scrollTo(0, 0);
+if (id === ‘dashboard’ && typeof initDashboard === ‘function’) initDashboard();
+}
+
+function checkPw() {
+var val = document.getElementById(‘pw-input’).value;
+var err = document.getElementById(‘pw-error’);
+if (val === PW) {
+err.textContent = ‘’;
+document.getElementById(‘pw-input’).value = ‘’;
+var rem = document.getElementById(‘pw-remember’);
+if (rem && rem.checked) localStorage.setItem(‘pr_logged_in’, ‘1’);
+else sessionStorage.setItem(‘pr_logged_in’, ‘1’);
+nav(‘dashboard’);
+if (typeof initDashboard === ‘function’) initDashboard();
+} else {
+err.textContent = ‘Incorrect password.’;
+document.getElementById(‘pw-input’).value = ‘’;
+}
+}
+
+// Expose globally so onclick attributes still work
+window.showScreen = nav;
+window._nav = nav;
+window.checkPassword = checkPw;
+window.logout = function() {
+localStorage.removeItem(‘pr_logged_in’);
+sessionStorage.removeItem(‘pr_logged_in’);
+nav(‘landing’);
+};
+
+document.addEventListener(‘DOMContentLoaded’, function() {
+// Landing buttons
+var btnBuild = document.getElementById(‘btn-build’);
+var btnSudden = document.getElementById(‘btn-sudden’);
+if (btnBuild) btnBuild.addEventListener(‘click’, function() { nav(‘questionnaire’); });
+if (btnSudden) btnSudden.addEventListener(‘click’, function() { nav(‘password’); });
+
+```
+// Password screen
+var enterBtn = document.querySelector('#screen-password .btn-primary');
+if (enterBtn) enterBtn.addEventListener('click', checkPw);
+var pwInput = document.getElementById('pw-input');
+if (pwInput) pwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPw(); });
+var pwBack = document.querySelector('.pw-back');
+if (pwBack) pwBack.addEventListener('click', function() { nav('landing'); });
+
+// Questionnaire back
+var qBack = document.querySelector('.q-back');
+if (qBack) qBack.addEventListener('click', function() { nav('landing'); });
+
+// Dashboard logout
+var logout = document.querySelector('.dash-logout');
+if (logout) logout.addEventListener('click', function() {
+  localStorage.removeItem('pr_logged_in');
+  sessionStorage.removeItem('pr_logged_in');
+  nav('landing');
+});
+
+// Auto-login if remembered
+if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
+  nav('dashboard');
+  if (typeof initDashboard === 'function') initDashboard();
+}
+
+// Hide non-active screens
+var allScreens = document.querySelectorAll('.screen');
+for (var i = 0; i < allScreens.length; i++) {
+  if (!allScreens[i].classList.contains('active')) {
+    allScreens[i].style.display = 'none';
   }
-  document.getElementById('btn-build').addEventListener('click', function() { nav('questionnaire'); });
-  document.getElementById('btn-sudden').addEventListener('click', function() { nav('password'); });
-  window._nav = nav;
+}
+```
+
+});
 })();
 </script>
 
@@ -1565,7 +1634,6 @@ return `<a href="index.html" class="home-btn"><svg viewBox="0 0 24 24" xmlns="ht
 }
 
 function googleFonts() {
-return `<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">`;
 }
 
 // DASHBOARD
