@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project:Rise</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -21,7 +20,7 @@
   .screen.active { display: block; }
 
 /* BUTTONS */
-.btn-primary { padding: 14px 32px; background: var(–teal); color: #0d0d0d; font-family: ‘DM Mono’, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s, transform 0.15s; }
+.btn-primary { padding: 14px 32px; background: #1fcb8a; background: var(–teal); color: #0d0d0d; font-family: ‘DM Mono’, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s, transform 0.15s; }
 .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 .btn-secondary { padding: 14px 32px; background: transparent; color: var(–muted); font-family: ‘DM Mono’, monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(–border2); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
@@ -31,13 +30,13 @@
 #screen-landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; position: relative; }
 #screen-landing::before { content: ‘’; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(31,203,138,0.05) 0%, transparent 60%); pointer-events: none; }
 
-.landing-label { font-family: ‘DM Mono’, monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(–teal); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+.landing-label { font-family: ‘DM Mono’, monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #1fcb8a; color: var(–teal); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
 .landing-title { font-family: ‘Bebas Neue’, sans-serif; font-size: clamp(80px, 18vw, 160px); letter-spacing: 0.03em; line-height: 0.88; color: var(–text); opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
-.landing-title .colon { color: var(–teal); }
+.landing-title .colon { color: #1fcb8a; color: var(–teal); }
 .landing-sub { font-size: 20px; color: rgba(240,236,228,0.8); max-width: 480px; line-height: 1.7; margin: 24px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
 .landing-buttons { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
 .landing-stats { display: flex; gap: 40px; margin-top: 48px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.65s; flex-wrap: wrap; justify-content: center; }
-.landing-stat-num { font-family: ‘Bebas Neue’, sans-serif; font-size: 36px; color: var(–teal); letter-spacing: 0.04em; line-height: 1; }
+.landing-stat-num { font-family: ‘Bebas Neue’, sans-serif; font-size: 36px; color: #1fcb8a; color: var(–teal); letter-spacing: 0.04em; line-height: 1; }
 .landing-stat-label { font-family: ‘DM Mono’, monospace; font-size: 10px; color: rgba(122,118,112,0.8); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
 
 /* PASSWORD */
@@ -1817,173 +1816,19 @@ document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='E
 </body>
 </html>`;
   }
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project:Rise — ${d.name}</title>
-${googleFonts()}
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12); --text: #f0ece4; --muted: #7a7670; --dim: #3a3834; --teal: #1fcb8a; --purple: #9b87f5; --blue: #4a9eff; --orange: #ff7c3a; --red: #ff4f4f; --yellow: #f5c842; --green: #4caf74; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: block; }
-#screen-password { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 24px; text-align: center; }
-.pw-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
-.pw-title span { color: var(--teal); }
-.pw-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
-.pw-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 14px 20px; width: 100%; max-width: 300px; text-align: center; outline: none; transition: border-color 0.15s; margin-bottom: 10px; display: block; }
-.pw-input:focus { border-color: var(--teal); }
-.pw-error { font-size: 12px; color: var(--red); margin-bottom: 10px; min-height: 18px; font-family: 'DM Mono', monospace; }
-.btn-primary { padding: 14px 32px; background: var(--teal); color: #0d0d0d; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s; }
-.btn-primary:hover { opacity: 0.85; }
-.dash-topbar { padding: 24px 48px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.dash-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-.dash-logo span { color: var(--teal); }
-.dash-logout { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); cursor: pointer; transition: color 0.15s; }
-.dash-logout:hover { color: var(--muted); }
-.dash-hero { padding: 64px 48px 48px; text-align: center; }
-.dash-hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
-.dash-hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 12vw, 120px); letter-spacing: 0.04em; line-height: 0.9; color: var(--text); }
-.dash-hero-title .colon { color: var(--teal); }
-.dash-quote { margin: 32px auto 0; max-width: 540px; font-size: 15px; color: var(--text); line-height: 1.7; font-style: italic; }
-.dash-quote-author { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
-.dash-countdowns { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 48px 0 56px; }
-.days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 14vw, 130px); letter-spacing: 0.02em; line-height: 0.85; color: var(--teal); }
-.days-num.yellow { color: var(--yellow); }
-.days-num.red { color: var(--red); }
-.days-label { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
-.dash-divider { width: 1px; height: 28px; background: var(--border); }
-.money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px, 7vw, 64px); letter-spacing: 0.02em; line-height: 0.9; color: var(--orange); }
-.money-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
-.nav-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; padding: 0 48px; }
-.nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 48px; margin-bottom: 60px; }
-.nav-card { display: flex; flex-direction: column; padding: 18px 18px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden; }
-.nav-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.2s; }
-.nav-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-.nav-card:hover::before { opacity: 1; }
-.nav-card.c-teal::before { background: var(--teal); } .nav-card.c-blue::before { background: var(--blue); } .nav-card.c-purple::before { background: var(--purple); } .nav-card.c-orange::before { background: var(--orange); } .nav-card.c-green::before { background: var(--green); } .nav-card.c-yellow::before { background: var(--yellow); }
-.nav-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); margin-bottom: 8px; }
-.nav-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.04em; line-height: 1; margin-bottom: 5px; }
-.nav-card.c-teal .nav-title { color: var(--teal); } .nav-card.c-blue .nav-title { color: var(--blue); } .nav-card.c-purple .nav-title { color: var(--purple); } .nav-card.c-orange .nav-title { color: var(--orange); } .nav-card.c-green .nav-title { color: var(--green); } .nav-card.c-yellow .nav-title { color: var(--yellow); }
-.nav-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
-.nav-arrow { margin-top: 12px; font-size: 15px; color: var(--dim); display: inline-block; }
-.dash-footer { padding: 20px 48px 36px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
-.footer-txt { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
-@media (max-width: 600px) { .dash-topbar, .dash-hero, .nav-label, .nav-grid, .dash-footer { padding-left: 20px; padding-right: 20px; } .nav-grid { grid-template-columns: 1fr 1fr; } }
-</style>
-</head>
-<body>
-<div id="screen-password" class="screen active">
-  <div class="pw-title">Project<span>:</span>Rise</div>
-  <p class="pw-sub">Enter your password to access your dashboard.</p>
-  <input type="password" class="pw-input" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
-  <div class="pw-error" id="pw-error"></div>
-  <button class="btn-primary" onclick="checkPw()">Enter</button>
-</div>
-<div id="screen-dashboard" class="screen">
-  <div class="dash-topbar">
-    <div class="dash-logo">Project<span>:</span>Rise — ${d.name}</div>
-    <div class="dash-logout" onclick="logout()">Lock dashboard</div>
-  </div>
-  <div class="dash-hero">
-    <div class="dash-hero-label">${d.name}'s escape plan</div>
-    <div class="dash-hero-title">Project<span class="colon">:</span>Rise</div>
-    <div class="dash-quote" id="dash-quote"></div>
-    <div class="dash-quote-author" id="dash-quote-author"></div>
-  </div>
-  <div class="dash-countdowns">
-    <div style="text-align:center">
-      <div class="days-num" id="days-num">—</div>
-      <div class="days-label">days to ${dest}</div>
-    </div>
-    <div class="dash-divider"></div>
-    <div style="text-align:center">
-      <div class="money-num" id="money-num">—</div>
-      <div class="money-label">still needed to get there</div>
-    </div>
-  </div>
-  <div class="nav-label">Your plan</div>
-  <div class="nav-grid">
-    <a href="daily_routines.html" class="nav-card c-teal"><div class="nav-num">01</div><div class="nav-title">Daily Routines</div><div class="nav-desc">Non-negotiables and shift scenarios.</div><span class="nav-arrow">→</span></a>
-    <a href="budget_tracker.html" class="nav-card c-blue"><div class="nav-num">02</div><div class="nav-title">Budget Tracker</div><div class="nav-desc">Weekly savings log and progress.</div><span class="nav-arrow">→</span></a>
-    <a href="portfolio_roadmap.html" class="nav-card c-purple"><div class="nav-num">03</div><div class="nav-title">Portfolio Roadmap</div><div class="nav-desc">Phases, milestones, and targets.</div><span class="nav-arrow">→</span></a>
-    <a href="outreach_plan.html" class="nav-card c-orange"><div class="nav-num">04</div><div class="nav-title">Outreach Plan</div><div class="nav-desc">Channels, templates, and strategy.</div><span class="nav-arrow">→</span></a>
-    <a href="destination_checklist.html" class="nav-card c-green"><div class="nav-num">05</div><div class="nav-title">${dest} Checklist</div><div class="nav-desc">Everything to sort before you go.</div><span class="nav-arrow">→</span></a>
-    <a href="health_routine.html" class="nav-card c-yellow"><div class="nav-num">06</div><div class="nav-title">Health Routine</div><div class="nav-desc">Supplements and skincare stack.</div><span class="nav-arrow">→</span></a>
-  </div>
-  <div class="dash-footer">
-    <div class="footer-txt">Project:Rise — built with intent</div>
-    <div class="footer-txt" id="footer-phase"></div>
-  </div>
-</div>
-<script>
-const PW = '${pw}';
-const QUOTES = [
-  { text: "You don't rise to the level of your goals. You fall to the level of your systems.", author: "James Clear" },
-  { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
-  { text: "The only way out is through.", author: "Robert Frost" },
-  { text: "Stop waiting for the right moment. It's being wasted right now.", author: "Unknown" },
-  { text: "Every day you don't show up is a vote against the life you want.", author: "Unknown" },
-  { text: "Don't count the days. Make the days count.", author: "Muhammad Ali" },
-  { text: "Nobody is coming to save you. Get up.", author: "Unknown" },
-  { text: "One day or day one. You decide.", author: "Unknown" },
-  { text: "Earn it. Every single day.", author: "Unknown" },
-  { text: "The cost of discipline is always less than the cost of regret.", author: "Unknown" },
-  { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
-  { text: "Comfort is the enemy of progress.", author: "P.T. Barnum" },
-  { text: "Locked in is not a mood. It's a decision.", author: "Unknown" },
-  { text: "The grind is not glamorous. That's the point.", author: "Unknown" },
-];
-function checkPw() {
-  const v = document.getElementById('pw-input').value;
-  const e = document.getElementById('pw-error');
-  if (v === PW) { e.textContent=''; document.getElementById('pw-input').value=''; localStorage.setItem('pr_li','1'); showDash(); }
-  else { e.textContent='Incorrect password.'; document.getElementById('pw-input').value=''; }
-}
-function showDash() {
-  document.getElementById('screen-password').style.display='none';
-  document.getElementById('screen-dashboard').style.display='block';
-  const day=Math.floor(Date.now()/(1000*60*60*24));
-  const q=QUOTES[day%QUOTES.length];
-  document.getElementById('dash-quote').textContent=q.text;
-  document.getElementById('dash-quote-author').textContent='— '+q.author;
-  document.getElementById('days-num').textContent=Math.max(0,Math.ceil((new Date(${depYear},6,1)-new Date())/(1000*60*60*24)));
-  const t=parseInt(localStorage.getItem('pr_target')||'5000');
-  let s=0;
-  for(let i=0;i<20;i++){const v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))s+=v;}
-  document.getElementById('money-num').textContent='£'+Math.max(0,t-s).toLocaleString();
-  const now=new Date();
-  document.getElementById('footer-phase').textContent=now<new Date(${depYear},3,1)?'Phase 1 — Building':now<new Date(${depYear},5,1)?'Phase 2 — Outreach':'Phase 3 — ${dest}';
-}
-function logout(){localStorage.removeItem('pr_li');location.reload();}
-window.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('screen-dashboard').style.display='none';
-  if(localStorage.getItem('pr_li')==='1')showDash();
-  else { document.getElementById('screen-password').style.display='flex'; document.getElementById('screen-password').style.flexDirection='column'; document.getElementById('screen-password').style.alignItems='center'; document.getElementById('screen-password').style.justifyContent='center'; }
-});
-document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});
-<\/script>
-</body>
-</html>`;
+  function getDefaultRoutinesData(d) {
+    return {
+      non_negotiables: [`Work on ${d.skill} daily`, '4L water', 'Gym 5x/week', '30min learning', 'No social media — first 2hrs'],
+      scenario_a_note: 'Morning free days are your best creative days. Protect them.',
+      scenario_b_note: 'Use the gym as a reset between your shift and your work session.',
+      scenario_c_note: 'Full day off means full output day. Treat it seriously.',
+      scenario_d_note: 'Recovery days are part of the plan. Keep the learning blocks only.',
+      callout_a: 'The real work is done before you leave for your job. That is the mindset.',
+      callout_b: 'If you skip the gym on afternoon free days, the evening session will not happen.',
+      callout_c: 'One full day done right is worth three half-hearted afternoons.',
+      callout_d: 'Rest is part of the plan. The people who burn out are the ones who never take recovery days.'
+    };
   }
-
-// ROUTINES
-function getDefaultRoutinesData(d) {
-return {
-non_negotiables: [`Work on ${d.skill} daily`, ‘4L water’, ‘Gym 5x/week’, ‘30min learning’, ‘No social media — first 2hrs’],
-scenario_a_note: ‘Morning free days are your best creative days. Protect them.’,
-scenario_b_note: ‘Use the gym as a reset between your shift and your work session.’,
-scenario_c_note: ‘Full day off means full output day. Treat it seriously.’,
-scenario_d_note: ‘Recovery days are part of the plan. Keep the learning blocks only.’,
-callout_a: ‘The real work is done before you leave for your job. That is the mindset.’,
-callout_b: ‘If you skip the gym on afternoon free days, the evening session will not happen.’,
-callout_c: ‘One full day done right is worth three half-hearted afternoons.’,
-callout_d: ‘Rest is part of the plan. The people who burn out are the ones who never take recovery days.’
-};
-}
 
 function buildRoutinesHTML(d, r) {
 const pills = (r.non_negotiables || []).map((n,i) => {
@@ -2813,6 +2658,8 @@ document.querySelectorAll(’.screen’).forEach(s => { if (!s.classList.contain
 if (localStorage.getItem(‘pr_logged_in’) === ‘1’ || sessionStorage.getItem(‘pr_logged_in’) === ‘1’) showScreen(‘dashboard’);
 });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 </body>
 </html>
