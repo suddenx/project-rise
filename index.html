@@ -63,21 +63,21 @@
   .dash-hero-title .colon { color: var(--teal); }
   .dash-quote { margin: 36px auto 0; max-width: 560px; font-size: 22px; color: var(--text); line-height: 1.7; font-style: italic; }
   .dash-quote-author { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
-  .dash-countdowns { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0; margin: 72px 0 72px; padding: 0 48px; }
+  .dash-countdowns { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 80px; margin: 72px 0 72px; padding: 0 48px; }
   .dash-days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(110px, 22vw, 200px); letter-spacing: 0.01em; line-height: 0.85; color: var(--teal); transition: color 0.5s; }
   .dash-days-num.yellow { color: var(--yellow); }
   .dash-days-num.red { color: var(--red); }
   .dash-days-label { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
   .dash-date-edit-top { display: none; }
-  .dash-date-edit-bottom { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 16px; }
+  .dash-date-edit-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 12px; }
   .dash-date-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 9px 0; outline: none; transition: border-color 0.15s; color-scheme: dark; cursor: pointer; width: 148px; text-align: center; }
   .dash-date-input:focus { border-color: var(--teal); }
   .dash-date-input::-webkit-calendar-picker-indicator { filter: invert(0.4); cursor: pointer; }
   .dash-date-save { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 0; background: rgba(31,203,138,0.1); border: 1px solid rgba(31,203,138,0.4); border-radius: 6px; color: var(--teal); cursor: pointer; transition: all 0.15s; width: 148px; }
   .dash-date-save:hover { background: rgba(31,203,138,0.22); border-color: rgba(31,203,138,0.7); }
   .dash-date-saved { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0; transition: opacity 0.3s; }
-  .dash-divider { width: 1px; height: 180px; background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent); margin: 0 48px; }
-  .dash-money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 14vw, 130px); letter-spacing: 0.01em; line-height: 0.85; color: var(--orange); transition: color 0.5s; }
+  .dash-divider { display: none; }
+  .dash-money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(110px, 22vw, 200px); letter-spacing: 0.01em; line-height: 0.85; color: var(--orange); transition: color 0.5s; }
   .dash-money-num.done { color: var(--teal); }
   .dash-money-label { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
   .money-bar-wrap { margin-top: 14px; width: 260px; }
@@ -205,7 +205,7 @@
   @media (max-width: 600px) {
     .dash-topbar, .dash-hero, .dash-nav-label, .dash-nav-grid, .dash-footer { padding-left: 20px; padding-right: 20px; }
     .dash-nav-grid { grid-template-columns: 1fr 1fr; }
-    .dash-countdowns { grid-template-columns: 1fr; padding: 0 24px; gap: 32px; margin: 48px 0 48px; }
+    .dash-countdowns { flex-direction: column; padding: 0 24px; gap: 40px; margin: 48px 0 48px; align-items: center; }
     .dash-countdowns > div { text-align: center !important; }
     .dash-date-edit-bottom { align-items: center; }
     .budget-edit-wrap { align-items: center !important; }
@@ -261,7 +261,7 @@
     <div class="dash-quote-author" id="dash-quote-author"></div>
   </div>
   <div class="dash-countdowns">
-    <div style="text-align:left">
+    <div style="text-align:center">
       <div class="dash-days-num" id="dash-days-num">—</div>
       <div class="dash-days-label" id="dash-days-label">days to departure</div>
       <div class="dash-date-edit-bottom">
@@ -271,21 +271,17 @@
       </div>
     </div>
     <div class="dash-divider"></div>
-    <div style="text-align:right">
+    <div style="text-align:center">
       <div class="dash-money-num" id="dash-money-num">£6,000</div>
       <div class="dash-money-label">still needed · £6,000 target</div>
-      <div class="money-bar-wrap" style="margin-left:auto">
+      <div class="money-bar-wrap" style="margin:14px auto 0">
         <div class="money-bar-track"><div class="money-bar-fill" id="dash-money-fill" style="width:0%"></div></div>
-        <div class="money-bar-label" id="dash-money-label" style="text-align:right">log savings to track</div>
+        <div class="money-bar-label" id="dash-money-label" style="text-align:center">log savings to track</div>
       </div>
-      <div class="budget-edit-wrap" style="align-items:flex-end">
+      <div class="budget-edit-wrap" style="align-items:center;margin-top:16px">
         <div class="budget-edit-row">
           <div class="budget-edit-label">Target</div>
           <input type="number" class="budget-edit-input" id="budget-target-input" placeholder="6000">
-        </div>
-        <div class="budget-edit-row">
-          <div class="budget-edit-label">Deposit</div>
-          <input type="number" class="budget-edit-input" id="budget-deposit-input" placeholder="0">
         </div>
         <button class="budget-save" onclick="saveBudgetSettings()">Update budget</button>
         <span class="budget-saved" id="budget-saved">Updated ✓</span>
@@ -836,11 +832,8 @@
 
     // Load budget settings
     const savedTarget = localStorage.getItem('pr_budget_target') || '6000';
-    const savedDeposit = localStorage.getItem('pr_budget_deposit') || '1800';
     const ti = document.getElementById('budget-target-input');
-    const di = document.getElementById('budget-deposit-input');
     if (ti) ti.value = savedTarget;
-    if (di) di.value = savedDeposit;
 
     updateDepartureDays(storedDate);
     updateMoneyCountdown();
@@ -873,10 +866,8 @@
 
   function saveBudgetSettings() {
     const t = parseInt(document.getElementById('budget-target-input').value);
-    const dep = parseInt(document.getElementById('budget-deposit-input').value) || 0;
     if (!t || t < 1) return;
     localStorage.setItem('pr_budget_target', t);
-    localStorage.setItem('pr_budget_deposit', dep);
     updateMoneyCountdown();
     const el = document.getElementById('budget-saved');
     el.style.opacity = '1';
