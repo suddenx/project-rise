@@ -273,7 +273,7 @@
     <div class="dash-divider"></div>
     <div style="text-align:center">
       <div class="dash-money-num" id="dash-money-num">£6,000</div>
-      <div class="dash-money-label">still needed · £6,000 target</div>
+      <div class="dash-money-label" id="dash-money-sublabel">still needed · £6,000 target</div>
       <div class="money-bar-wrap" style="margin:14px auto 0">
         <div class="money-bar-track"><div class="money-bar-fill" id="dash-money-fill" style="width:0%"></div></div>
         <div class="money-bar-label" id="dash-money-label" style="text-align:center">log savings to track</div>
@@ -283,6 +283,10 @@
           <div class="budget-edit-label">Target</div>
           <input type="number" class="budget-edit-input" id="budget-target-input" placeholder="6000">
         </div>
+        <div class="budget-edit-row">
+          <div class="budget-edit-label">Existing savings</div>
+          <input type="number" class="budget-edit-input" id="budget-deposit-input" placeholder="0">
+        </div>
         <button class="budget-save" onclick="saveBudgetSettings()">Update budget</button>
         <span class="budget-saved" id="budget-saved">Updated ✓</span>
       </div>
@@ -291,7 +295,7 @@
   <div class="dash-nav-label">The plan</div>
   <div class="dash-nav-grid">
     <a href="daily_routines.html" class="nav-card c-teal"><div class="nav-card-num">01</div><div class="nav-card-title">Daily Routines</div><div class="nav-card-desc">Four shift scenarios, non-negotiables, output-based structure.</div><span class="nav-card-arrow">→</span></a>
-    <a href="budget_tracker.html" class="nav-card c-blue"><div class="nav-card-num">02</div><div class="nav-card-title">Budget Tracker</div><div class="nav-card-desc">Weekly savings log, deposit tracking, on-track indicator.</div><span class="nav-card-arrow">→</span></a>
+    <a href="budget_tracker.html" class="nav-card c-blue"><div class="nav-card-num">02</div><div class="nav-card-title">Budget Tracker</div><div class="nav-card-desc">Weekly savings log, existing savings tracking, on-track indicator.</div><span class="nav-card-arrow">→</span></a>
     <a href="portfolio_roadmap.html" class="nav-card c-purple"><div class="nav-card-num">03</div><div class="nav-card-title">Portfolio Roadmap</div><div class="nav-card-desc">Four phases, milestone checklists, output targets per stage.</div><span class="nav-card-arrow">→</span></a>
     <a href="outreach_plan.html" class="nav-card c-orange"><div class="nav-card-num">04</div><div class="nav-card-title">Outreach Plan</div><div class="nav-card-desc">Four channels, pitch templates, do's and don'ts.</div><span class="nav-card-arrow">→</span></a>
     <a href="chiang_mai_checklist.html" class="nav-card c-green"><div class="nav-card-num">05</div><div class="nav-card-title">Destination Checklist</div><div class="nav-card-desc">Visa, health, money, tech, citizenship, arrival.</div><span class="nav-card-arrow">→</span></a>
@@ -866,8 +870,10 @@
 
   function saveBudgetSettings() {
     const t = parseInt(document.getElementById('budget-target-input').value);
+    const dep = parseInt(document.getElementById('budget-deposit-input').value) || 0;
     if (!t || t < 1) return;
     localStorage.setItem('pr_budget_target', t);
+    localStorage.setItem('pr_budget_deposit', dep);
     updateMoneyCountdown();
     const el = document.getElementById('budget-saved');
     el.style.opacity = '1';
@@ -895,9 +901,20 @@
     const moneyEl = document.getElementById('dash-money-num');
     const fillEl = document.getElementById('dash-money-fill');
     const labelEl = document.getElementById('dash-money-label');
-    if (saved === 0) { moneyEl.textContent = '£6,000'; fillEl.style.width = '0%'; labelEl.textContent = 'log savings to track'; }
-    else if (stillNeeded === 0) { moneyEl.textContent = 'Done'; moneyEl.className = 'dash-money-num done'; fillEl.style.width = '100%'; fillEl.className = 'money-bar-fill done'; labelEl.textContent = 'target reached'; }
-    else { moneyEl.textContent = '£' + stillNeeded.toLocaleString(); fillEl.style.width = pct + '%'; labelEl.textContent = '£' + saved.toLocaleString() + ' saved · ' + pct + '% there'; }
+    const subLabelEl = document.getElementById('dash-money-sublabel');
+    if (stillNeeded === 0) {
+      moneyEl.textContent = 'Done'; moneyEl.className = 'dash-money-num done';
+      fillEl.style.width = '100%'; fillEl.className = 'money-bar-fill done';
+      labelEl.textContent = 'target reached';
+      if (subLabelEl) subLabelEl.textContent = 'target reached · £' + TARGET.toLocaleString();
+    } else {
+      moneyEl.textContent = '£' + stillNeeded.toLocaleString();
+      moneyEl.className = 'dash-money-num';
+      fillEl.style.width = pct + '%';
+      fillEl.className = 'money-bar-fill';
+      labelEl.textContent = saved > 0 ? '£' + saved.toLocaleString() + ' saved · ' + pct + '% there' : 'log savings to track';
+      if (subLabelEl) subLabelEl.textContent = 'still needed · £' + TARGET.toLocaleString() + ' target';
+    }
   }
 
   // ---- PASSWORD STRENGTH ----
