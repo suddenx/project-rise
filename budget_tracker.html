@@ -411,17 +411,31 @@
   .callout { font-size: 17px !important; line-height: 1.7; }
   .summary-card-sub { font-size: 15px !important; }
   .week-date { font-size: 16px !important; }
+  /* Home button */
   .home-btn {
-    background: rgba(31,203,138,0.1) !important;
-    border: 1px solid rgba(31,203,138,0.4) !important;
-    color: #1fcb8a !important;
-    font-size: 13px !important;
-    padding: 12px 24px !important;
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 24px;
+    background: rgba(31,203,138,0.1);
+    border: 1px solid rgba(31,203,138,0.4);
+    border-radius: 28px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1fcb8a;
+    backdrop-filter: blur(12px);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
-  .home-btn:hover {
-    background: rgba(31,203,138,0.22) !important;
-    border-color: rgba(31,203,138,0.7) !important;
-  }
+  .home-btn:hover { background: rgba(31,203,138,0.22); border-color: rgba(31,203,138,0.7); }
+  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
   @media (max-width: 700px) {
     .header, .target-strip, .main { padding-left: 16px; padding-right: 16px; }
     .header { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 32px; }
@@ -444,6 +458,11 @@
 </head>
 <body>
 
+<a href="index.html" class="home-btn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  Home
+</a>
+
 <div class="header">
   <div class="header-label">Escape plan — financial tracker</div>
   <h1>Budget<br><span>Tracker</span></h1>
@@ -453,27 +472,27 @@
 <div class="target-strip">
   <div class="target-item">
     <div class="target-label">Total target</div>
-    <div class="target-value teal">£4,500</div>
+    <div class="target-value teal" id="strip-total">£6,000</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
     <div class="target-label">From savings</div>
-    <div class="target-value blue">£2,700</div>
+    <div class="target-value blue" id="strip-from-savings">£4,200</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
-    <div class="target-label">Deposit (incoming)</div>
-    <div class="target-value" style="color:var(--purple)">£1,800</div>
+    <div class="target-label">Existing Savings</div>
+    <div class="target-value" style="color:var(--purple)" id="strip-deposit">£1,800</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
     <div class="target-label">Weekly savings avg</div>
-    <div class="target-value orange">£538</div>
+    <div class="target-value orange" id="strip-weekly">—</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
     <div class="target-label">Deadline</div>
-    <div class="target-value muted">1 Jul 2025</div>
+    <div class="target-value muted" id="strip-deadline">1 Jul 2026</div>
   </div>
 </div>
 
@@ -484,7 +503,7 @@
     <div class="summary-card">
       <div class="summary-card-label">Saved so far</div>
       <div class="summary-card-value" id="saved-so-far" style="color:var(--teal)">£0</div>
-      <div class="summary-card-sub" id="saved-sub">inc. deposit when received</div>
+      <div class="summary-card-sub" id="saved-sub">inc. existing savings when added</div>
     </div>
     <div class="summary-card">
       <div class="summary-card-label">Still needed</div>
@@ -527,12 +546,12 @@
     <!-- Deposit row -->
     <div class="deposit-row" id="deposit-row">
       <div style="display:flex;flex-direction:column;gap:3px">
-        <div class="deposit-label">Flat deposit returned</div>
-        <div style="font-size:12px;color:var(--muted)">Expected ~mid May — mark received when it lands</div>
+        <div class="deposit-label">Existing savings</div>
+        <div style="font-size:12px;color:var(--muted)">Add this once your existing savings are confirmed</div>
       </div>
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--muted)">
         <input type="checkbox" id="deposit-received" onchange="updateAll()" style="accent-color:var(--purple);width:16px;height:16px;">
-        Received
+        Added
       </label>
       <div class="deposit-amount">+£1,800</div>
     </div>
@@ -546,8 +565,8 @@
 </div>
 
 <script>
-  const TARGET = 4500;
-  const DEPOSIT = 1800;
+  const TARGET = parseInt(localStorage.getItem('pr_budget_target') || '6000');
+  const DEPOSIT = parseInt(localStorage.getItem('pr_budget_deposit') || '1800');
 
   // Generate weeks: Wed 19 Mar 2026 → Wed 1 Jul 2026 (approx)
   function getDepartureDate() {
@@ -661,8 +680,8 @@
   }
 
   function updateAll() {
-    const depositReceived = document.getElementById('deposit-received').checked;
-    let running = depositReceived ? DEPOSIT : 0;
+    const depositAdded = document.getElementById('deposit-received').checked;
+    let running = depositAdded ? DEPOSIT : 0;
     let weeksLogged = 0;
     let weeksBehind = 0;
 
@@ -681,7 +700,7 @@
       const cumEl = document.getElementById('cum-' + i);
       if (cumEl) {
         if (saved !== null) {
-          const cumSoFar = getCumulative(i, depositReceived);
+          const cumSoFar = getCumulative(i, depositAdded);
           cumEl.textContent = '£' + cumSoFar.toLocaleString();
           cumEl.style.color = cumSoFar >= TARGET ? 'var(--teal)' : 'var(--muted)';
         } else {
@@ -713,7 +732,7 @@
     } else {
       const weeksRemaining = totalWeeks - weeksLogged;
       const neededPerWeek = weeksRemaining > 0 ? Math.ceil(stillNeeded / weeksRemaining) : 0;
-      const avgSaved = (running - (depositReceived ? DEPOSIT : 0)) / weeksLogged;
+      const avgSaved = (running - (depositAdded ? DEPOSIT : 0)) / weeksLogged;
 
       if (running >= TARGET) {
         trackEl.textContent = 'Done';
@@ -733,8 +752,8 @@
     updateCallout(running, weeksLogged, weeksBehind);
   }
 
-  function getCumulative(upToIdx, depositReceived) {
-    let total = depositReceived ? DEPOSIT : 0;
+  function getCumulative(upToIdx, depositAdded) {
+    let total = depositAdded ? DEPOSIT : 0;
     for (let i = 0; i <= upToIdx; i++) {
       const s = getSaved(i);
       if (s !== null) total += s;
@@ -783,6 +802,21 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
+    // Populate target strip from localStorage
+    const dep = new Date((localStorage.getItem('pr_departure') || '2026-07-01') + 'T12:00:00');
+    const now = new Date();
+    const weeksLeft = Math.max(1, Math.ceil((dep - now) / (1000 * 60 * 60 * 24 * 7)));
+    const weeklyAvg = Math.ceil((TARGET - DEPOSIT) / weeksLeft);
+    const el = (id) => document.getElementById(id);
+    if (el('strip-total'))        el('strip-total').textContent       = '£' + TARGET.toLocaleString();
+    if (el('strip-deposit'))      el('strip-deposit').textContent     = '£' + DEPOSIT.toLocaleString();
+    if (el('strip-from-savings')) el('strip-from-savings').textContent = '£' + (TARGET - DEPOSIT).toLocaleString();
+    if (el('strip-weekly'))       el('strip-weekly').textContent      = '£' + weeklyAvg;
+    if (el('strip-deadline'))     el('strip-deadline').textContent    = dep.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    // Also update the progress bar title
+    const pTitle = document.querySelector('.progress-title');
+    if (pTitle) pTitle.textContent = 'Progress to £' + TARGET.toLocaleString();
+    // Load deposit state and build weeks
     const depositState = localStorage.getItem('deposit_received') === 'true';
     document.getElementById('deposit-received').checked = depositState;
     buildWeeks();
