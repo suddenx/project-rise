@@ -867,7 +867,7 @@
     if (val === CORRECT_PASSWORD) {
       err.textContent = '';
       document.getElementById('pw-input').value = '';
-      const remember = document.getElementById('pw-remember')?.checked;
+      const remember = (document.getElementById('pw-remember') ? document.getElementById('pw-remember').checked : false);
       if (remember) localStorage.setItem('pr_logged_in', '1');
       else sessionStorage.setItem('pr_logged_in', '1');
       showScreen('dashboard');
@@ -1487,7 +1487,7 @@ Include 4-6 items per category. Make them specific to ${userData.destination}.`;
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           files,
-          userName: userData?.name || 'user',
+          userName: (userData && userData.name) || 'user',
         }),
       });
 
@@ -1732,7 +1732,7 @@ function checkPw(){
   const e=document.getElementById('pw-error');
   if(v===PW){
     e.textContent='';document.getElementById('pw-input').value='';
-    const remember=document.getElementById('pw-remember')?.checked;
+    const remember=(document.getElementById('pw-remember') ? document.getElementById('pw-remember').checked : false);
     if(remember)localStorage.setItem('pr_li','1');
     else sessionStorage.setItem('pr_li','1');
     showDash();
