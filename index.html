@@ -893,8 +893,7 @@
   function updateMoneyCountdown() {
     const TARGET = parseInt(localStorage.getItem('pr_budget_target') || '6000');
     const DEPOSIT = parseInt(localStorage.getItem('pr_budget_deposit') || '1800');
-    let saved = 0;
-    if (localStorage.getItem('deposit_received') === 'true') saved += DEPOSIT;
+    let saved = DEPOSIT; // existing savings always count
     for (let i = 0; i < 20; i++) { const v = parseFloat(localStorage.getItem('week_' + i) || ''); if (!isNaN(v)) saved += v; }
     const stillNeeded = Math.max(0, TARGET - saved);
     const pct = Math.min(100, Math.round((saved / TARGET) * 100));
