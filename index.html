@@ -29,19 +29,21 @@
   /* LANDING */
   #screen-landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; position: relative; }
   #screen-landing::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(31,203,138,0.05) 0%, transparent 60%); pointer-events: none; }
-  .landing-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+
+
+  .landing-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
   .landing-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 18vw, 160px); letter-spacing: 0.03em; line-height: 0.88; color: var(--text); opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
   .landing-title .colon { color: var(--teal); }
-  .landing-sub { font-size: 20px; color: var(--muted); max-width: 480px; line-height: 1.7; margin: 28px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
-  .landing-buttons { display: flex; gap: 12px; margin-top: 44px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
-  .landing-stats { display: flex; gap: 40px; margin-top: 64px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.65s; flex-wrap: wrap; justify-content: center; }
+  .landing-sub { font-size: 20px; color: rgba(240,236,228,0.8); max-width: 480px; line-height: 1.7; margin: 24px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
+  .landing-buttons { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
+  .landing-stats { display: flex; gap: 40px; margin-top: 48px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.65s; flex-wrap: wrap; justify-content: center; }
   .landing-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--teal); letter-spacing: 0.04em; line-height: 1; }
-  .landing-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .landing-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(122,118,112,0.8); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
 
   /* PASSWORD */
   #screen-password { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 24px; text-align: center; }
   .pw-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
-  .pw-sub { font-size: 16px; color: var(--muted); margin-bottom: 32px; }
+  .pw-sub { font-size: 18px; color: var(--muted); margin-bottom: 32px; }
   .pw-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; padding: 14px 20px; width: 320px; max-width: calc(100% - 48px); text-align: center; outline: none; transition: border-color 0.15s; margin-bottom: 12px; display: block; align-self: center; }
   .pw-input:focus { border-color: var(--teal); }
   .pw-error { font-size: 12px; color: var(--red); margin-bottom: 12px; min-height: 18px; font-family: 'DM Mono', monospace; }
@@ -59,29 +61,38 @@
   .dash-hero-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
   .dash-hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 14vw, 130px); letter-spacing: 0.04em; line-height: 0.9; color: var(--text); }
   .dash-hero-title .colon { color: var(--teal); }
-  .dash-quote { margin: 36px auto 0; max-width: 560px; font-size: 19px; color: var(--text); line-height: 1.7; font-style: italic; }
+  .dash-quote { margin: 36px auto 0; max-width: 560px; font-size: 22px; color: var(--text); line-height: 1.7; font-style: italic; }
   .dash-quote-author { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
-  .dash-countdowns { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 52px 0 60px; }
-  .dash-days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 16vw, 140px); letter-spacing: 0.02em; line-height: 0.85; color: var(--teal); transition: color 0.5s; }
+  .dash-countdowns { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0; margin: 72px 0 72px; padding: 0 48px; }
+  .dash-days-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(110px, 22vw, 200px); letter-spacing: 0.01em; line-height: 0.85; color: var(--teal); transition: color 0.5s; }
   .dash-days-num.yellow { color: var(--yellow); }
   .dash-days-num.red { color: var(--red); }
-  .dash-days-label { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
-  .dash-date-edit { display: flex; align-items: center; gap: 10px; margin-top: 10px; justify-content: center; }
-  .dash-date-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 12px; padding: 7px 12px; outline: none; transition: border-color 0.15s; color-scheme: dark; cursor: pointer; }
+  .dash-days-label { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
+  .dash-date-edit-top { display: none; }
+  .dash-date-edit-bottom { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 16px; }
+  .dash-date-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 9px 0; outline: none; transition: border-color 0.15s; color-scheme: dark; cursor: pointer; width: 148px; text-align: center; }
   .dash-date-input:focus { border-color: var(--teal); }
-  .dash-date-input::-webkit-calendar-picker-indicator { filter: invert(0.6) sepia(1) saturate(3) hue-rotate(110deg); cursor: pointer; }
-  .dash-date-save { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 14px; background: rgba(31,203,138,0.12); border: 1px solid rgba(31,203,138,0.3); border-radius: 6px; color: var(--teal); cursor: pointer; transition: all 0.15s; }
-  .dash-date-save:hover { background: rgba(31,203,138,0.22); }
+  .dash-date-input::-webkit-calendar-picker-indicator { filter: invert(0.4); cursor: pointer; }
+  .dash-date-save { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 0; background: rgba(31,203,138,0.1); border: 1px solid rgba(31,203,138,0.4); border-radius: 6px; color: var(--teal); cursor: pointer; transition: all 0.15s; width: 148px; }
+  .dash-date-save:hover { background: rgba(31,203,138,0.22); border-color: rgba(31,203,138,0.7); }
   .dash-date-saved { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0; transition: opacity 0.3s; }
-  .dash-divider { width: 1px; height: 32px; background: var(--border); }
-  .dash-money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 8vw, 72px); letter-spacing: 0.02em; line-height: 0.9; color: var(--orange); transition: color 0.5s; }
+  .dash-divider { width: 1px; height: 180px; background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent); margin: 0 48px; }
+  .dash-money-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 14vw, 130px); letter-spacing: 0.01em; line-height: 0.85; color: var(--orange); transition: color 0.5s; }
   .dash-money-num.done { color: var(--teal); }
-  .dash-money-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
-  .money-bar-wrap { margin-top: 10px; width: 220px; }
+  .dash-money-label { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
+  .money-bar-wrap { margin-top: 14px; width: 260px; }
   .money-bar-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
   .money-bar-fill { height: 100%; border-radius: 2px; background: var(--orange); transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
   .money-bar-fill.done { background: var(--teal); }
-  .money-bar-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); margin-top: 5px; text-align: center; }
+  .money-bar-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); margin-top: 6px; }
+  .budget-edit-wrap { margin-top: 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .budget-edit-row { display: flex; align-items: center; gap: 8px; }
+  .budget-edit-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; min-width: 70px; }
+  .budget-edit-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; padding: 7px 10px; width: 110px; text-align: right; outline: none; transition: border-color 0.15s; }
+  .budget-edit-input:focus { border-color: var(--orange); }
+  .budget-save { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 0; background: rgba(255,124,58,0.1); border: 1px solid rgba(255,124,58,0.35); border-radius: 6px; color: var(--orange); cursor: pointer; transition: all 0.15s; width: 190px; margin-top: 4px; }
+  .budget-save:hover { background: rgba(255,124,58,0.2); }
+  .budget-saved { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0; transition: opacity 0.3s; }
   .dash-nav-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; padding: 0 48px; }
   .dash-nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 64px; padding: 0 48px; }
   .nav-card { display: flex; flex-direction: column; padding: 20px 20px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: border-color 0.2s, background 0.2s, transform 0.15s; position: relative; overflow: hidden; }
@@ -102,7 +113,7 @@
   .nav-card.c-orange .nav-card-title { color: var(--orange); }
   .nav-card.c-green .nav-card-title { color: var(--green); }
   .nav-card.c-yellow .nav-card-title { color: var(--yellow); }
-  .nav-card-desc { font-size: 15px; color: var(--muted); line-height: 1.5; }
+  .nav-card-desc { font-size: 17px; color: var(--muted); line-height: 1.5; }
   .nav-card-arrow { margin-top: 14px; font-size: 16px; color: var(--dim); transition: color 0.2s, transform 0.2s; display: inline-block; }
   .nav-card:hover .nav-card-arrow { color: var(--text); transform: translateX(4px); }
   .dash-footer { padding: 24px 48px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
@@ -115,18 +126,18 @@
   .q-back:hover { color: var(--muted); }
   .q-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
   .q-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: 10px; }
-  .q-sub { font-size: 18px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
+  .q-sub { font-size: 20px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
   .q-progress { margin-bottom: 36px; }
   .q-progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
   .q-progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
   .q-progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.4s ease; }
   .q-step { display: none; }
   .q-step.active { display: block; }
-  .q-step-title { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
-  .q-step-desc { font-size: 16px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+  .q-step-title { font-size: 25px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .q-step-desc { font-size: 18px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
   .q-field { margin-bottom: 16px; }
   .q-field-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
-  .q-input, .q-select, .q-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 300; padding: 12px 16px; outline: none; transition: border-color 0.15s; }
+  .q-input, .q-select, .q-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 300; padding: 13px 16px; outline: none; transition: border-color 0.15s; }
   .q-input:focus, .q-select:focus, .q-textarea:focus { border-color: var(--teal); }
   .q-input::placeholder, .q-textarea::placeholder { color: var(--dim); }
   .q-select { appearance: none; cursor: pointer; }
@@ -148,7 +159,7 @@
   .gen-bar-track { height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
   .gen-bar-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width 0.8s ease; }
   .gen-steps { text-align: left; max-width: 440px; width: 100%; }
-  .gen-step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 16px; color: var(--dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; transition: color 0.3s; border-bottom: 1px solid var(--border); }
+  .gen-step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; font-size: 18px; color: var(--dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; transition: color 0.3s; border-bottom: 1px solid var(--border); }
   .gen-step-item:last-child { border-bottom: none; }
   .gen-step-item.done { color: var(--teal); }
   .gen-step-item.active { color: var(--text); }
@@ -160,11 +171,11 @@
   .result-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
   .result-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; text-align: center; }
   .result-title span { color: var(--teal); }
-  .result-sub { font-size: 17px; color: var(--muted); line-height: 1.6; text-align: center; margin-bottom: 32px; }
-  .result-plan { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 24px; font-size: 16px; color: var(--text); line-height: 1.8; white-space: pre-wrap; max-height: 360px; overflow-y: auto; }
+  .result-sub { font-size: 19px; color: var(--muted); line-height: 1.6; text-align: center; margin-bottom: 32px; }
+  .result-plan { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 24px; font-size: 18px; color: var(--text); line-height: 1.8; white-space: pre-wrap; max-height: 360px; overflow-y: auto; }
   .result-download-box { background: var(--surface2); border: 1px solid rgba(31,203,138,0.2); border-radius: 10px; padding: 24px; margin-bottom: 24px; text-align: center; }
   .result-download-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.04em; color: var(--teal); margin-bottom: 8px; }
-  .result-download-desc { font-size: 16px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .result-download-desc { font-size: 18px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
   .result-file-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; text-align: left; }
   .result-file-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
   .result-file-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
@@ -174,14 +185,14 @@
   .deploy-wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
   .deploy-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 8px; }
   .deploy-title span { color: var(--blue); }
-  .deploy-sub { font-size: 18px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; max-width: 560px; }
+  .deploy-sub { font-size: 20px; color: var(--muted); line-height: 1.6; margin-bottom: 48px; max-width: 560px; }
   .deploy-section-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--border); }
   .deploy-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
   .deploy-step { margin-bottom: 36px; }
   .deploy-step-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
   .deploy-step-num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--blue); line-height: 1; min-width: 40px; }
-  .deploy-step-title { font-size: 22px; font-weight: 500; color: var(--text); }
-  .deploy-step-desc { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; padding-left: 56px; }
+  .deploy-step-title { font-size: 25px; font-weight: 500; color: var(--text); }
+  .deploy-step-desc { font-size: 18px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; padding-left: 56px; }
   .deploy-step-desc strong { color: var(--text); font-weight: 500; }
   .deploy-step-desc code { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--surface2); padding: 2px 7px; border-radius: 4px; color: var(--blue); }
   .deploy-img { width: 100%; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 8px; background: var(--surface); }
@@ -194,6 +205,13 @@
   @media (max-width: 600px) {
     .dash-topbar, .dash-hero, .dash-nav-label, .dash-nav-grid, .dash-footer { padding-left: 20px; padding-right: 20px; }
     .dash-nav-grid { grid-template-columns: 1fr 1fr; }
+    .dash-countdowns { grid-template-columns: 1fr; padding: 0 24px; gap: 32px; margin: 48px 0 48px; }
+    .dash-countdowns > div { text-align: center !important; }
+    .dash-date-edit-bottom { align-items: center; }
+    .budget-edit-wrap { align-items: center !important; }
+    .money-bar-wrap { margin: 12px auto 0 !important; }
+    .money-bar-label { text-align: center !important; }
+    .dash-divider { display: none; }
     .q-row { grid-template-columns: 1fr; }
     .gen-bar-wrap { width: 280px; }
   }
@@ -204,16 +222,16 @@
 <!-- LANDING -->
 <div id="screen-landing" class="screen active">
   <div class="landing-label">Your escape starts here</div>
-  <div class="landing-title">Project<span class="colon">:</span>Rise</div>
-  <p class="landing-sub">A personalised plan to escape the 9-5. Built around your life, your income, your destination. No generic advice. Just a real plan.</p>
-  <div class="landing-buttons">
-    <button class="btn-primary" onclick="showScreen('questionnaire')">Build my plan</button>
-    <button class="btn-secondary" onclick="showScreen('password')">Sudden's Plan</button>
-  </div>
-  <div class="landing-stats">
-    <div class="landing-stat"><div class="landing-stat-num">6</div><div class="landing-stat-label">Plan modules</div></div>
-    <div class="landing-stat"><div class="landing-stat-num">4</div><div class="landing-stat-label">Phases</div></div>
-    <div class="landing-stat"><div class="landing-stat-num">1</div><div class="landing-stat-label">Goal</div></div>
+    <div class="landing-title">Project<span class="colon">:</span>Rise</div>
+    <p class="landing-sub">A personalised plan to escape the 9-5. Built around your life, your income, your destination. No generic advice. Just a real plan.</p>
+    <div class="landing-buttons">
+      <button class="btn-primary" onclick="showScreen('questionnaire')">Build my plan</button>
+      <button class="btn-secondary" onclick="showScreen('password')">Sudden's Plan</button>
+    </div>
+    <div class="landing-stats">
+      <div class="landing-stat"><div class="landing-stat-num">6</div><div class="landing-stat-label">Plan modules</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">4</div><div class="landing-stat-label">Phases</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">1</div><div class="landing-stat-label">Goal</div></div>
   </div>
 </div>
 
@@ -223,6 +241,9 @@
   <p class="pw-sub">Enter your password to access the dashboard.</p>
   <input type="password" class="pw-input" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()">
   <div class="pw-error" id="pw-error"></div>
+  <label style="display:flex;align-items:center;gap:10px;margin-bottom:16px;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:0.08em;">
+    <input type="checkbox" id="pw-remember" style="accent-color:var(--teal);width:15px;height:15px;"> Keep me logged in
+  </label>
   <button class="btn-primary" onclick="checkPassword()">Enter</button>
   <div class="pw-back" onclick="showScreen('landing')">Back</div>
 </div>
@@ -240,22 +261,34 @@
     <div class="dash-quote-author" id="dash-quote-author"></div>
   </div>
   <div class="dash-countdowns">
-    <div style="text-align:center">
+    <div style="text-align:left">
       <div class="dash-days-num" id="dash-days-num">—</div>
       <div class="dash-days-label" id="dash-days-label">days to departure</div>
-      <div class="dash-date-edit">
+      <div class="dash-date-edit-bottom">
         <input type="date" class="dash-date-input" id="dash-date-input" min="2025-01-01" max="2030-12-31">
         <button class="dash-date-save" onclick="saveDepartureDate()">Update</button>
         <span class="dash-date-saved" id="dash-date-saved">Saved ✓</span>
       </div>
     </div>
     <div class="dash-divider"></div>
-    <div style="text-align:center">
+    <div style="text-align:right">
       <div class="dash-money-num" id="dash-money-num">£6,000</div>
       <div class="dash-money-label">still needed · £6,000 target</div>
-      <div class="money-bar-wrap" style="margin:10px auto 0">
+      <div class="money-bar-wrap" style="margin-left:auto">
         <div class="money-bar-track"><div class="money-bar-fill" id="dash-money-fill" style="width:0%"></div></div>
-        <div class="money-bar-label" id="dash-money-label">log savings to track</div>
+        <div class="money-bar-label" id="dash-money-label" style="text-align:right">log savings to track</div>
+      </div>
+      <div class="budget-edit-wrap" style="align-items:flex-end">
+        <div class="budget-edit-row">
+          <div class="budget-edit-label">Target</div>
+          <input type="number" class="budget-edit-input" id="budget-target-input" placeholder="6000">
+        </div>
+        <div class="budget-edit-row">
+          <div class="budget-edit-label">Deposit</div>
+          <input type="number" class="budget-edit-input" id="budget-deposit-input" placeholder="0">
+        </div>
+        <button class="budget-save" onclick="saveBudgetSettings()">Update budget</button>
+        <span class="budget-saved" id="budget-saved">Updated ✓</span>
       </div>
     </div>
   </div>
@@ -282,8 +315,8 @@
     <div class="q-title">Build Your Plan</div>
     <p class="q-sub">Answer honestly. The more detail you give, the better your plan. Takes about 5 minutes. Your site will be ready to download at the end.</p>
     <div class="q-progress">
-      <div class="q-progress-header"><span id="q-step-label">Step 1 of 6</span><span id="q-step-pct">17%</span></div>
-      <div class="q-progress-track"><div class="q-progress-fill" id="q-progress-fill" style="width:17%"></div></div>
+      <div class="q-progress-header"><span id="q-step-label">Step 1 of 7</span><span id="q-step-pct">14%</span></div>
+      <div class="q-progress-track"><div class="q-progress-fill" id="q-progress-fill" style="width:14%"></div></div>
     </div>
 
     <!-- STEP 1 -->
@@ -297,6 +330,18 @@
       </div>
       <div class="q-field"><label class="q-field-label">Where do you want to escape to?</label><input type="text" class="q-input" id="q-destination" placeholder="e.g. Chiang Mai, Bali, Lisbon"></div>
       <div class="q-field"><label class="q-field-label">Target departure date — pick a specific date</label><input type="date" class="q-input" id="q-departure" min="2025-01-01" max="2030-12-31"></div>
+      <div class="q-field"><label class="q-field-label">How long are you planning to go for?</label>
+        <select class="q-select" id="q-duration">
+          <option value="">Select...</option>
+          <option value="1 month">1 month</option>
+          <option value="2 months">2 months</option>
+          <option value="3 months">3 months</option>
+          <option value="4 months">4 months</option>
+          <option value="6 months">6 months</option>
+          <option value="1 year">1 year</option>
+          <option value="indefinitely">Indefinitely — one way ticket</option>
+        </select>
+      </div>
     </div>
 
     <!-- STEP 2 -->
@@ -390,8 +435,43 @@
       <div class="q-field"><label class="q-field-label">Anything else you want your plan to account for?</label><textarea class="q-textarea" id="q-extra" placeholder="Partner, health, financial obligations, specific constraints..."></textarea></div>
     </div>
 
-    <!-- STEP 6 — PASSWORD -->
+    <!-- STEP 6 — HEALTH -->
     <div class="q-step" id="q-step-6">
+      <div class="q-step-title">Your health baseline</div>
+      <div class="q-step-desc">Used to personalise your supplement stack and daily health routine. Be honest — there are no wrong answers.</div>
+      <div class="q-field"><label class="q-field-label">How would you describe your current fitness level?</label>
+        <select class="q-select" id="q-fitness">
+          <option value="">Select...</option>
+          <option value="very-active">Very active — gym or sport 4+ times a week</option>
+          <option value="moderately-active">Moderately active — exercise 2-3 times a week</option>
+          <option value="lightly-active">Lightly active — occasional walks, nothing structured</option>
+          <option value="sedentary">Sedentary — mostly desk-based, little exercise</option>
+        </select>
+      </div>
+      <div class="q-field"><label class="q-field-label">How is your sleep quality?</label>
+        <select class="q-select" id="q-sleep">
+          <option value="">Select...</option>
+          <option value="great">Great — I sleep well and wake up rested</option>
+          <option value="okay">Okay — could be better, occasional bad nights</option>
+          <option value="poor">Poor — I struggle to fall asleep or stay asleep</option>
+          <option value="erratic">Erratic — shift work or irregular hours wreck it</option>
+        </select>
+      </div>
+      <div class="q-field"><label class="q-field-label">How would you rate your stress and energy levels day to day?</label>
+        <select class="q-select" id="q-stress">
+          <option value="">Select...</option>
+          <option value="low-stress">Low stress, good energy</option>
+          <option value="moderate">Moderate stress, energy dips in the afternoon</option>
+          <option value="high-stress">High stress, often feel drained or wired</option>
+          <option value="burned-out">Burned out — running on empty most of the time</option>
+        </select>
+      </div>
+      <div class="q-field"><label class="q-field-label">Any health goals beyond just feeling better? (optional)</label><input type="text" class="q-input" id="q-health-goals" placeholder="e.g. Build muscle, lose fat, improve focus, clear skin"></div>
+      <div class="q-field"><label class="q-field-label">Any supplements you already take? (optional)</label><input type="text" class="q-input" id="q-current-supps" placeholder="e.g. Protein, Vitamin D, or 'none'"></div>
+    </div>
+
+    <!-- STEP 7 — PASSWORD -->
+    <div class="q-step" id="q-step-7">
       <div class="q-step-title">Set your dashboard password</div>
       <div class="q-step-desc">This protects your personal dashboard. Choose something memorable — you'll enter it every time you access your site. It's built into your downloaded files so only you can get in.</div>
       <div class="q-field">
@@ -411,7 +491,7 @@
 
     <div class="q-val-error" id="q-val-error"></div>
     <div class="q-nav">
-      <div class="q-step-indicator" id="q-step-indicator">Step 1 of 6</div>
+      <div class="q-step-indicator" id="q-step-indicator">Step 1 of 7</div>
       <div style="display:flex;gap:10px">
         <button class="btn-secondary" id="q-btn-back" onclick="qNav(-1)" style="display:none">Back</button>
         <button class="btn-primary" id="q-btn-next" onclick="qNav(1)">Next</button>
@@ -726,7 +806,9 @@
     if (val === CORRECT_PASSWORD) {
       err.textContent = '';
       document.getElementById('pw-input').value = '';
-      localStorage.setItem('pr_logged_in', '1');
+      const remember = document.getElementById('pw-remember')?.checked;
+      if (remember) localStorage.setItem('pr_logged_in', '1');
+      else sessionStorage.setItem('pr_logged_in', '1');
       showScreen('dashboard');
     } else {
       err.textContent = 'Incorrect password.';
@@ -736,6 +818,7 @@
 
   function logout() {
     localStorage.removeItem('pr_logged_in');
+    sessionStorage.removeItem('pr_logged_in');
     showScreen('landing');
   }
 
@@ -750,6 +833,14 @@
     const storedDate = localStorage.getItem('pr_departure') || '2026-07-01';
     const dateInput = document.getElementById('dash-date-input');
     if (dateInput) dateInput.value = storedDate;
+
+    // Load budget settings
+    const savedTarget = localStorage.getItem('pr_budget_target') || '6000';
+    const savedDeposit = localStorage.getItem('pr_budget_deposit') || '1800';
+    const ti = document.getElementById('budget-target-input');
+    const di = document.getElementById('budget-deposit-input');
+    if (ti) ti.value = savedTarget;
+    if (di) di.value = savedDeposit;
 
     updateDepartureDays(storedDate);
     updateMoneyCountdown();
@@ -780,6 +871,18 @@
     }
   }
 
+  function saveBudgetSettings() {
+    const t = parseInt(document.getElementById('budget-target-input').value);
+    const dep = parseInt(document.getElementById('budget-deposit-input').value) || 0;
+    if (!t || t < 1) return;
+    localStorage.setItem('pr_budget_target', t);
+    localStorage.setItem('pr_budget_deposit', dep);
+    updateMoneyCountdown();
+    const el = document.getElementById('budget-saved');
+    el.style.opacity = '1';
+    setTimeout(() => { el.style.opacity = '0'; }, 1800);
+  }
+
   function saveDepartureDate() {
     const val = document.getElementById('dash-date-input').value;
     if (!val) return;
@@ -791,7 +894,8 @@
   }
 
   function updateMoneyCountdown() {
-    const TARGET = 6000, DEPOSIT = 1800;
+    const TARGET = parseInt(localStorage.getItem('pr_budget_target') || '6000');
+    const DEPOSIT = parseInt(localStorage.getItem('pr_budget_deposit') || '1800');
     let saved = 0;
     if (localStorage.getItem('deposit_received') === 'true') saved += DEPOSIT;
     for (let i = 0; i < 20; i++) { const v = parseFloat(localStorage.getItem('week_' + i) || ''); if (!isNaN(v)) saved += v; }
@@ -817,7 +921,7 @@
 
   // ---- QUESTIONNAIRE ----
   let currentStep = 1;
-  const totalSteps = 6;
+  const totalSteps = 7;
 
   function validateStep(step) {
     const err = document.getElementById('q-val-error');
@@ -828,6 +932,7 @@
         { id: 'q-city', msg: 'Please enter your current city.' },
         { id: 'q-destination', msg: 'Please enter your destination.' },
         { id: 'q-departure', msg: 'Please enter your target departure date.' },
+        { id: 'q-duration', msg: 'Please select how long you are planning to go for.' },
       ],
       2: [
         { id: 'q-currency', msg: 'Please select your currency.' },
@@ -855,6 +960,13 @@
         { id: 'q-success', msg: 'Please describe what success looks like for you.' },
         { id: 'q-blocker', msg: 'Please fill in what has stopped you before.' },
         { id: 'q-extra', msg: 'Please fill in the extra field (type "none" if nothing else).' },
+      ],
+      6: [
+        { id: 'q-fitness', msg: 'Please select your fitness level.' },
+        { id: 'q-sleep', msg: 'Please select your sleep quality.' },
+        { id: 'q-stress', msg: 'Please select your stress and energy level.' },
+        { id: 'q-health-goals', msg: 'Please fill in health goals (type "none" if none).' },
+        { id: 'q-current-supps', msg: 'Please fill in current supplements (type "none" if none).' },
       ],
     };
     const fields = checks[step];
@@ -914,6 +1026,7 @@
       destination: document.getElementById('q-destination').value || 'your destination',
       departure: (() => { const v = document.getElementById('q-departure').value; if (!v) return 'your departure date'; const d = new Date(v + 'T12:00:00'); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); })(),
       departureISO: document.getElementById('q-departure').value || '',
+      duration: document.getElementById('q-duration').value || '3 months',
       currency: currencyVal,
       currencySymbol: sym,
       income: sym + (document.getElementById('q-income').value || 'Unknown'),
@@ -934,6 +1047,11 @@
       success: document.getElementById('q-success').value || 'Unknown',
       blocker: document.getElementById('q-blocker').value || 'Unknown',
       extra: document.getElementById('q-extra').value || 'none',
+      fitness: document.getElementById('q-fitness').value || 'moderately-active',
+      sleep: document.getElementById('q-sleep').value || 'okay',
+      stress: document.getElementById('q-stress').value || 'moderate',
+      healthGoals: document.getElementById('q-health-goals').value || 'none',
+      currentSupps: document.getElementById('q-current-supps').value || 'none',
       password: document.getElementById('q-password').value,
     };
   }
@@ -1048,18 +1166,34 @@ Return ONLY a JSON object (no markdown, no backticks) with this exact structure:
       // STEP 4: Budget tracker
       advanceGenStep('gstep-4', 42);
       setStatus('Setting up your budget tracker...');
-      const budgetPrompt = `Calculate a savings plan for ${userData.name}. They earn ${userData.income}/month, spend ${userData.expenses}/month, have ${userData.savings} saved, have ${userData.incoming} incoming. They want to leave by ${userData.departure} for ${userData.destination}. Their expenses will change: ${userData.expensesChange}. All amounts are in ${userData.currency} (${userData.currencySymbol}).
+      const budgetPrompt = `You are a financial planner helping someone escape the 9-5. Use your knowledge of real cost of living data for digital nomads to calculate an accurate savings target.
+
+Person: ${userData.name}
+Destination: ${userData.destination}
+Trip duration: ${userData.duration}
+Departure: ${userData.departure}
+Earns: ${userData.income}/month, Spends: ${userData.expenses}/month
+Savings so far: ${userData.savings}
+Incoming money: ${userData.incoming}
+Expenses changing before departure: ${userData.expensesChange}
+Currency: ${userData.currency} (${userData.currencySymbol})
+
+Using real average costs for a western digital nomad in ${userData.destination} (accommodation, food, transport, coworking/internet, misc, health insurance), calculate a realistic total budget for ${userData.duration}.
+
+Add a 15% safety net buffer on top. Convert all figures to ${userData.currency}.
 
 Return ONLY a JSON object (no markdown, no backticks):
 {
   "total_target": 5000,
+  "monthly_cost_estimate": 1200,
   "deposit_amount": 0,
   "from_savings": 5000,
   "weekly_avg": 385,
   "deadline_display": "1 Sep 2026",
-  "departure_js_date": "new Date(2026, 8, 1)"
+  "departure_js_date": "new Date(2026, 8, 1)",
+  "cost_breakdown": "Accommodation ~X/month, Food ~X/month, Transport ~X/month, Misc ~X/month"
 }
-Use realistic numbers in ${userData.currency}. total_target should be enough to cover 3 months at destination plus safety net. Only include deposit_amount if they mentioned a deposit coming in.`;
+Only include deposit_amount if they mentioned a deposit coming in. departure_js_date must be valid JS. Be accurate — this is real money.`;
       let budgetData = {};
       try {
         const budgetRaw = await callAPI(budgetPrompt);
@@ -1172,7 +1306,14 @@ Include 4-6 items per category. Make them specific to ${userData.destination}.`;
       // STEP 8: Health routine (generic — doesn't need personalisation)
       advanceGenStep('gstep-8', 90);
       setStatus('Adding health routine...');
-      zip.file('health_routine.html', buildHealthHTML(userData));
+      zip.file('health_routine.html', buildHealthHTML(userData, {
+        fitness: userData.fitness,
+        sleep: userData.sleep,
+        stress: userData.stress,
+        healthGoals: userData.healthGoals,
+        currentSupps: userData.currentSupps,
+        destination: userData.destination,
+      }));
 
       // STEP 9: Package
       advanceGenStep('gstep-9', 98);
@@ -2046,8 +2187,37 @@ window.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.chec
 </html>`;
   }
 
-  // HEALTH (generic — same for everyone)
-  function buildHealthHTML(d) {
+  function buildHealthHTML(d, h) {
+    h = h || {};
+    const dest = h.destination || d.destination || 'your destination';
+
+    // Personalise supplement recommendations based on answers
+    const needsMagnesium = ['poor','erratic'].includes(h.sleep);
+    const needsAshwagandha = ['high-stress','burned-out'].includes(h.stress);
+    const needsCreatine = ['very-active','moderately-active'].includes(h.fitness);
+    const isBurnedOut = h.stress === 'burned-out';
+    const isInactive = ['lightly-active','sedentary'].includes(h.fitness);
+
+    const fitnessNote = {
+      'very-active': 'You\'re already active — the priority stack is built to support training load and recovery.',
+      'moderately-active': 'Good base. The stack fills the gaps that exercise creates and keeps your focus sharp.',
+      'lightly-active': 'Start the stack first, then build the movement habit. Energy comes before motivation.',
+      'sedentary': 'Supplements alone won\'t fix a sedentary baseline — but they\'ll make it easier to change one. Start moving.',
+    }[h.fitness] || '';
+
+    const sleepNote = {
+      'great': 'Your sleep is already solid. Keep protecting it.',
+      'okay': 'Magnesium glycinate will noticeably improve your sleep quality within a week.',
+      'poor': 'Magnesium glycinate and cutting screens 1hr before bed are the two highest-leverage changes you can make.',
+      'erratic': 'Shift work is brutal on recovery. Magnesium before bed is non-negotiable. Keep the room dark and cold when you do sleep.',
+    }[h.sleep] || '';
+
+    const stressNote = {
+      'low-stress': 'Good. The stack maintains this baseline.',
+      'moderate': 'Afternoon energy dips usually mean poor sleep or blood sugar swings. The stack addresses both.',
+      'high-stress': 'Ashwagandha KSM-66 is your highest-priority add after the core four. Cortisol is killing your focus and recovery.',
+      'burned-out': 'You need rest more than you need supplements. The stack supports recovery but it cannot substitute for actual downtime. Take the recovery days seriously.',
+    }[h.stress] || '';
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2144,6 +2314,11 @@ ${homeBtn()}
     <div class="supp-card secondary"><div><div class="supp-name">Zinc</div><div class="supp-desc">Supports testosterone, immune function, and skin healing. Intense exercise depletes zinc. Max 25–30mg/day.</div><div><span class="supp-tag tag-evening">Evening</span><span class="supp-tag tag-withfood">With food</span></div></div><div class="supp-right"><div class="supp-dose">15–25mg</div><div class="supp-cost">~£4/month</div></div></div>
     <div class="supp-card secondary"><div><div class="supp-name">Ashwagandha KSM-66</div><div class="supp-desc">Adaptogen. Reduces cortisol and stress response. Relevant if you're under pressure. KSM-66 is the most studied extract — don't buy cheap generic powder.</div><div><span class="supp-tag tag-evening">Evening</span><span class="supp-tag tag-withfood">With food</span></div></div><div class="supp-right"><div class="supp-dose">300–600mg</div><div class="supp-cost">~£8/month</div></div></div>
     <div class="callout">Start with the priority four. That's ~£30/month, 30 seconds to take, covers the biggest gaps for someone training hard and doing mentally demanding work. Add secondary after month one.</div>
+    ${fitnessNote ? `<div class="callout" style="margin-top:10px;border-color:rgba(31,203,138,0.15)">${fitnessNote}</div>` : ''}
+    ${sleepNote ? `<div class="callout" style="margin-top:10px;border-color:rgba(155,135,245,0.15)">${sleepNote}</div>` : ''}
+    ${stressNote ? `<div class="callout" style="margin-top:10px;border-color:rgba(255,124,58,0.15)">${stressNote}</div>` : ''}
+    ${h.healthGoals && h.healthGoals !== 'none' ? `<div class="callout" style="margin-top:10px;border-color:rgba(74,158,255,0.15)">Your goals: ${h.healthGoals}. Keep these in mind when you add secondary supplements in month 2.</div>` : ''}
+    ${h.currentSupps && h.currentSupps !== 'none' ? `<div class="callout" style="margin-top:10px;">You already take: ${h.currentSupps}. Don't double up — cross-reference before adding anything from the priority stack.</div>` : ''}
   </div>
   <div class="panel" id="panel-k">
     <div class="section-title">Morning routine</div>
@@ -2177,7 +2352,7 @@ ${homeBtn()}
         <div class="ref-item"><span class="ref-item-name">Ashwagandha</span><span class="ref-item-detail">with dinner</span></div>
       </div>
     </div>
-    <div class="callout">Buy supplements in Phase 2 — start them immediately. Benefits are cumulative and slow-building. Bring a 3-month supply to ${d.destination}. Don't assume you can find magnesium glycinate easily there.</div>
+    <div class="callout">Buy supplements in Phase 2 — start them immediately. Benefits are cumulative and slow-building. Bring a 3-month supply to ${dest}. Don't assume you can find magnesium glycinate easily there.</div>
   </div>
 </div>
 <script>
@@ -2190,7 +2365,7 @@ function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.rem
   // ---- INIT ----
   window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
-    if (localStorage.getItem('pr_logged_in') === '1') showScreen('dashboard');
+    if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') showScreen('dashboard');
   });
 </script>
 </body>
