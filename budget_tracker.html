@@ -507,8 +507,8 @@
     </div>
     <div class="summary-card">
       <div class="summary-card-label">Still needed</div>
-      <div class="summary-card-value" id="still-needed" style="color:var(--orange)">£4,500</div>
-      <div class="summary-card-sub" id="needed-sub">to hit £4,500 target</div>
+      <div class="summary-card-value" id="still-needed" style="color:var(--orange)">—</div>
+      <div class="summary-card-sub" id="needed-sub">loading...</div>
     </div>
     <div class="summary-card">
       <div class="summary-card-label">On track</div>
@@ -520,7 +520,7 @@
   <!-- Progress bar -->
   <div class="progress-section">
     <div class="progress-header">
-      <span class="progress-title">Progress to £4,500</span>
+      <span class="progress-title" id="progress-title">Progress</span>
       <span class="progress-pct" id="progress-pct">0%</span>
     </div>
     <div class="progress-track">
@@ -547,19 +547,15 @@
     <div class="deposit-row" id="deposit-row">
       <div style="display:flex;flex-direction:column;gap:3px">
         <div class="deposit-label">Existing savings</div>
-        <div style="font-size:12px;color:var(--muted)">Add this once your existing savings are confirmed</div>
+        <div style="font-size:12px;color:var(--muted)">Automatically counted toward your target</div>
       </div>
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--muted)">
-        <input type="checkbox" id="deposit-received" onchange="updateAll()" style="accent-color:var(--purple);width:16px;height:16px;">
-        Added
-      </label>
-      <div class="deposit-amount">+£1,800</div>
+      <div class="deposit-amount" id="deposit-amount-display">+£1,800</div>
     </div>
 
   </div>
 
   <div class="callout" id="callout-text">
-    Start logging your weekly savings every Wednesday. The tracker will tell you if you're ahead, behind, or on track for the £4,500 target by 1 July.
+    Start logging your weekly savings every Wednesday.
   </div>
 
 </div>
@@ -681,7 +677,8 @@
 
   function updateAll() {
     const depositAdded = document.getElementById('deposit-received').checked;
-    let running = depositAdded ? DEPOSIT : 0;
+    // Existing savings always count toward the total — they're already in your account
+    let running = DEPOSIT;
     let weeksLogged = 0;
     let weeksBehind = 0;
 
@@ -732,7 +729,7 @@
     } else {
       const weeksRemaining = totalWeeks - weeksLogged;
       const neededPerWeek = weeksRemaining > 0 ? Math.ceil(stillNeeded / weeksRemaining) : 0;
-      const avgSaved = (running - (depositAdded ? DEPOSIT : 0)) / weeksLogged;
+      const avgSaved = (running - DEPOSIT) / weeksLogged; // subtract existing savings from avg calc
 
       if (running >= TARGET) {
         trackEl.textContent = 'Done';
@@ -753,7 +750,7 @@
   }
 
   function getCumulative(upToIdx, depositAdded) {
-    let total = depositAdded ? DEPOSIT : 0;
+    let total = DEPOSIT; // existing savings always counted
     for (let i = 0; i <= upToIdx; i++) {
       const s = getSaved(i);
       if (s !== null) total += s;
@@ -764,7 +761,7 @@
   function updateCallout(running, weeksLogged, weeksBehind) {
     const el = document.getElementById('callout-text');
     if (weeksLogged === 0) {
-      el.textContent = 'Start logging your weekly savings every Wednesday. The tracker will tell you if you\'re ahead, behind, or on track for the £4,500 target by 1 July.';
+      el.textContent = `Start logging your weekly savings every Wednesday. The tracker will tell you if you're ahead, behind, or on track for the £${TARGET.toLocaleString()} target.`;
       return;
     }
     if (running >= TARGET) {
@@ -780,7 +777,7 @@
     } else if (weeksBehind > 0) {
       el.textContent = `A few weeks below target but still manageable. You need £${neededPerWeek.toLocaleString()} per week from here. Don't let the slow weeks become a habit.`;
     } else {
-      el.textContent = `Solid. Every week at or above target. You need £${neededPerWeek.toLocaleString()} per week from here to land on £4,500 by 1 July. Keep this up.`;
+      el.textContent = `Solid. Every week at or above target. You need £${neededPerWeek.toLocaleString()} per week from here to hit £${TARGET.toLocaleString()}. Keep this up.`;
     }
   }
 
@@ -810,25 +807,25 @@
     const el = (id) => document.getElementById(id);
     if (el('strip-total'))        el('strip-total').textContent       = '£' + TARGET.toLocaleString();
     if (el('strip-deposit'))      el('strip-deposit').textContent     = '£' + DEPOSIT.toLocaleString();
+    if (el('deposit-amount-display')) el('deposit-amount-display').textContent = '+£' + DEPOSIT.toLocaleString();
     if (el('strip-from-savings')) el('strip-from-savings').textContent = '£' + (TARGET - DEPOSIT).toLocaleString();
     if (el('strip-weekly'))       el('strip-weekly').textContent      = '£' + weeklyAvg;
     if (el('strip-deadline'))     el('strip-deadline').textContent    = dep.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    // Also update the progress bar title
-    const pTitle = document.querySelector('.progress-title');
+    const depositDisplay = document.getElementById('deposit-amount-display');
+    if (depositDisplay) depositDisplay.textContent = '+£' + DEPOSIT.toLocaleString();
+    // Update dynamic labels
+    const pTitle = document.getElementById('progress-title');
     if (pTitle) pTitle.textContent = 'Progress to £' + TARGET.toLocaleString();
+    const neededSub = document.getElementById('needed-sub');
+    if (neededSub) neededSub.textContent = 'to hit £' + TARGET.toLocaleString() + ' target';
     // Load deposit state and build weeks
-    const depositState = localStorage.getItem('deposit_received') === 'true';
-    document.getElementById('deposit-received').checked = depositState;
     buildWeeks();
     updateAll();
     updateCountdown();
     setInterval(updateCountdown, 60000);
   });
 
-  document.getElementById('deposit-received').addEventListener('change', function() {
-    localStorage.setItem('deposit_received', this.checked);
-    updateAll();
-  });
+
 </script>
 </body>
 </html>
