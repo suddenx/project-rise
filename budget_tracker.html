@@ -49,47 +49,6 @@
     border-bottom: 1px solid var(--border);
     position: relative;
     overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  .header-left {}
-
-  .countdown-block {
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .countdown-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .countdown-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(52px, 9vw, 96px);
-    letter-spacing: 0.02em;
-    line-height: 0.9;
-    color: var(--teal);
-    transition: color 0.5s;
-  }
-
-  .countdown-number.yellow { color: #f5c842; }
-  .countdown-number.red { color: var(--red); }
-
-  .countdown-sub {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    margin-top: 4px;
   }
 
   .header::before {
@@ -277,7 +236,7 @@
     text-align: center;
   }
 
-  .week-phase.cuttysark { color: var(--orange); border-color: rgba(255,124,58,0.25); background: var(--orange-bg); }
+  .week-phase.london { color: var(--orange); border-color: rgba(255,124,58,0.25); background: var(--orange-bg); }
   .week-phase.moms { color: var(--teal); border-color: rgba(31,203,138,0.25); background: var(--teal-bg); }
 
   .week-target {
@@ -447,59 +406,11 @@
     .week-phase, .week-target, .week-cumulative { display: none; }
   }
 
-  /* Home button */
-  .home-btn {
-    position: fixed;
-    top: 20px;
-    right: 24px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 12px 22px;
-    background: rgba(22,22,22,0.97);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 28px;
-    text-decoration: none;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #f0ece4;
-    backdrop-filter: blur(12px);
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-  }
-  .home-btn:hover { background: rgba(31,203,138,0.12); border-color: rgba(31,203,138,0.3); color: #1fcb8a; }
-  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
-
-  /* --- READABILITY OVERRIDES --- */
-  .header-sub { font-size: 17px !important; line-height: 1.65; }
-  .panel-note { font-size: 16px !important; line-height: 1.7; }
-  .block-label { font-size: 17px !important; }
-  .block-desc { font-size: 15px !important; line-height: 1.65; }
-  .milestone-card-title { font-size: 17px !important; }
-  .milestone-card-desc { font-size: 15px !important; line-height: 1.6; }
-  .target-row { font-size: 16px !important; }
-  .target-label { font-size: 16px !important; }
-  .strategy-item { font-size: 16px !important; line-height: 1.65; }
-  .callout { font-size: 16px !important; line-height: 1.7; }
-  .tip-item { font-size: 16px !important; line-height: 1.65; }
-  .check-label { font-size: 17px !important; }
-  .check-desc { font-size: 15px !important; line-height: 1.6; }
-  .pitch-body { font-size: 16px !important; line-height: 1.8; }
-  .pos-line { font-size: 18px !important; }
-  .supp-name { font-size: 17px !important; }
-  .supp-desc { font-size: 15px !important; line-height: 1.65; }
-  .skin-name { font-size: 17px !important; }
-  .skin-desc { font-size: 15px !important; line-height: 1.65; }
-  .ref-item-name { font-size: 16px !important; }
-  .week-date { font-size: 15px !important; }
-  .summary-card-sub { font-size: 14px !important; }
-  .nav-desc { font-size: 15px !important; }
-  .phase-date { font-size: 14px !important; }
-  .deposit-label { font-size: 15px !important; }
-  /* Home button — make it clearly visible */
+  /* --- READABILITY OVERRIDES v2 --- */
+  .header-sub { font-size: 19px !important; line-height: 1.65; }
+  .callout { font-size: 17px !important; line-height: 1.7; }
+  .summary-card-sub { font-size: 15px !important; }
+  .week-date { font-size: 16px !important; }
   .home-btn {
     background: rgba(31,203,138,0.1) !important;
     border: 1px solid rgba(31,203,138,0.4) !important;
@@ -511,38 +422,43 @@
     background: rgba(31,203,138,0.22) !important;
     border-color: rgba(31,203,138,0.7) !important;
   }
-
+  @media (max-width: 700px) {
+    .header, .target-strip, .main { padding-left: 16px; padding-right: 16px; }
+    .header { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 32px; }
+    .countdown-block { text-align: left; }
+    .countdown-number { font-size: 52px !important; }
+    .summary-grid { grid-template-columns: 1fr; }
+    .summary-card-value { font-size: 28px !important; }
+    .target-strip { gap: 16px; flex-wrap: wrap; padding-top: 16px; padding-bottom: 16px; }
+    .target-value { font-size: 22px !important; }
+    .week-phase, .week-target, .week-cumulative, .week-target-val { display: none; }
+    .week-input-row { padding: 10px 12px; gap: 8px; }
+    .week-num { min-width: 36px; font-size: 12px; }
+    .week-date { min-width: 70px; font-size: 14px !important; }
+    .week-input { width: 80px; font-size: 14px; }
+    .col-header .ch-phase, .col-header .ch-target, .col-header .ch-total { display: none; }
+    .section-title { font-size: 13px; }
+    .progress-pct { font-size: 18px !important; }
+  }
 </style>
 </head>
 <body>
-<a href="index.html" class="home-btn">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-  Home
-</a>
-
 
 <div class="header">
-  <div class="header-left">
-    <div class="header-label">Escape plan — financial tracker</div>
-    <h1>Budget<br><span>Tracker</span></h1>
-    <p class="header-sub">Log your weekly savings. Every Wednesday is payday — enter what you actually saved, not what you planned to.</p>
-  </div>
-  <div class="countdown-block">
-    <div class="countdown-label">Days to departure</div>
-    <div class="countdown-number" id="countdown-number">—</div>
-    <div class="countdown-sub" id="countdown-sub">1 Jul 2026 — Chiang Mai</div>
-  </div>
+  <div class="header-label">Escape plan — financial tracker</div>
+  <h1>Budget<br><span>Tracker</span></h1>
+  <p class="header-sub">Log your weekly savings. Every Wednesday is payday — enter what you actually saved, not what you planned to.</p>
 </div>
 
 <div class="target-strip">
   <div class="target-item">
     <div class="target-label">Total target</div>
-    <div class="target-value teal">£6,000</div>
+    <div class="target-value teal">£4,500</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
     <div class="target-label">From savings</div>
-    <div class="target-value blue">£4,200</div>
+    <div class="target-value blue">£2,700</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
@@ -552,7 +468,7 @@
   <div class="target-divider"></div>
   <div class="target-item">
     <div class="target-label">Weekly savings avg</div>
-    <div class="target-value orange">£280</div>
+    <div class="target-value orange">£538</div>
   </div>
   <div class="target-divider"></div>
   <div class="target-item">
@@ -572,8 +488,8 @@
     </div>
     <div class="summary-card">
       <div class="summary-card-label">Still needed</div>
-      <div class="summary-card-value" id="still-needed" style="color:var(--orange)">£6,000</div>
-      <div class="summary-card-sub" id="needed-sub">to hit £6,000 target</div>
+      <div class="summary-card-value" id="still-needed" style="color:var(--orange)">£4,500</div>
+      <div class="summary-card-sub" id="needed-sub">to hit £4,500 target</div>
     </div>
     <div class="summary-card">
       <div class="summary-card-label">On track</div>
@@ -585,7 +501,7 @@
   <!-- Progress bar -->
   <div class="progress-section">
     <div class="progress-header">
-      <span class="progress-title">Progress to £6,000</span>
+      <span class="progress-title">Progress to £4,500</span>
       <span class="progress-pct" id="progress-pct">0%</span>
     </div>
     <div class="progress-track">
@@ -624,33 +540,32 @@
   </div>
 
   <div class="callout" id="callout-text">
-    Start logging your weekly savings every Wednesday. The tracker will tell you if you're ahead, behind, or on track for the £6,000 target by 1 July.
+    Start logging your weekly savings every Wednesday. The tracker will tell you if you're ahead, behind, or on track for the £4,500 target by 1 July.
   </div>
 
 </div>
 
 <script>
-  const TARGET = 6000;
+  const TARGET = 4500;
   const DEPOSIT = 1800;
 
-  // Read departure date from localStorage — updates automatically when changed on dashboard
+  // Generate weeks: Wed 19 Mar 2026 → Wed 1 Jul 2026 (approx)
   function getDepartureDate() {
     const stored = localStorage.getItem('pr_departure') || '2026-07-01';
     return new Date(stored + 'T12:00:00');
   }
 
-  // Rebuild everything from today → departure date
   let weeks = [];
   let totalWeeks = 0;
   let weeklyTarget = 0;
 
   function buildWeekData() {
     weeks = [];
-    const start = new Date();
-    // Snap to nearest past Wednesday
-    const day = start.getDay();
+    const now = new Date();
+    const day = now.getDay();
     const daysBack = (day >= 3) ? (day - 3) : (day + 4);
-    start.setDate(start.getDate() - daysBack);
+    const start = new Date(now);
+    start.setDate(now.getDate() - daysBack);
     start.setHours(0,0,0,0);
     const end = getDepartureDate();
     let d = new Date(start);
@@ -688,12 +603,33 @@
     weeks.forEach((w, i) => {
       const saved = getSaved(i);
       const isCurrent = isCurrentWeek(w.date);
+      const isPast = new Date() > new Date(w.date.getTime() + 7 * 86400000);
+
       const row = document.createElement('div');
       row.className = 'week-input-row' + (isCurrent ? ' current' : '');
+
       const statusClass = saved === null ? 'empty' : (saved >= weeklyTarget ? 'good' : 'behind');
+
+      // Phase labels matching portfolio roadmap exactly
+      // Phase 1: London → mid April 2026
+      // Phase 2: Mom's build → mid May 2026
+      // Phase 3: Mom's outreach → end June 2026
+      // Phase 4: Chiang Mai → departure
+      let phase, phaseLabel, phaseColor;
+      const wDate = w.date;
+      if (wDate < new Date(2026, 3, 15)) {
+        phase = 'phase1'; phaseLabel = 'Phase 1 — London'; phaseColor = 'var(--orange)';
+      } else if (wDate < new Date(2026, 4, 15)) {
+        phase = 'phase2'; phaseLabel = "Phase 2 — Mom's"; phaseColor = 'var(--teal)';
+      } else if (wDate < new Date(2026, 6, 1)) {
+        phase = 'phase3'; phaseLabel = 'Phase 3 — Outreach'; phaseColor = 'var(--purple)';
+      } else {
+        phase = 'phase4'; phaseLabel = 'Phase 4 — Away'; phaseColor = 'var(--blue)';
+      }
       row.innerHTML = `
         <div class="week-num">W${w.num}</div>
         <div class="week-date">${formatDate(w.date)}</div>
+        <div class="week-phase" style="color:${phaseColor};border-color:${phaseColor}40;background:${phaseColor}12">${phaseLabel}</div>
         <div class="week-target">£${weeklyTarget} target</div>
         <div class="week-actual-wrap">
           <input
@@ -809,7 +745,7 @@
   function updateCallout(running, weeksLogged, weeksBehind) {
     const el = document.getElementById('callout-text');
     if (weeksLogged === 0) {
-      el.textContent = 'Start logging your weekly savings every Wednesday. The tracker will tell you if you\'re ahead, behind, or on track for the £6,000 target by 1 July.';
+      el.textContent = 'Start logging your weekly savings every Wednesday. The tracker will tell you if you\'re ahead, behind, or on track for the £4,500 target by 1 July.';
       return;
     }
     if (running >= TARGET) {
@@ -825,37 +761,35 @@
     } else if (weeksBehind > 0) {
       el.textContent = `A few weeks below target but still manageable. You need £${neededPerWeek.toLocaleString()} per week from here. Don't let the slow weeks become a habit.`;
     } else {
-      el.textContent = `Solid. Every week at or above target. You need £${neededPerWeek.toLocaleString()} per week from here to land on £6,000 by 1 July. Keep this up.`;
+      el.textContent = `Solid. Every week at or above target. You need £${neededPerWeek.toLocaleString()} per week from here to land on £4,500 by 1 July. Keep this up.`;
     }
   }
 
-  // Load deposit state
+  function updateCountdown() {
+    const stored = localStorage.getItem('pr_departure') || '2026-07-01';
+    const departure = new Date(stored + 'T12:00:00');
+    const diff = Math.ceil((departure - new Date()) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById('countdown-number');
+    if (!el) return;
+    el.textContent = diff > 0 ? diff : '0';
+    el.className = 'countdown-number';
+    if (diff <= 15) el.classList.add('red');
+    else if (diff <= 30) el.classList.add('yellow');
+    const sub = document.getElementById('countdown-sub');
+    if (sub) {
+      const d = new Date(stored + 'T12:00:00');
+      sub.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ' — Chiang Mai';
+    }
+  }
+
   window.addEventListener('DOMContentLoaded', () => {
     const depositState = localStorage.getItem('deposit_received') === 'true';
     document.getElementById('deposit-received').checked = depositState;
     buildWeeks();
     updateAll();
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
   });
-
-  function updateCountdown() {
-    const stored = localStorage.getItem('pr_departure') || '2026-07-01';
-    var departure = new Date(stored + 'T12:00:00');
-    var now = new Date();
-    var diff = Math.ceil((departure - now) / (1000 * 60 * 60 * 24));
-    var el = document.getElementById('countdown-number');
-    el.textContent = diff > 0 ? diff : '0';
-    el.className = 'countdown-number';
-    if (diff <= 15) el.classList.add('red');
-    else if (diff <= 30) el.classList.add('yellow');
-    // Update the subtitle with the current date
-    var sub = document.getElementById('countdown-sub');
-    if (sub) {
-      var d = new Date(stored + 'T12:00:00');
-      sub.textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ' — Chiang Mai';
-    }
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 60000);
 
   document.getElementById('deposit-received').addEventListener('change', function() {
     localStorage.setItem('deposit_received', this.checked);
