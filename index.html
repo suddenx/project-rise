@@ -900,6 +900,9 @@
         if (remember) localStorage.setItem('pr_logged_in', '1');
         else sessionStorage.setItem('pr_logged_in', '1');
         showScreen('dashboard');
+        var c = document.getElementById('pr-chat');
+        if (c) c.style.display = 'block';
+        if (window.prLoadNotes) window.prLoadNotes();
       } else {
         // Redirect to their personal deployed site
         if (remember) {
@@ -2726,7 +2729,11 @@ function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.rem
 // -- INIT --
 window.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
-if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') showScreen('dashboard');
+if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
+  showScreen('dashboard');
+  var c = document.getElementById('pr-chat');
+  if (c) c.style.display = 'block';
+}
 });
 </script>
 
@@ -2854,22 +2861,6 @@ window.sendChat=function(){
 window.prLoadNotes=function(){
   fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:_prUser})}).then(function(r){return r.json();}).then(function(d){if(d&&d.notes)_prNotes=d.notes;}).catch(function(){});
 };
-
-// Show chat bubble when dashboard loads
-window.addEventListener('DOMContentLoaded',function(){
-  var origSS=window.showScreen;
-  window.showScreen=function(id){
-    origSS(id);
-    var c=document.getElementById('pr-chat');
-    if(c)c.style.display=id==='dashboard'?'block':'none';
-    if(id==='dashboard')window.prLoadNotes();
-  };
-  if(localStorage.getItem('pr_logged_in')==='1'||sessionStorage.getItem('pr_logged_in')==='1'){
-    var c=document.getElementById('pr-chat');
-    if(c)c.style.display='block';
-    window.prLoadNotes();
-  }
-});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
