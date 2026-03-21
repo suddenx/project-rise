@@ -2727,7 +2727,14 @@ function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.rem
 // -- INIT --
 window.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
-if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') showScreen('dashboard');
+if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
+  showScreen('dashboard');
+  setTimeout(function() {
+    var b = document.getElementById('pr-chat-btn');
+    if (b) b.style.display = 'flex';
+    if (typeof prLoadNotes === 'function') prLoadNotes();
+  }, 100);
+}
 });
 </script>
 
