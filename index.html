@@ -2740,7 +2740,7 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 
 <!-- CHAT WIDGET -->
 <div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'DM Sans',sans-serif;display:none;">
-  <button id="pr-chat-btn" onclick="toggleChat()" aria-label="Open coach"
+  <button id="pr-chat-btn" onclick="var p=document.getElementById('pr-chat-panel');if(!p)return;var isOpen=p.style.display==='flex';p.style.display=isOpen?'none':'flex';if(!isOpen){if(typeof initPrChat==='function'&&!window.prInit)initPrChat();setTimeout(function(){var i=document.getElementById('pr-chat-input');if(i)i.focus();},100);}" aria-label="Open coach"
     style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
   </button>
