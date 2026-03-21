@@ -3,7 +3,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Project:Rise">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <title>Project:Rise</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap">
 <style>
@@ -2778,6 +2785,17 @@ window.sendChat=function(){
 window.prLoadNotes=function(){
   fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:_prUser})}).then(function(r){return r.json();}).then(function(d){if(d&&d.notes)_prNotes=d.notes;}).catch(function(){});
 };
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      console.log('SW registered');
+    }).catch(function(err) {
+      console.log('SW failed:', err);
+    });
+  });
+}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
