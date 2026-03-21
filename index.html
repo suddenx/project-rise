@@ -2776,6 +2776,7 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 </style>
 <script>
 var prCH=[],prOpen=false,prInit=false,prNotes='',prUser='sudden';
+window.prInit=false;
 function toggleChat(){
   prOpen=!prOpen;
   var p=document.getElementById('pr-chat-panel');
@@ -2785,13 +2786,13 @@ function toggleChat(){
   if(prOpen)setTimeout(function(){var i=document.getElementById('pr-chat-input');if(i)i.focus();},100);
 }
 function initPrChat(){
-  prInit=true;
+  prInit=true;window.prInit=true;
   var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
   var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
   var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
   var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
   for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
-  var msg='Sudden. '+days+' days to Chiang Mai.'+(svd>0?' £'+svd.toLocaleString()+' saved.':'')+(prNotes?' Good to have you back.':'')+' What do you need help with?';
+  var msg='Sudden. '+days+' days to Chiang Mai.'+(svd>0?' \u00a3'+svd.toLocaleString()+' saved.':'')+(prNotes?' Good to have you back.':'')+' What do you need help with?';
   prMsg('assistant',msg);
   var sugs=['Am I on track?','What should I focus on this week?',"I'm struggling with consistency",'How do I get my first client?'];
   var sb=document.getElementById('pr-chat-sugs');
@@ -2830,7 +2831,7 @@ async function sendChat(){
     var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
     var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
     for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
-    var prof={name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'£',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre work and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:prNotes};
+    var prof={name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'\u00a3',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre work and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:prNotes};
     var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:prCH,profile:prof})});
     var d=await r.json();prRmTyping();
     if(!r.ok||!d.reply){prMsg('assistant',d.error||'Something went wrong.');}
@@ -2844,11 +2845,9 @@ async function sendChat(){
 }
 async function prSaveNote(note){
   var ts=new Date().toLocaleDateString('en-GB');
-  var ex=prNotes?prNotes.split('
-').filter(Boolean):[];
+  var ex=prNotes?prNotes.split('\n').filter(Boolean):[];
   ex.push('['+ts+'] '+note);if(ex.length>20)ex.splice(0,ex.length-20);
-  prNotes=ex.join('
-');
+  prNotes=ex.join('\n');
   try{await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_notes',username:prUser,notes:prNotes})});}catch(e){}
 }
 async function prLoadNotes(){
