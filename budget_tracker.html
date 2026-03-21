@@ -676,7 +676,8 @@
   }
 
   function updateAll() {
-    const depositAdded = document.getElementById('deposit-received').checked;
+    const depositEl = document.getElementById('deposit-received');
+    const depositAdded = depositEl ? depositEl.checked : false;
     // Existing savings always count toward the total — they're already in your account
     let running = DEPOSIT;
     let weeksLogged = 0;
@@ -718,6 +719,8 @@
     const stillNeeded = Math.max(0, TARGET - running);
     neededEl.textContent = '£' + stillNeeded.toLocaleString();
     neededEl.style.color = stillNeeded === 0 ? 'var(--teal)' : 'var(--orange)';
+    const neededSub = document.getElementById('needed-sub');
+    if (neededSub) neededSub.textContent = stillNeeded === 0 ? 'target reached!' : 'to hit £' + TARGET.toLocaleString() + ' target';
 
     document.getElementById('progress-pct').textContent = pct + '%';
     document.getElementById('progress-fill').style.width = pct + '%';
