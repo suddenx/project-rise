@@ -2786,8 +2786,7 @@ window.prMsg=function(role,text){
   w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
   var bub=document.createElement('div');
   bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
-  bub.innerHTML=text.replace(/
-/g,'<br>');
+  bub.innerHTML=text.replace(/\n/g,'<br>');
   w.appendChild(bub);
   b.appendChild(w);
   b.scrollTop=b.scrollHeight;
