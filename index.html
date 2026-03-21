@@ -2730,8 +2730,8 @@ document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('a
 if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
   showScreen('dashboard');
   setTimeout(function() {
-    var b = document.getElementById('pr-chat-btn');
-    if (b) b.style.display = 'flex';
+    var b = document.getElementById('pr-chat');
+    if (b) b.style.display = 'block';
     if (typeof prLoadNotes === 'function') prLoadNotes();
   }, 100);
 }
@@ -2739,9 +2739,9 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 </script>
 
 <!-- CHAT WIDGET -->
-<div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'DM Sans',sans-serif;">
+<div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'DM Sans',sans-serif;display:none;">
   <button id="pr-chat-btn" onclick="toggleChat()" aria-label="Open coach"
-    style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);">
+    style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
   </button>
   <div id="pr-chat-panel" style="display:none;flex-direction:column;width:340px;max-width:calc(100vw - 48px);height:480px;background:#161616;border:1px solid rgba(255,255,255,0.12);border-radius:16px;box-shadow:0 8px 48px rgba(0,0,0,0.7);overflow:hidden;margin-bottom:12px;">
@@ -2857,8 +2857,8 @@ async function prLoadNotes(){
 var _ss=window.showScreen;
 window.showScreen=function(id){
   _ss(id);
-  var b=document.getElementById('pr-chat-btn');
-  if(b)b.style.display=id==='dashboard'?'flex':'none';
+  var b=document.getElementById('pr-chat');
+  if(b)b.style.display=id==='dashboard'?'block':'none';
   if(id==='dashboard')prLoadNotes();
 };
 </script>
