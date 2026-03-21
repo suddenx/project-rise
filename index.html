@@ -69,7 +69,7 @@
 .dash-days-label { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
 .dash-date-edit-top { display: none; }
 .dash-date-edit-bottom { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 12px; }
-.dash-date-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 9px 12px; outline: none; transition: border-color 0.15s; color-scheme: dark; cursor: pointer; width: 148px; text-align: center; text-align-last: center; }
+.dash-date-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 9px 0; outline: none; transition: border-color 0.15s; color-scheme: dark; cursor: pointer; width: 148px; text-align: center; }
 .dash-date-input:focus { border-color: var(--teal); }
 .dash-date-input::-webkit-calendar-picker-indicator { filter: invert(0.4); cursor: pointer; }
 .dash-date-save { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 0; background: rgba(31,203,138,0.1); border: 1px solid rgba(31,203,138,0.4); border-radius: 6px; color: var(--teal); cursor: pointer; transition: all 0.15s; width: 148px; }
@@ -1260,8 +1260,8 @@ Be specific with numbers. Use ${userData.currency} for all money. Make it person
       advanceGenStep('gstep-3', 30);
       setStatus('Creating your daily routines...');
       const routinesPrompt = `Generate personalised daily routine content for ${userData.name}.
-Context: Job: ${userData.job} | Schedule: ${userData.schedule} | Skill: ${userData.skill} | Level: ${userData.skillLevel} | Discipline: ${userData.discipline} | Destination: ${userData.destination} | Weakness: ${userData.weakness}
-Non-negotiables must be specific to ${userData.skill}. Real output-based habits. Callouts reference their situation.
+Context: Job: ${userData.job} | Schedule: ${userData.schedule} | Skill: ${userData.skill} | Discipline: ${userData.discipline} | Destination: ${userData.destination} | Weakness: ${userData.weakness}
+Non-negotiables specific to ${userData.skill}. Real output-based habits.
 Return ONLY JSON (no markdown, no backticks):
 {
   "non_negotiables": ["habit specific to ${userData.skill}", "habit 2", "habit 3", "habit 4", "habit 5"],
@@ -1271,8 +1271,8 @@ Return ONLY JSON (no markdown, no backticks):
   "scenario_d_note": "note for recovery days",
   "callout_a": "callout referencing ${userData.destination}",
   "callout_b": "callout referencing their weakness",
-  "callout_c": "callout about full days",
-  "callout_d": "callout about rest"
+  "callout_c": "callout about full days being most important",
+  "callout_d": "rest is part of the plan"
 }`;
       let routinesData = {};
       try {
@@ -1329,28 +1329,13 @@ Only include deposit_amount if they mentioned a deposit coming in. departure_js_
       setStatus('Building your portfolio roadmap...');
       const portfolioPrompt = `Create a specific 4-phase roadmap for ${userData.name}.
 Context: Skill: ${userData.skill} | Level: ${userData.skillLevel} | City: ${userData.city} | Destination: ${userData.destination} | Departure: ${userData.departure} | Connections: ${userData.connections} | Strength: ${userData.strength} | Weakness: ${userData.weakness}
-Phases must match their ACTUAL timeline. Milestones specific to ${userData.skill} at ${userData.skillLevel} level.
+Phases must match their ACTUAL timeline to ${userData.departure}. Milestones specific to ${userData.skill}.
 Return ONLY JSON (no markdown, no backticks):
 {
-  "phase1_name": "specific phase name",
-  "phase1_dates": "Now to realistic date",
-  "phase1_note": "one sentence",
-  "phase1_targets": ["target 1", "target 2", "target 3"],
-  "phase1_milestones": ["milestone 1", "milestone 2", "milestone 3"],
-  "phase2_name": "name",
-  "phase2_dates": "dates",
-  "phase2_note": "note",
-  "phase2_targets": ["t1", "t2", "t3"],
-  "phase2_milestones": ["m1", "m2", "m3"],
-  "phase3_name": "outreach phase",
-  "phase3_dates": "dates",
-  "phase3_note": "note",
-  "phase3_targets": ["t1", "t2", "t3"],
-  "phase3_milestones": ["m1", "m2", "m3"],
-  "phase4_name": "${userData.destination}",
-  "phase4_dates": "${userData.departure} onwards",
-  "phase4_note": "arrive with income started",
-  "phase4_goals": ["income goal month 1", "client goal", "skill goal", "life goal"]
+  "phase1_name": "specific phase name", "phase1_dates": "Now to realistic date", "phase1_note": "one sentence", "phase1_targets": ["target 1", "target 2", "target 3"], "phase1_milestones": ["milestone 1", "milestone 2", "milestone 3"],
+  "phase2_name": "name", "phase2_dates": "dates", "phase2_note": "note", "phase2_targets": ["t1","t2","t3"], "phase2_milestones": ["m1","m2","m3"],
+  "phase3_name": "outreach phase", "phase3_dates": "dates", "phase3_note": "note", "phase3_targets": ["t1","t2","t3"], "phase3_milestones": ["m1","m2","m3"],
+  "phase4_name": "${userData.destination}", "phase4_dates": "${userData.departure} onwards", "phase4_note": "arrive with income started", "phase4_goals": ["income goal", "client goal", "skill goal", "life goal"]
 }`;
       let portfolioData = {};
       try {
@@ -1369,24 +1354,11 @@ Context: Skill: ${userData.skill} | Strength: ${userData.strength} | Connections
 Pitches must be real messages they could send today.
 Return ONLY JSON (no markdown, no backticks):
 {
-  "positioning_line": "specific sentence about their value as ${userData.skill} professional",
-  "channel1_name": "warmest channel given their connections",
-  "channel1_tips": ["tip 1", "tip 2", "tip 3"],
-  "channel1_pitch": "real 2-3 sentence pitch with [brackets]",
-  "channel1_dos": ["do 1", "do 2"],
-  "channel1_donts": ["dont 1", "dont 2"],
-  "channel2_name": "best platform for ${userData.skill}",
-  "channel2_tips": ["tip 1", "tip 2", "tip 3"],
-  "channel2_pitch": "real pitch template",
-  "channel2_dos": ["do 1", "do 2"],
-  "channel2_donts": ["dont 1", "dont 2"],
-  "channel3_name": "cold outreach channel",
-  "channel3_tips": ["tip 1", "tip 2", "tip 3"],
-  "channel3_pitch": "real cold DM template with [brackets]",
-  "channel3_dos": ["do 1", "do 2"],
-  "channel3_donts": ["dont 1", "dont 2"],
-  "channel4_name": "community channel",
-  "channel4_tips": ["tip 1", "tip 2", "tip 3"]
+  "positioning_line": "specific sentence about their value",
+  "channel1_name": "warmest channel", "channel1_tips": ["tip 1","tip 2","tip 3"], "channel1_pitch": "real pitch with [brackets]", "channel1_dos": ["do 1","do 2"], "channel1_donts": ["dont 1","dont 2"],
+  "channel2_name": "best platform for ${userData.skill}", "channel2_tips": ["tip 1","tip 2","tip 3"], "channel2_pitch": "real pitch", "channel2_dos": ["do 1","do 2"], "channel2_donts": ["dont 1","dont 2"],
+  "channel3_name": "cold outreach", "channel3_tips": ["tip 1","tip 2","tip 3"], "channel3_pitch": "real cold DM with [brackets]", "channel3_dos": ["do 1","do 2"], "channel3_donts": ["dont 1","dont 2"],
+  "channel4_name": "community channel", "channel4_tips": ["tip 1","tip 2","tip 3"]
 }`;
       let outreachData = {};
       try {
@@ -1405,41 +1377,11 @@ Real visa requirements, vaccines, banking for ${userData.destination}. Not gener
 Return ONLY JSON (no markdown, no backticks):
 {
   "categories": [
-    {"name": "Documents and Visa", "items": [
-      {"label": "visa requirement for ${userData.destination}", "desc": "real details", "when": "Now"},
-      {"label": "item 2", "desc": "desc", "when": "Phase 2"},
-      {"label": "item 3", "desc": "desc", "when": "Phase 2"},
-      {"label": "item 4", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 5", "desc": "desc", "when": "Phase 3"}
-    ]},
-    {"name": "Health and Vaccinations", "items": [
-      {"label": "vaccination for ${userData.destination}", "desc": "real desc", "when": "Now"},
-      {"label": "item 2", "desc": "desc", "when": "Now"},
-      {"label": "item 3", "desc": "desc", "when": "Phase 2"},
-      {"label": "item 4", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 5", "desc": "desc", "when": "Phase 3"}
-    ]},
-    {"name": "Money and Banking", "items": [
-      {"label": "best banking for ${userData.destination}", "desc": "real desc", "when": "Phase 2"},
-      {"label": "item 2", "desc": "desc", "when": "Phase 2"},
-      {"label": "item 3", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 4", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 5", "desc": "desc", "when": "Phase 3"}
-    ]},
-    {"name": "Tech and Remote Work", "items": [
-      {"label": "tech for ${userData.skill}", "desc": "real desc", "when": "Phase 3"},
-      {"label": "item 2", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 3", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 4", "desc": "desc", "when": "Phase 3"},
-      {"label": "item 5", "desc": "desc", "when": "Phase 3"}
-    ]},
-    {"name": "On Arrival", "items": [
-      {"label": "first priority in ${userData.destination}", "desc": "real desc", "when": "Day 1"},
-      {"label": "item 2", "desc": "desc", "when": "Day 1"},
-      {"label": "item 3", "desc": "desc", "when": "Week 1"},
-      {"label": "item 4", "desc": "desc", "when": "Week 1"},
-      {"label": "item 5", "desc": "desc", "when": "Week 1"}
-    ]}
+    {"name": "Documents and Visa", "items": [{"label": "visa for ${userData.destination}", "desc": "real details", "when": "Now"},{"label": "item 2", "desc": "desc", "when": "Phase 2"},{"label": "item 3", "desc": "desc", "when": "Phase 2"},{"label": "item 4", "desc": "desc", "when": "Phase 3"},{"label": "item 5", "desc": "desc", "when": "Phase 3"}]},
+    {"name": "Health and Vaccinations", "items": [{"label": "vaccination for ${userData.destination}", "desc": "real desc", "when": "Now"},{"label": "item 2", "desc": "desc", "when": "Now"},{"label": "item 3", "desc": "desc", "when": "Phase 2"},{"label": "item 4", "desc": "desc", "when": "Phase 3"},{"label": "item 5", "desc": "desc", "when": "Phase 3"}]},
+    {"name": "Money and Banking", "items": [{"label": "best banking for ${userData.destination}", "desc": "real desc", "when": "Phase 2"},{"label": "item 2", "desc": "desc", "when": "Phase 2"},{"label": "item 3", "desc": "desc", "when": "Phase 3"},{"label": "item 4", "desc": "desc", "when": "Phase 3"},{"label": "item 5", "desc": "desc", "when": "Phase 3"}]},
+    {"name": "Tech and Remote Work", "items": [{"label": "tech for ${userData.skill}", "desc": "real desc", "when": "Phase 3"},{"label": "item 2", "desc": "desc", "when": "Phase 3"},{"label": "item 3", "desc": "desc", "when": "Phase 3"},{"label": "item 4", "desc": "desc", "when": "Phase 3"},{"label": "item 5", "desc": "desc", "when": "Phase 3"}]},
+    {"name": "On Arrival", "items": [{"label": "first priority in ${userData.destination}", "desc": "real desc", "when": "Day 1"},{"label": "item 2", "desc": "desc", "when": "Day 1"},{"label": "item 3", "desc": "desc", "when": "Week 1"},{"label": "item 4", "desc": "desc", "when": "Week 1"},{"label": "item 5", "desc": "desc", "when": "Week 1"}]}
   ]
 }`;
       let checklistData = {};
@@ -2733,6 +2675,7 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
   showScreen('dashboard');
   var c = document.getElementById('pr-chat');
   if (c) c.style.display = 'block';
+  if (window.prLoadNotes) window.prLoadNotes();
 }
 });
 </script>
@@ -2777,22 +2720,17 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 <script>
 var _prCH=[],_prNotes='',_prUser='sudden';
 window._prInit=false;
-
 window.prMsg=function(role,text){
-  var b=document.getElementById('pr-chat-msgs');
-  if(!b)return;
+  var b=document.getElementById('pr-chat-msgs');if(!b)return;
   var u=role==='user';
   var w=document.createElement('div');
   w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
   var bub=document.createElement('div');
   bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
   bub.innerHTML=text.replace(/\n/g,'<br>');
-  w.appendChild(bub);
-  b.appendChild(w);
-  b.scrollTop=b.scrollHeight;
+  w.appendChild(bub);b.appendChild(w);b.scrollTop=b.scrollHeight;
   if(u){var sg=document.getElementById('pr-chat-sugs');if(sg)sg.style.display='none';}
 };
-
 window.initPrChat=function(){
   window._prInit=true;
   var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
@@ -2800,26 +2738,19 @@ window.initPrChat=function(){
   var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
   var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
   for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
-  window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' \u00a3'+svd.toLocaleString()+' saved.':'')+((_prNotes)?' Good to have you back.':'')+' What do you need help with?');
+  window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' £'+svd.toLocaleString()+' saved.':'')+(_prNotes?' Good to have you back.':'')+' What do you need help with?');
   var sugs=['Am I on track?','What should I focus on this week?','I am struggling with consistency','How do I get my first client?'];
   var sb=document.getElementById('pr-chat-sugs');
   if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="window.prSug(this)" style="font-size:11px;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
 };
-
-window.prSug=function(btn){
-  var i=document.getElementById('pr-chat-input');
-  if(i){i.value=btn.textContent;window.sendChat();}
-};
-
+window.prSug=function(btn){var i=document.getElementById('pr-chat-input');if(i){i.value=btn.textContent;window.sendChat();}};
 window.sendChat=function(){
   var inp=document.getElementById('pr-chat-input');
   var btn=document.getElementById('pr-chat-send');
-  var txt=inp?inp.value.trim():'';
-  if(!txt)return;
+  var txt=inp?inp.value.trim():'';if(!txt)return;
   inp.value='';inp.style.height='auto';
   if(btn)btn.disabled=true;
-  window.prMsg('user',txt);
-  _prCH.push({role:'user',content:txt});
+  window.prMsg('user',txt);_prCH.push({role:'user',content:txt});
   var b=document.getElementById('pr-chat-msgs');
   var dt=document.createElement('div');dt.id='pr-typing';
   dt.style.cssText='display:flex;align-items:center;gap:4px;padding:9px 13px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);border-radius:14px 14px 14px 4px;align-self:flex-start;';
@@ -2830,33 +2761,13 @@ window.sendChat=function(){
   var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
   var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
   for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
-  fetch('/api/chat',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      messages:_prCH,
-      profile:{name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'\u00a3',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:_prNotes}
-    })
-  }).then(function(r){
-    return r.json().then(function(d){return {ok:r.ok,d:d};});
-  }).then(function(res){
+  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:_prCH,profile:{name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'£',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:_prNotes}})}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});}).then(function(res){
     var ty=document.getElementById('pr-typing');if(ty)ty.remove();
-    if(!res.ok||!res.d||!res.d.reply){
-      window.prMsg('assistant',(res.d&&res.d.error)||'Something went wrong. Try again.');
-    } else {
-      window.prMsg('assistant',res.d.reply);
-      _prCH.push({role:'assistant',content:res.d.reply});
-      if(_prCH.length>10)_prCH=_prCH.slice(-10);
-    }
-    if(btn)btn.disabled=false;
-    if(inp)inp.focus();
-  }).catch(function(e){
-    var ty=document.getElementById('pr-typing');if(ty)ty.remove();
-    window.prMsg('assistant','Error: '+e.message);
-    if(btn)btn.disabled=false;
-  });
+    if(!res.ok||!res.d||!res.d.reply){window.prMsg('assistant',(res.d&&res.d.error)||'Something went wrong. Try again.');}
+    else{window.prMsg('assistant',res.d.reply);_prCH.push({role:'assistant',content:res.d.reply});if(_prCH.length>10)_prCH=_prCH.slice(-10);}
+    if(btn)btn.disabled=false;if(inp)inp.focus();
+  }).catch(function(e){var ty=document.getElementById('pr-typing');if(ty)ty.remove();window.prMsg('assistant','Error: '+e.message);if(btn)btn.disabled=false;});
 };
-
 window.prLoadNotes=function(){
   fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:_prUser})}).then(function(r){return r.json();}).then(function(d){if(d&&d.notes)_prNotes=d.notes;}).catch(function(){});
 };
