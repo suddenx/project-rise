@@ -1893,12 +1893,119 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});
 <\/script>
+
+<!-- CHAT WIDGET -->
+<div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:none;">
+  <button id="pr-chat-btn" aria-label="Open coach"
+    style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);"
+    onclick="var p=document.getElementById('pr-chat-panel');if(!p)return;var o=p.style.display==='flex';p.style.display=o?'none':'flex';if(!o&&!window._prInit)window.initPrChat();">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  </button>
+  <div id="pr-chat-panel" style="display:none;flex-direction:column;width:340px;max-width:calc(100vw - 48px);height:480px;background:#161616;border:1px solid rgba(255,255,255,0.12);border-radius:16px;box-shadow:0 8px 48px rgba(0,0,0,0.7);overflow:hidden;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#1e1e1e;border-bottom:1px solid rgba(255,255,255,0.07);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1fcb8a,#4a9eff);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:#0d0d0d;font-weight:700;">${d.name.charAt(0).toUpperCase()}</div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#f0ece4;">Project:Rise Coach</div>
+          <div style="font-size:11px;color:#1fcb8a;margin-top:2px;">&#9679; Online</div>
+        </div>
+      </div>
+      <button onclick="document.getElementById('pr-chat-panel').style.display='none'" style="background:none;border:none;color:#7a7670;cursor:pointer;font-size:20px;line-height:1;padding:4px;">&#x2715;</button>
+    </div>
+    <div id="pr-chat-msgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
+    <div id="pr-chat-sugs" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;"></div>
+    <div style="display:flex;align-items:flex-end;gap:8px;padding:10px 14px 14px;border-top:1px solid rgba(255,255,255,0.07);">
+      <textarea id="pr-chat-input" placeholder="Ask your coach..." rows="1"
+        style="flex:1;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#f0ece4;font-size:13px;padding:9px 12px;outline:none;resize:none;min-height:38px;max-height:96px;line-height:1.45;"
+        onfocus="this.style.borderColor='#1fcb8a'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,96)+'px'"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();window.sendChat();}"></textarea>
+      <button id="pr-chat-send" onclick="window.sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+<style>
+#pr-chat-msgs::-webkit-scrollbar{width:4px}
+#pr-chat-msgs::-webkit-scrollbar-thumb{background:#3a3834;border-radius:2px}
+@keyframes prDot{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+</style>
+<script>
+var _prCH=[],_prNotes='',_prUser='${d.username||"user"}';
+window._prInit=false;
+window.prMsg=function(role,text){
+  var b=document.getElementById('pr-chat-msgs');if(!b)return;
+  var u=role==='user';
+  var w=document.createElement('div');
+  w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
+  var bub=document.createElement('div');
+  bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
+  bub.innerHTML=text.replace(/\n/g,'<br>');
+  w.appendChild(bub);b.appendChild(w);b.scrollTop=b.scrollHeight;
+  if(u){var sg=document.getElementById('pr-chat-sugs');if(sg)sg.style.display='none';}
+};
+window.initPrChat=function(){
+  window._prInit=true;
+  var dep=new Date((localStorage.getItem('pr_departure')||'${isoDate}')+'T12:00:00');
+  var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
+  var tgt=parseInt(localStorage.getItem('pr_budget_target')||'${budgetTarget}');
+  var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
+  for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
+  window.prMsg('assistant','${d.name}. '+days+' days to ${dest}.'+(svd>0?' ${sym}'+svd.toLocaleString()+' saved.':'')+(_prNotes?' Good to have you back.':'')+' What do you need help with?');
+  var sugs=['Am I on track?','What should I focus on this week?','I am struggling with consistency','How do I get my first client?'];
+  var sb=document.getElementById('pr-chat-sugs');
+  if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="window.prSug(this)" style="font-size:11px;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
+};
+window.prSug=function(btn){var i=document.getElementById('pr-chat-input');if(i){i.value=btn.textContent;window.sendChat();}};
+window.sendChat=function(){
+  var inp=document.getElementById('pr-chat-input');
+  var btn=document.getElementById('pr-chat-send');
+  var txt=inp?inp.value.trim():'';if(!txt)return;
+  inp.value='';inp.style.height='auto';
+  if(btn)btn.disabled=true;
+  window.prMsg('user',txt);_prCH.push({role:'user',content:txt});
+  var b=document.getElementById('pr-chat-msgs');
+  var dt=document.createElement('div');dt.id='pr-typing';
+  dt.style.cssText='display:flex;align-items:center;gap:4px;padding:9px 13px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);border-radius:14px 14px 14px 4px;align-self:flex-start;';
+  dt.innerHTML='<span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.2s"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.4s"></span>';
+  if(b){b.appendChild(dt);b.scrollTop=b.scrollHeight;}
+  var dep=new Date((localStorage.getItem('pr_departure')||'${isoDate}')+'T12:00:00');
+  var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
+  var tgt=parseInt(localStorage.getItem('pr_budget_target')||'${budgetTarget}');
+  var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
+  for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
+  fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:_prCH,profile:{name:'${d.name}',destination:'${dest}',departure:dep.toLocaleDateString('en-GB'),skill:'${d.skill}',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'${d.currency}',currencySymbol:'${sym}',discipline:'${d.discipline}',weakness:'${d.weakness}',why:'${d.why}',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:_prNotes}})}).then(function(r){return r.json().then(function(data){return {ok:r.ok,d:data};});}).then(function(res){
+    var ty=document.getElementById('pr-typing');if(ty)ty.remove();
+    if(!res.ok||!res.d||!res.d.reply){window.prMsg('assistant',(res.d&&res.d.error)||'Something went wrong. Try again.');}
+    else{window.prMsg('assistant',res.d.reply);_prCH.push({role:'assistant',content:res.d.reply});if(_prCH.length>10)_prCH=_prCH.slice(-10);}
+    if(btn)btn.disabled=false;if(inp)inp.focus();
+  }).catch(function(e){var ty=document.getElementById('pr-typing');if(ty)ty.remove();window.prMsg('assistant','Error: '+e.message);if(btn)btn.disabled=false;});
+};
+window.prLoadNotes=function(){
+  fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:_prUser})}).then(function(r){return r.json();}).then(function(data){if(data&&data.notes)_prNotes=data.notes;}).catch(function(){});
+};
+window.addEventListener('DOMContentLoaded',function(){
+  if(localStorage.getItem('pr_li')==='1'||sessionStorage.getItem('pr_li')==='1'){
+    var c=document.getElementById('pr-chat');if(c)c.style.display='block';
+    window.prLoadNotes();
+  }
+  var origShowDash=window.showDash;
+  if(origShowDash){
+    window.showDash=function(){
+      origShowDash();
+      var c=document.getElementById('pr-chat');if(c)c.style.display='block';
+      window.prLoadNotes();
+    };
+  }
+});
+<\/script>
 </body>
-</html>`;
+</html>\`;
   }
   function getDefaultRoutinesData(d) {
     return {
-      non_negotiables: [`Work on ${d.skill} daily`, '4L water', 'Gym 5x/week', '30min learning', 'No social media — first 2hrs'],
+      non_negotiables: ['Work on ' + d.skill + ' daily', '4L water', 'Gym 5x/week', '30min learning', 'No social media — first 2hrs'],
       scenario_a_note: 'Morning free days are your best creative days. Protect them.',
       scenario_b_note: 'Use the gym as a reset between your shift and your work session.',
       scenario_c_note: 'Full day off means full output day. Treat it seriously.',
@@ -1913,7 +2020,7 @@ document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='E
 function buildRoutinesHTML(d, r) {
 const pills = (r.non_negotiables || []).map((n,i) => {
 const colors = ['teal','blue','purple','orange','blue'];
-return `<span class="pill ${colors[i%colors.length]}">${n}</span>`;
+return '<span class="pill ' + colors[i%colors.length] + '">' + n + '</span>';
 }).join('');
 
 return `<!DOCTYPE html>
