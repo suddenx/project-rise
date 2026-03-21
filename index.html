@@ -2763,7 +2763,7 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
         onfocus="this.style.borderColor='#1fcb8a'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
         oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,96)+'px'"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();window.sendChat();}"></textarea>
-      <button onclick="window.sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <button id="pr-chat-send" onclick="window.sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
@@ -2801,7 +2801,7 @@ window.initPrChat=function(){
   var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
   var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
   for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
-  window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' £'+svd.toLocaleString()+' saved.':'')+((_prNotes)?' Good to have you back.':'')+' What do you need help with?');
+  window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' \u00a3'+svd.toLocaleString()+' saved.':'')+((_prNotes)?' Good to have you back.':'')+' What do you need help with?');
   var sugs=['Am I on track?','What should I focus on this week?','I am struggling with consistency','How do I get my first client?'];
   var sb=document.getElementById('pr-chat-sugs');
   if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="window.prSug(this)" style="font-size:11px;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
@@ -2814,7 +2814,7 @@ window.prSug=function(btn){
 
 window.sendChat=function(){
   var inp=document.getElementById('pr-chat-input');
-  var btn=document.querySelector('[onclick="window.sendChat()"]');
+  var btn=document.getElementById('pr-chat-send');
   var txt=inp?inp.value.trim():'';
   if(!txt)return;
   inp.value='';inp.style.height='auto';
@@ -2836,7 +2836,7 @@ window.sendChat=function(){
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
       messages:_prCH,
-      profile:{name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'£',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:_prNotes}
+      profile:{name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'\u00a3',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:_prNotes}
     })
   }).then(function(r){
     return r.json().then(function(d){return {ok:r.ok,d:d};});
