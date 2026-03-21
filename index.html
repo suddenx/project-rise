@@ -2740,7 +2740,7 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 
 <!-- CHAT WIDGET -->
 <div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'DM Sans',sans-serif;display:none;">
-  <button id="pr-chat-btn" onclick="var p=document.getElementById('pr-chat-panel');if(!p)return;var isOpen=p.style.display==='flex';p.style.display=isOpen?'none':'flex';if(!isOpen){if(typeof initPrChat==='function'&&!window.prInit)initPrChat();setTimeout(function(){var i=document.getElementById('pr-chat-input');if(i)i.focus();},100);}" aria-label="Open coach"
+  <button id="pr-chat-btn" onclick="var p=document.getElementById('pr-chat-panel');if(!p)return;var isOpen=p.style.display==='flex';p.style.display=isOpen?'none':'flex';if(!isOpen){if(typeof window.initPrChat==='function'&&!window._prInit)window.initPrChat();setTimeout(function(){var i=document.getElementById('pr-chat-input');if(i)i.focus();},100);}" aria-label="Open coach"
     style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
   </button>
@@ -2753,7 +2753,7 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
           <div style="font-size:11px;color:#1fcb8a;margin-top:2px;">&#9679; Online</div>
         </div>
       </div>
-      <button onclick="toggleChat()" style="background:none;border:none;color:#7a7670;cursor:pointer;font-size:20px;line-height:1;padding:4px;">&#x2715;</button>
+      <button onclick="document.getElementById('pr-chat-panel').style.display='none'" style="background:none;border:none;color:#7a7670;cursor:pointer;font-size:20px;line-height:1;padding:4px;">&#x2715;</button>
     </div>
     <div id="pr-chat-msgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;"></div>
     <div id="pr-chat-sugs" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;"></div>
@@ -2762,8 +2762,8 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
         style="flex:1;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#f0ece4;font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 12px;outline:none;resize:none;min-height:38px;max-height:96px;line-height:1.45;"
         onfocus="this.style.borderColor='#1fcb8a'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
         oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,96)+'px'"
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
-      <button id="pr-chat-send" onclick="sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();window.sendChat();}"></textarea>
+      <button id="pr-chat-send" onclick="window.sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
@@ -2775,92 +2775,113 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 @keyframes prDot{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 </style>
 <script>
-var prCH=[],prOpen=false,prInit=false,prNotes='',prUser='sudden';
-window.prInit=false;
-function toggleChat(){
-  prOpen=!prOpen;
-  var p=document.getElementById('pr-chat-panel');
-  if(!p)return;
-  p.style.display=prOpen?'flex':'none';
-  if(prOpen&&!prInit)initPrChat();
-  if(prOpen)setTimeout(function(){var i=document.getElementById('pr-chat-input');if(i)i.focus();},100);
-}
-function initPrChat(){
-  prInit=true;window.prInit=true;
-  var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
-  var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
-  var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
-  var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
-  for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
-  var msg='Sudden. '+days+' days to Chiang Mai.'+(svd>0?' \u00a3'+svd.toLocaleString()+' saved.':'')+(prNotes?' Good to have you back.':'')+' What do you need help with?';
-  prMsg('assistant',msg);
-  var sugs=['Am I on track?','What should I focus on this week?',"I'm struggling with consistency",'How do I get my first client?'];
-  var sb=document.getElementById('pr-chat-sugs');
-  if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="prSug(this)" style="font-size:11px;font-family:DM Mono,monospace;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
-}
-function prMsg(role,text){
-  var b=document.getElementById('pr-chat-msgs');if(!b)return;
-  var u=role==='user';
-  var w=document.createElement('div');
-  w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
-  var bub=document.createElement('div');
-  bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
-  bub.innerHTML=text.replace(/
-/g,'<br>');
-  w.appendChild(bub);b.appendChild(w);b.scrollTop=b.scrollHeight;
-  if(u){var s=document.getElementById('pr-chat-sugs');if(s)s.style.display='none';}
-}
-function prTyping(){
-  var b=document.getElementById('pr-chat-msgs');if(!b)return;
-  var d=document.createElement('div');d.id='pr-typing';
-  d.style.cssText='display:flex;align-items:center;gap:4px;padding:9px 13px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);border-radius:14px 14px 14px 4px;align-self:flex-start;';
-  d.innerHTML='<span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.2s"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.4s"></span>';
-  b.appendChild(d);b.scrollTop=b.scrollHeight;
-}
-function prRmTyping(){var t=document.getElementById('pr-typing');if(t)t.remove();}
-function prSug(btn){var i=document.getElementById('pr-chat-input');if(i){i.value=btn.textContent;sendChat();}}
-async function sendChat(){
-  var inp=document.getElementById('pr-chat-input'),btn=document.getElementById('pr-chat-send');
-  var txt=(inp?inp.value:'').trim();if(!txt)return;
-  if(inp){inp.value='';inp.style.height='auto';}
-  if(btn)btn.disabled=true;
-  prMsg('user',txt);prCH.push({role:'user',content:txt});prTyping();
-  try{
+(function() {
+  var prCH=[],prNotes='',prUser='sudden',prTypingEl=null;
+
+  window._prInit=false;
+  window._prCH=prCH;
+
+  window.prMsg=function(role,text){
+    var b=document.getElementById('pr-chat-msgs');if(!b)return;
+    var u=role==='user';
+    var w=document.createElement('div');
+    w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
+    var bub=document.createElement('div');
+    bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
+    bub.innerHTML=text.replace(/\n/g,'<br>');
+    w.appendChild(bub);b.appendChild(w);b.scrollTop=b.scrollHeight;
+    if(u){var s=document.getElementById('pr-chat-sugs');if(s)s.style.display='none';}
+  };
+
+  window.prShowTyping=function(){
+    var b=document.getElementById('pr-chat-msgs');if(!b)return;
+    var d=document.createElement('div');d.id='pr-typing';
+    d.style.cssText='display:flex;align-items:center;gap:4px;padding:9px 13px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);border-radius:14px 14px 14px 4px;align-self:flex-start;';
+    d.innerHTML='<span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.2s"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.4s"></span>';
+    b.appendChild(d);b.scrollTop=b.scrollHeight;
+  };
+
+  window.prRmTyping=function(){var t=document.getElementById('pr-typing');if(t)t.remove();};
+
+  window.prSug=function(btn){
+    var i=document.getElementById('pr-chat-input');
+    if(i){i.value=btn.textContent;window.sendChat();}
+  };
+
+  window.initPrChat=function(){
+    window._prInit=true;
     var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
     var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
     var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
     var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
     for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
-    var prof={name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'\u00a3',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre work and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:prNotes};
-    var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:prCH,profile:prof})});
-    var d=await r.json();prRmTyping();
-    if(!r.ok||!d.reply){prMsg('assistant',d.error||'Something went wrong.');}
-    else{
-      prMsg('assistant',d.reply);prCH.push({role:'assistant',content:d.reply});
-      if(prCH.length>10)prCH=prCH.slice(-10);
-      if(d.newMemory)prSaveNote(d.newMemory);
-    }
-  }catch(e){prRmTyping();prMsg('assistant','Network error. Try again.');}
-  if(btn)btn.disabled=false;if(inp)inp.focus();
-}
-async function prSaveNote(note){
-  var ts=new Date().toLocaleDateString('en-GB');
-  var ex=prNotes?prNotes.split('\n').filter(Boolean):[];
-  ex.push('['+ts+'] '+note);if(ex.length>20)ex.splice(0,ex.length-20);
-  prNotes=ex.join('\n');
-  try{await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_notes',username:prUser,notes:prNotes})});}catch(e){}
-}
-async function prLoadNotes(){
-  try{var r=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:prUser})});var d=await r.json();if(d&&d.notes)prNotes=d.notes;}catch(e){}
-}
-var _ss=window.showScreen;
-window.showScreen=function(id){
-  _ss(id);
-  var b=document.getElementById('pr-chat');
-  if(b)b.style.display=id==='dashboard'?'block':'none';
-  if(id==='dashboard')prLoadNotes();
-};
-</script>
+    window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' £'+svd.toLocaleString()+' saved.':'')+(prNotes?' Good to have you back.':'')+' What do you need help with?');
+    var sugs=['Am I on track?','What should I focus on this week?',"I'm struggling with consistency",'How do I get my first client?'];
+    var sb=document.getElementById('pr-chat-sugs');
+    if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="prSug(this)" style="font-size:11px;font-family:DM Mono,monospace;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
+  };
+
+  window.sendChat=function(){
+    var inp=document.getElementById('pr-chat-input');
+    var btn=document.getElementById('pr-chat-send');
+    var txt=(inp?inp.value:'').trim();
+    if(!txt)return;
+    if(inp){inp.value='';inp.style.height='auto';}
+    if(btn)btn.disabled=true;
+    window.prMsg('user',txt);
+    prCH.push({role:'user',content:txt});
+    window.prShowTyping();
+    var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
+    var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
+    var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
+    var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
+    for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
+    var prof={name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'£',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre work, build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:prNotes};
+    fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:prCH,profile:prof})})
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+    .then(function(res){
+      window.prRmTyping();
+      if(!res.ok||!res.d.reply){window.prMsg('assistant',res.d.error||'Something went wrong.');}
+      else{
+        window.prMsg('assistant',res.d.reply);
+        prCH.push({role:'assistant',content:res.d.reply});
+        if(prCH.length>10)prCH=prCH.slice(-10);
+        if(res.d.newMemory){
+          var ts=new Date().toLocaleDateString('en-GB');
+          var ex=prNotes?prNotes.split('|').filter(Boolean):[];
+          ex.push('['+ts+'] '+res.d.newMemory);
+          if(ex.length>20)ex.splice(0,ex.length-20);
+          prNotes=ex.join('|');
+          fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_notes',username:prUser,notes:prNotes})}).catch(function(){});
+        }
+      }
+      if(btn)btn.disabled=false;
+      if(inp)inp.focus();
+    })
+    .catch(function(e){
+      window.prRmTyping();
+      window.prMsg('assistant','Network error: '+e.message+'. Try again.');
+      if(btn)btn.disabled=false;
+    });
+  };
+
+  window.prLoadNotes=function(){
+    fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:prUser})})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d&&d.notes)prNotes=d.notes;})
+    .catch(function(){});
+  };
+
+  var _ss=window.showScreen;
+  if(_ss){
+    window.showScreen=function(id){
+      _ss(id);
+      var b=document.getElementById('pr-chat');
+      if(b)b.style.display=id==='dashboard'?'block':'none';
+      if(id==='dashboard')window.prLoadNotes();
+    };
+  }
+})();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 </body>
