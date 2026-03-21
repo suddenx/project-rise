@@ -857,6 +857,8 @@
     target.classList.add('active');
     if (!['generating', 'result', 'deploy'].includes(id)) window.scrollTo(0, 0);
     if (id === 'dashboard') initDashboard();
+    var chat = document.getElementById('pr-chat');
+    if (chat) chat.style.display = id === 'dashboard' ? 'block' : 'none';
   }
 
   // ---- LOGIN ----
@@ -921,6 +923,8 @@
   function logout() {
     localStorage.removeItem('pr_logged_in');
     sessionStorage.removeItem('pr_logged_in');
+    var c = document.getElementById('pr-chat');
+    if (c) c.style.display = 'none';
     showScreen('landing');
   }
 
