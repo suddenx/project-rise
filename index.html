@@ -1257,19 +1257,19 @@ Be specific with numbers. Use ${userData.currency} for all money. Make it person
       advanceGenStep('gstep-3', 30);
       setStatus('Creating your daily routines...');
       const routinesPrompt = `Generate personalised daily routine content for ${userData.name}.
-Context: Job: ${userData.job} | Schedule: ${userData.schedule} | Skill: ${userData.skill} | Level: ${userData.skillLevel} | Discipline: ${userData.discipline} | Living: ${userData.living} | Destination: ${userData.destination} | Weakness: ${userData.weakness}
-Non-negotiables must be specific to ${userData.skill} and their schedule. Real output-based habits. Callouts must reference their specific situation or destination.
-Return ONLY a JSON object (no markdown, no backticks):
+Context: Job: ${userData.job} | Schedule: ${userData.schedule} | Skill: ${userData.skill} | Level: ${userData.skillLevel} | Discipline: ${userData.discipline} | Destination: ${userData.destination} | Weakness: ${userData.weakness}
+Non-negotiables must be specific to ${userData.skill}. Real output-based habits. Callouts reference their situation.
+Return ONLY JSON (no markdown, no backticks):
 {
-  "non_negotiables": ["output-based habit specific to ${userData.skill}", "habit 2", "habit 3", "habit 4", "habit 5"],
-  "scenario_a_note": "specific note for ${userData.name} on morning-free days",
-  "scenario_b_note": "specific note for afternoon-free days",
-  "scenario_c_note": "specific note for full days off referencing their discipline",
-  "scenario_d_note": "specific note for recovery days",
-  "callout_a": "direct callout referencing ${userData.destination} or their why",
+  "non_negotiables": ["habit specific to ${userData.skill}", "habit 2", "habit 3", "habit 4", "habit 5"],
+  "scenario_a_note": "note for ${userData.name} on morning-free days",
+  "scenario_b_note": "note for afternoon-free days",
+  "scenario_c_note": "note for full days off",
+  "scenario_d_note": "note for recovery days",
+  "callout_a": "callout referencing ${userData.destination}",
   "callout_b": "callout referencing their weakness",
-  "callout_c": "callout about full days being their most important",
-  "callout_d": "callout reinforcing rest is part of the plan"
+  "callout_c": "callout about full days",
+  "callout_d": "callout about rest"
 }`;
       let routinesData = {};
       try {
@@ -1325,29 +1325,29 @@ Only include deposit_amount if they mentioned a deposit coming in. departure_js_
       advanceGenStep('gstep-5', 55);
       setStatus('Building your portfolio roadmap...');
       const portfolioPrompt = `Create a specific 4-phase roadmap for ${userData.name}.
-Context: Skill: ${userData.skill} | Level: ${userData.skillLevel} | City: ${userData.city} | Destination: ${userData.destination} | Departure: ${userData.departure} | Duration: ${userData.duration} | Connections: ${userData.connections} | Strength: ${userData.strength} | Weakness: ${userData.weakness} | Discipline: ${userData.discipline}
-Phases must match their ACTUAL timeline to ${userData.departure}. Milestones must be specific to ${userData.skill} at ${userData.skillLevel} level. Phase 4 must have real income and client goals for ${userData.destination}.
-Return ONLY a JSON object (no markdown, no backticks):
+Context: Skill: ${userData.skill} | Level: ${userData.skillLevel} | City: ${userData.city} | Destination: ${userData.destination} | Departure: ${userData.departure} | Connections: ${userData.connections} | Strength: ${userData.strength} | Weakness: ${userData.weakness}
+Phases must match their ACTUAL timeline. Milestones specific to ${userData.skill} at ${userData.skillLevel} level.
+Return ONLY JSON (no markdown, no backticks):
 {
-  "phase1_name": "specific current phase name",
+  "phase1_name": "specific phase name",
   "phase1_dates": "Now to realistic date",
-  "phase1_note": "one sentence specific to their situation",
-  "phase1_targets": ["measurable target for ${userData.skill}", "target 2", "target 3"],
-  "phase1_milestones": ["concrete milestone 1", "concrete milestone 2", "concrete milestone 3"],
-  "phase2_name": "specific name",
-  "phase2_dates": "realistic date range",
-  "phase2_note": "one sentence note",
-  "phase2_targets": ["target 1", "target 2", "target 3"],
-  "phase2_milestones": ["milestone 1", "milestone 2", "milestone 3"],
-  "phase3_name": "outreach or launch phase",
-  "phase3_dates": "realistic date range",
-  "phase3_note": "one sentence note",
-  "phase3_targets": ["target 1", "target 2", "target 3"],
-  "phase3_milestones": ["milestone 1", "milestone 2", "milestone 3"],
+  "phase1_note": "one sentence",
+  "phase1_targets": ["target 1", "target 2", "target 3"],
+  "phase1_milestones": ["milestone 1", "milestone 2", "milestone 3"],
+  "phase2_name": "name",
+  "phase2_dates": "dates",
+  "phase2_note": "note",
+  "phase2_targets": ["t1", "t2", "t3"],
+  "phase2_milestones": ["m1", "m2", "m3"],
+  "phase3_name": "outreach phase",
+  "phase3_dates": "dates",
+  "phase3_note": "note",
+  "phase3_targets": ["t1", "t2", "t3"],
+  "phase3_milestones": ["m1", "m2", "m3"],
   "phase4_name": "${userData.destination}",
   "phase4_dates": "${userData.departure} onwards",
-  "phase4_note": "arrive with income already started",
-  "phase4_goals": ["specific income goal month 1 in ${userData.destination}", "specific client goal", "specific skill goal", "specific life goal in ${userData.destination}"]
+  "phase4_note": "arrive with income started",
+  "phase4_goals": ["income goal month 1", "client goal", "skill goal", "life goal"]
 }`;
       let portfolioData = {};
       try {
@@ -1362,27 +1362,27 @@ Return ONLY a JSON object (no markdown, no backticks):
       advanceGenStep('gstep-6', 68);
       setStatus('Writing your outreach strategy...');
       const outreachPrompt = `Create a specific outreach strategy for ${userData.name}.
-Context: Skill: ${userData.skill} | Level: ${userData.skillLevel} | Strength: ${userData.strength} | Connections: ${userData.connections} | Weakness: ${userData.weakness} | Discipline: ${userData.discipline} | Departure: ${userData.departure}
-Positioning must be specific to their skill and strength. Pitches must be real messages they could send today. Channel 1 must be warmest route given their connections.
-Return ONLY a JSON object (no markdown, no backticks):
+Context: Skill: ${userData.skill} | Strength: ${userData.strength} | Connections: ${userData.connections} | Weakness: ${userData.weakness} | Departure: ${userData.departure}
+Pitches must be real messages they could send today.
+Return ONLY JSON (no markdown, no backticks):
 {
-  "positioning_line": "one powerful specific sentence about their value as a ${userData.skill} professional",
+  "positioning_line": "specific sentence about their value as ${userData.skill} professional",
   "channel1_name": "warmest channel given their connections",
-  "channel1_tips": ["specific actionable tip 1", "tip 2", "tip 3"],
-  "channel1_pitch": "real 2-3 sentence pitch with [brackets] for personalisation",
+  "channel1_tips": ["tip 1", "tip 2", "tip 3"],
+  "channel1_pitch": "real 2-3 sentence pitch with [brackets]",
   "channel1_dos": ["do 1", "do 2"],
   "channel1_donts": ["dont 1", "dont 2"],
   "channel2_name": "best platform for ${userData.skill}",
   "channel2_tips": ["tip 1", "tip 2", "tip 3"],
-  "channel2_pitch": "real pitch template for this platform",
+  "channel2_pitch": "real pitch template",
   "channel2_dos": ["do 1", "do 2"],
   "channel2_donts": ["dont 1", "dont 2"],
   "channel3_name": "cold outreach channel",
   "channel3_tips": ["tip 1", "tip 2", "tip 3"],
-  "channel3_pitch": "real cold DM or email template with [brackets]",
+  "channel3_pitch": "real cold DM template with [brackets]",
   "channel3_dos": ["do 1", "do 2"],
   "channel3_donts": ["dont 1", "dont 2"],
-  "channel4_name": "community or network channel",
+  "channel4_name": "community channel",
   "channel4_tips": ["tip 1", "tip 2", "tip 3"]
 }`;
       let outreachData = {};
@@ -1398,41 +1398,40 @@ Return ONLY a JSON object (no markdown, no backticks):
       advanceGenStep('gstep-7', 80);
       setStatus(`Building your ${userData.destination} checklist...`);
       const checklistPrompt = `Create a specific pre-departure checklist for ${userData.name} moving from ${userData.city} to ${userData.destination}.
-Context: Skill: ${userData.skill} | Duration: ${userData.duration} | Departure: ${userData.departure} | Living before: ${userData.living}
-Must be specific to ${userData.destination}: real visa requirements, actual vaccines, banking options that work there. Not generic advice.
-Return ONLY a JSON object (no markdown, no backticks):
+Real visa requirements, vaccines, banking for ${userData.destination}. Not generic advice.
+Return ONLY JSON (no markdown, no backticks):
 {
   "categories": [
     {"name": "Documents and Visa", "items": [
-      {"label": "specific visa requirement for ${userData.destination}", "desc": "real details", "when": "Now"},
+      {"label": "visa requirement for ${userData.destination}", "desc": "real details", "when": "Now"},
       {"label": "item 2", "desc": "desc", "when": "Phase 2"},
       {"label": "item 3", "desc": "desc", "when": "Phase 2"},
       {"label": "item 4", "desc": "desc", "when": "Phase 3"},
       {"label": "item 5", "desc": "desc", "when": "Phase 3"}
     ]},
     {"name": "Health and Vaccinations", "items": [
-      {"label": "specific vaccination for ${userData.destination}", "desc": "real desc", "when": "Now"},
+      {"label": "vaccination for ${userData.destination}", "desc": "real desc", "when": "Now"},
       {"label": "item 2", "desc": "desc", "when": "Now"},
       {"label": "item 3", "desc": "desc", "when": "Phase 2"},
       {"label": "item 4", "desc": "desc", "when": "Phase 3"},
       {"label": "item 5", "desc": "desc", "when": "Phase 3"}
     ]},
     {"name": "Money and Banking", "items": [
-      {"label": "best banking option for ${userData.destination}", "desc": "real desc", "when": "Phase 2"},
+      {"label": "best banking for ${userData.destination}", "desc": "real desc", "when": "Phase 2"},
       {"label": "item 2", "desc": "desc", "when": "Phase 2"},
       {"label": "item 3", "desc": "desc", "when": "Phase 3"},
       {"label": "item 4", "desc": "desc", "when": "Phase 3"},
       {"label": "item 5", "desc": "desc", "when": "Phase 3"}
     ]},
     {"name": "Tech and Remote Work", "items": [
-      {"label": "specific tech for ${userData.skill} work", "desc": "real desc", "when": "Phase 3"},
+      {"label": "tech for ${userData.skill}", "desc": "real desc", "when": "Phase 3"},
       {"label": "item 2", "desc": "desc", "when": "Phase 3"},
       {"label": "item 3", "desc": "desc", "when": "Phase 3"},
       {"label": "item 4", "desc": "desc", "when": "Phase 3"},
       {"label": "item 5", "desc": "desc", "when": "Phase 3"}
     ]},
     {"name": "On Arrival", "items": [
-      {"label": "first priority on arrival in ${userData.destination}", "desc": "real desc", "when": "Day 1"},
+      {"label": "first priority in ${userData.destination}", "desc": "real desc", "when": "Day 1"},
       {"label": "item 2", "desc": "desc", "when": "Day 1"},
       {"label": "item 3", "desc": "desc", "when": "Week 1"},
       {"label": "item 4", "desc": "desc", "when": "Week 1"},
@@ -1671,7 +1670,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .days-num.yellow{color:var(--yellow);}.days-num.red{color:var(--red);}
 .days-label{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-top:10px;}
 .date-edit-bottom{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px;}
-.date-input{background:var(--surface);border:1px solid var(--border2);border-radius:6px;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;padding:9px 12px;outline:none;transition:border-color 0.15s;color-scheme:dark;cursor:pointer;width:148px;text-align:center;text-align-last:center;}
+.date-input{background:var(--surface);border:1px solid var(--border2);border-radius:6px;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;padding:9px 0;outline:none;transition:border-color 0.15s;color-scheme:dark;cursor:pointer;width:148px;text-align:center;}
 .date-input:focus{border-color:var(--teal);}
 .date-input::-webkit-calendar-picker-indicator{filter:invert(0.4);cursor:pointer;}
 .date-save{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;padding:9px 0;background:rgba(31,203,138,0.1);border:1px solid rgba(31,203,138,0.4);border-radius:6px;color:var(--teal);cursor:pointer;transition:all 0.15s;width:148px;}
@@ -2727,21 +2726,15 @@ function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.rem
 // -- INIT --
 window.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
-if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
-  showScreen('dashboard');
-  setTimeout(function() {
-    var b = document.getElementById('pr-chat');
-    if (b) b.style.display = 'block';
-    if (typeof prLoadNotes === 'function') prLoadNotes();
-  }, 100);
-}
+if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') showScreen('dashboard');
 });
 </script>
 
 <!-- CHAT WIDGET -->
-<div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:'DM Sans',sans-serif;display:none;">
-  <button id="pr-chat-btn" onclick="var p=document.getElementById('pr-chat-panel');if(!p)return;var isOpen=p.style.display==='flex';p.style.display=isOpen?'none':'flex';if(!isOpen){if(typeof window.initPrChat==='function'&&!window._prInit)window.initPrChat();setTimeout(function(){var i=document.getElementById('pr-chat-input');if(i)i.focus();},100);}" aria-label="Open coach"
-    style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);">
+<div id="pr-chat" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:none;">
+  <button id="pr-chat-btn" aria-label="Open coach"
+    style="width:56px;height:56px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(31,203,138,0.4);"
+    onclick="var p=document.getElementById('pr-chat-panel');if(!p)return;var o=p.style.display==='flex';p.style.display=o?'none':'flex';if(!o&&!window._prInit)window.initPrChat();">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
   </button>
   <div id="pr-chat-panel" style="display:none;flex-direction:column;width:340px;max-width:calc(100vw - 48px);height:480px;background:#161616;border:1px solid rgba(255,255,255,0.12);border-radius:16px;box-shadow:0 8px 48px rgba(0,0,0,0.7);overflow:hidden;margin-bottom:12px;">
@@ -2759,11 +2752,11 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
     <div id="pr-chat-sugs" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;"></div>
     <div style="display:flex;align-items:flex-end;gap:8px;padding:10px 14px 14px;border-top:1px solid rgba(255,255,255,0.07);">
       <textarea id="pr-chat-input" placeholder="Ask your coach..." rows="1"
-        style="flex:1;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#f0ece4;font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 12px;outline:none;resize:none;min-height:38px;max-height:96px;line-height:1.45;"
+        style="flex:1;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#f0ece4;font-size:13px;padding:9px 12px;outline:none;resize:none;min-height:38px;max-height:96px;line-height:1.45;"
         onfocus="this.style.borderColor='#1fcb8a'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
         oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,96)+'px'"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();window.sendChat();}"></textarea>
-      <button id="pr-chat-send" onclick="window.sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <button onclick="window.sendChat()" style="width:38px;height:38px;border-radius:50%;background:#1fcb8a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="#0d0d0d"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
@@ -2775,113 +2768,109 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
 @keyframes prDot{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 </style>
 <script>
-(function() {
-  var prCH=[],prNotes='',prUser='sudden',prTypingEl=null;
+var _prCH=[],_prNotes='',_prUser='sudden';
+window._prInit=false;
 
-  window._prInit=false;
-  window._prCH=prCH;
+window.prMsg=function(role,text){
+  var b=document.getElementById('pr-chat-msgs');
+  if(!b)return;
+  var u=role==='user';
+  var w=document.createElement('div');
+  w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
+  var bub=document.createElement('div');
+  bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
+  bub.innerHTML=text.replace(/
+/g,'<br>');
+  w.appendChild(bub);
+  b.appendChild(w);
+  b.scrollTop=b.scrollHeight;
+  if(u){var sg=document.getElementById('pr-chat-sugs');if(sg)sg.style.display='none';}
+};
 
-  window.prMsg=function(role,text){
-    var b=document.getElementById('pr-chat-msgs');if(!b)return;
-    var u=role==='user';
-    var w=document.createElement('div');
-    w.style.cssText='display:flex;flex-direction:column;max-width:85%;'+(u?'align-self:flex-end;align-items:flex-end;':'align-self:flex-start;align-items:flex-start;');
-    var bub=document.createElement('div');
-    bub.style.cssText=u?'padding:9px 13px;border-radius:14px 14px 4px 14px;background:#1fcb8a;color:#0d0d0d;font-size:13px;line-height:1.55;word-break:break-word;':'padding:9px 13px;border-radius:14px 14px 14px 4px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);color:#f0ece4;font-size:13px;line-height:1.55;word-break:break-word;';
-    bub.innerHTML=text.replace(/\n/g,'<br>');
-    w.appendChild(bub);b.appendChild(w);b.scrollTop=b.scrollHeight;
-    if(u){var s=document.getElementById('pr-chat-sugs');if(s)s.style.display='none';}
-  };
+window.initPrChat=function(){
+  window._prInit=true;
+  var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
+  var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
+  var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
+  var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
+  for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
+  window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' £'+svd.toLocaleString()+' saved.':'')+((_prNotes)?' Good to have you back.':'')+' What do you need help with?');
+  var sugs=['Am I on track?','What should I focus on this week?','I am struggling with consistency','How do I get my first client?'];
+  var sb=document.getElementById('pr-chat-sugs');
+  if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="window.prSug(this)" style="font-size:11px;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
+};
 
-  window.prShowTyping=function(){
-    var b=document.getElementById('pr-chat-msgs');if(!b)return;
-    var d=document.createElement('div');d.id='pr-typing';
-    d.style.cssText='display:flex;align-items:center;gap:4px;padding:9px 13px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);border-radius:14px 14px 14px 4px;align-self:flex-start;';
-    d.innerHTML='<span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.2s"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.4s"></span>';
-    b.appendChild(d);b.scrollTop=b.scrollHeight;
-  };
+window.prSug=function(btn){
+  var i=document.getElementById('pr-chat-input');
+  if(i){i.value=btn.textContent;window.sendChat();}
+};
 
-  window.prRmTyping=function(){var t=document.getElementById('pr-typing');if(t)t.remove();};
-
-  window.prSug=function(btn){
-    var i=document.getElementById('pr-chat-input');
-    if(i){i.value=btn.textContent;window.sendChat();}
-  };
-
-  window.initPrChat=function(){
-    window._prInit=true;
-    var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
-    var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
-    var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
-    var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
-    for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
-    window.prMsg('assistant','Sudden. '+days+' days to Chiang Mai.'+(svd>0?' £'+svd.toLocaleString()+' saved.':'')+(prNotes?' Good to have you back.':'')+' What do you need help with?');
-    var sugs=['Am I on track?','What should I focus on this week?',"I'm struggling with consistency",'How do I get my first client?'];
-    var sb=document.getElementById('pr-chat-sugs');
-    if(sb)sb.innerHTML=sugs.map(function(s){return'<button onclick="prSug(this)" style="font-size:11px;font-family:DM Mono,monospace;padding:5px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:#1e1e1e;color:#7a7670;cursor:pointer;white-space:nowrap;">'+s+'</button>';}).join('');
-  };
-
-  window.sendChat=function(){
-    var inp=document.getElementById('pr-chat-input');
-    var btn=document.getElementById('pr-chat-send');
-    var txt=(inp?inp.value:'').trim();
-    if(!txt)return;
-    if(inp){inp.value='';inp.style.height='auto';}
-    if(btn)btn.disabled=true;
-    window.prMsg('user',txt);
-    prCH.push({role:'user',content:txt});
-    window.prShowTyping();
-    var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
-    var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
-    var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
-    var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
-    for(var i=0;i<30;i++){var v=parseFloat(localStorage.getItem('week_'+i)||'');if(!isNaN(v))svd+=v;}
-    var prof={name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'£',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre work, build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:prNotes};
-    fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:prCH,profile:prof})})
-    .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
-    .then(function(res){
-      window.prRmTyping();
-      if(!res.ok||!res.d.reply){window.prMsg('assistant',res.d.error||'Something went wrong.');}
-      else{
-        window.prMsg('assistant',res.d.reply);
-        prCH.push({role:'assistant',content:res.d.reply});
-        if(prCH.length>10)prCH=prCH.slice(-10);
-        if(res.d.newMemory){
-          var ts=new Date().toLocaleDateString('en-GB');
-          var ex=prNotes?prNotes.split('|').filter(Boolean):[];
-          ex.push('['+ts+'] '+res.d.newMemory);
-          if(ex.length>20)ex.splice(0,ex.length-20);
-          prNotes=ex.join('|');
-          fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save_notes',username:prUser,notes:prNotes})}).catch(function(){});
-        }
-      }
-      if(btn)btn.disabled=false;
-      if(inp)inp.focus();
+window.sendChat=function(){
+  var inp=document.getElementById('pr-chat-input');
+  var btn=document.querySelector('[onclick="window.sendChat()"]');
+  var txt=inp?inp.value.trim():'';
+  if(!txt)return;
+  inp.value='';inp.style.height='auto';
+  if(btn)btn.disabled=true;
+  window.prMsg('user',txt);
+  _prCH.push({role:'user',content:txt});
+  var b=document.getElementById('pr-chat-msgs');
+  var dt=document.createElement('div');dt.id='pr-typing';
+  dt.style.cssText='display:flex;align-items:center;gap:4px;padding:9px 13px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);border-radius:14px 14px 14px 4px;align-self:flex-start;';
+  dt.innerHTML='<span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.2s"></span><span style="width:6px;height:6px;border-radius:50%;background:#7a7670;display:inline-block;animation:prDot 1.2s infinite;animation-delay:.4s"></span>';
+  if(b){b.appendChild(dt);b.scrollTop=b.scrollHeight;}
+  var dep=new Date((localStorage.getItem('pr_departure')||'2026-07-01')+'T12:00:00');
+  var days=Math.max(0,Math.ceil((dep-new Date())/86400000));
+  var tgt=parseInt(localStorage.getItem('pr_budget_target')||'6000');
+  var svd=parseInt(localStorage.getItem('pr_budget_deposit')||'0');
+  for(var j=0;j<30;j++){var wv=parseFloat(localStorage.getItem('week_'+j)||'');if(!isNaN(wv))svd+=wv;}
+  fetch('/api/chat',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      messages:_prCH,
+      profile:{name:'Sudden',destination:'Chiang Mai',departure:dep.toLocaleDateString('en-GB'),skill:'Creative Strategy and Ad Creation',daysLeft:days,savedSoFar:svd,budgetTarget:tgt,weeklyTarget:Math.max(0,Math.ceil((tgt-svd)/Math.max(1,Math.ceil(days/7)))),currency:'GBP',currencySymbol:'£',discipline:'strong',weakness:'consistency under pressure',why:'escape theatre and build location-independent income',phase:days>90?'Phase 1':days>42?'Phase 2':days>0?'Phase 3':'Phase 4',savedNotes:_prNotes}
     })
-    .catch(function(e){
-      window.prRmTyping();
-      window.prMsg('assistant','Network error: '+e.message+'. Try again.');
-      if(btn)btn.disabled=false;
-    });
-  };
+  }).then(function(r){
+    return r.json().then(function(d){return {ok:r.ok,d:d};});
+  }).then(function(res){
+    var ty=document.getElementById('pr-typing');if(ty)ty.remove();
+    if(!res.ok||!res.d||!res.d.reply){
+      window.prMsg('assistant',(res.d&&res.d.error)||'Something went wrong. Try again.');
+    } else {
+      window.prMsg('assistant',res.d.reply);
+      _prCH.push({role:'assistant',content:res.d.reply});
+      if(_prCH.length>10)_prCH=_prCH.slice(-10);
+    }
+    if(btn)btn.disabled=false;
+    if(inp)inp.focus();
+  }).catch(function(e){
+    var ty=document.getElementById('pr-typing');if(ty)ty.remove();
+    window.prMsg('assistant','Error: '+e.message);
+    if(btn)btn.disabled=false;
+  });
+};
 
-  window.prLoadNotes=function(){
-    fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:prUser})})
-    .then(function(r){return r.json();})
-    .then(function(d){if(d&&d.notes)prNotes=d.notes;})
-    .catch(function(){});
-  };
+window.prLoadNotes=function(){
+  fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_notes',username:_prUser})}).then(function(r){return r.json();}).then(function(d){if(d&&d.notes)_prNotes=d.notes;}).catch(function(){});
+};
 
-  var _ss=window.showScreen;
-  if(_ss){
-    window.showScreen=function(id){
-      _ss(id);
-      var b=document.getElementById('pr-chat');
-      if(b)b.style.display=id==='dashboard'?'block':'none';
-      if(id==='dashboard')window.prLoadNotes();
-    };
+// Show chat bubble when dashboard loads
+window.addEventListener('DOMContentLoaded',function(){
+  var origSS=window.showScreen;
+  window.showScreen=function(id){
+    origSS(id);
+    var c=document.getElementById('pr-chat');
+    if(c)c.style.display=id==='dashboard'?'block':'none';
+    if(id==='dashboard')window.prLoadNotes();
+  };
+  if(localStorage.getItem('pr_logged_in')==='1'||sessionStorage.getItem('pr_logged_in')==='1'){
+    var c=document.getElementById('pr-chat');
+    if(c)c.style.display='block';
+    window.prLoadNotes();
   }
-})();
+});
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 </body>
