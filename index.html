@@ -968,16 +968,13 @@
   // Save to Supabase in the background — fire and forget
   function syncToSupabase() {
     const username = localStorage.getItem('pr_username');
-    if (!username) { console.log('syncToSupabase: no username'); return; }
+    if (!username) return;
     const data = collectDashboardData();
-    console.log('syncToSupabase sending:', JSON.stringify(data));
     fetch('/api/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'save_user_data', username: username, userData: data })
-    }).then(function(r){ return r.json(); }).then(function(d){
-      console.log('syncToSupabase response:', JSON.stringify(d));
-    }).catch(function(e){ console.log('syncToSupabase error:', e.message); });
+    }).catch(function() {});
   }
 
   function logout() {
@@ -990,6 +987,10 @@
 
   // ---- DASHBOARD ----
   function initDashboard() {
+    // Ensure username is always available for sync
+    if (!localStorage.getItem('pr_username')) {
+      localStorage.setItem('pr_username', 'sudden');
+    }
     const day = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
     const q = QUOTES[day % QUOTES.length];
     document.getElementById('dash-quote').textContent = q.text;
