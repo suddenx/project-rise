@@ -664,6 +664,29 @@
     });
   }
 
+
+  // Sync weekly savings to Supabase
+  function syncWeeksToSupabase() {
+    var username = localStorage.getItem('pr_username');
+    if (!username) return;
+    var weeks = {};
+    for (var i = 0; i < 30; i++) {
+      var v = localStorage.getItem('week_' + i);
+      if (v !== null) weeks['week_' + i] = v;
+    }
+    var data = {
+      departure: localStorage.getItem('pr_departure') || '',
+      budget_target: localStorage.getItem('pr_budget_target') || '',
+      budget_deposit: localStorage.getItem('pr_budget_deposit') || '',
+      weeks: weeks
+    };
+    fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'save_user_data', username: username, userData: data })
+    }).catch(function() {});
+  }
+
   function handleInput(input) {
     const idx = parseInt(input.dataset.idx);
     const val = parseFloat(input.value);
@@ -673,6 +696,7 @@
       localStorage.removeItem('week_' + idx);
     }
     updateAll();
+    syncWeeksToSupabase();
   }
 
   function updateAll() {
