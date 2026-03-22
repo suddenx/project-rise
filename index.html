@@ -905,7 +905,9 @@
 
       // If their site_url is this same site, load dashboard directly
       const thisSite = window.location.origin;
-      if (data.site_url === thisSite || data.site_url === thisSite + '/') {
+      const normalSiteUrl = (data.site_url || '').replace(/\/$/, '').toLowerCase();
+      const normalThisSite = thisSite.replace(/\/$/, '').toLowerCase();
+      if (!data.site_url || normalSiteUrl === normalThisSite) {
         if (remember) localStorage.setItem('pr_logged_in', '1');
         else sessionStorage.setItem('pr_logged_in', '1');
         localStorage.setItem('pr_username', username);
@@ -951,7 +953,8 @@
 
   // Writes Supabase user_data into localStorage so all existing code works unchanged
   function applyUserData(userData) {
-    if (!userData) return;
+    if (!userData) { console.log('applyUserData: no data'); return; }
+    console.log('applyUserData:', JSON.stringify(userData));
     if (userData.departure) localStorage.setItem('pr_departure', userData.departure);
     if (userData.budget_target) localStorage.setItem('pr_budget_target', userData.budget_target);
     if (userData.budget_deposit !== undefined) localStorage.setItem('pr_budget_deposit', userData.budget_deposit);
@@ -965,13 +968,16 @@
   // Save to Supabase in the background — fire and forget
   function syncToSupabase() {
     const username = localStorage.getItem('pr_username');
-    if (!username) return;
+    if (!username) { console.log('syncToSupabase: no username'); return; }
     const data = collectDashboardData();
+    console.log('syncToSupabase sending:', JSON.stringify(data));
     fetch('/api/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'save_user_data', username: username, userData: data })
-    }).catch(function() {});
+    }).then(function(r){ return r.json(); }).then(function(d){
+      console.log('syncToSupabase response:', JSON.stringify(d));
+    }).catch(function(e){ console.log('syncToSupabase error:', e.message); });
   }
 
   function logout() {
@@ -2836,8 +2842,13 @@ function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.rem
 window.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
 if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
-  // Load latest data from Supabase before showing dashboard
   var _syncUser = localStorage.getItem('pr_username');
+  var _showDash = function() {
+    showScreen('dashboard');
+    var c = document.getElementById('pr-chat');
+    if (c) c.style.display = 'block';
+    if (window.prLoadNotes) window.prLoadNotes();
+  };
   if (_syncUser) {
     fetch('/api/auth', {
       method: 'POST',
@@ -2845,17 +2856,12 @@ if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_l
       body: JSON.stringify({ action: 'load_user_data', username: _syncUser })
     }).then(function(r){ return r.json(); }).then(function(d){
       if (d && d.userData) applyUserData(d.userData);
-    }).catch(function(){}).finally(function(){
-      showScreen('dashboard');
-      var c = document.getElementById('pr-chat');
-      if (c) c.style.display = 'block';
-      if (window.prLoadNotes) window.prLoadNotes();
+      _showDash();
+    }).catch(function(){
+      _showDash();
     });
   } else {
-    showScreen('dashboard');
-    var c = document.getElementById('pr-chat');
-    if (c) c.style.display = 'block';
-    if (window.prLoadNotes) window.prLoadNotes();
+    _showDash();
   }
 }
 });
