@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiang Mai Checklist — Escape Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ece4;
+    --muted: #a8a39d;
+    --dim: #3a3834;
+
+    --teal: #1fcb8a;
+    --purple: #9b87f5;
+    --blue: #4a9eff;
+    --orange: #ff7c3a;
+    --red: #ff4f4f;
+    --yellow: #f5c842;
+
+    --teal-bg: rgba(31,203,138,0.08);
+    --purple-bg: rgba(155,135,245,0.08);
+    --blue-bg: rgba(74,158,255,0.08);
+    --orange-bg: rgba(255,124,58,0.08);
+    --red-bg: rgba(255,79,79,0.08);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .header {
+    padding: 48px 48px 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(31,203,138,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 7vw, 72px);
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+
+  .header h1 span { color: var(--teal); }
+
+  .header-sub {
+    font-size: 18px;
+    color: var(--muted);
+    margin-top: 14px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* Progress strip */
+  .progress-strip {
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .progress-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .progress-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--teal);
+  }
+
+  .progress-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+  }
+
+  /* Main */
+  .main { padding: 36px 48px 60px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 14px 22px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    bottom: -1px;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--teal); }
+
+  .tab .tab-icon {
+    font-size: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Panel */
+  .panel { display: none; padding-top: 32px; }
+  .panel.active { display: block; }
+
+  .panel-header { margin-bottom: 24px; }
+
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .panel-when {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  .panel-note {
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 600px;
+    padding-left: 12px;
+    border-left: 2px solid var(--dim);
+    font-style: italic;
+  }
+
+  /* Section */
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+
+  .section-title:first-of-type { margin-top: 0; }
+
+  /* Checklist */
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    user-select: none;
+  }
+
+  .check-item:hover { border-color: var(--border2); }
+
+  .check-item.done {
+    border-color: rgba(31,203,138,0.2);
+    background: rgba(31,203,138,0.04);
+  }
+
+  .check-item.urgent {
+    border-left: 2px solid var(--orange);
+  }
+
+  .check-item.critical {
+    border-left: 2px solid var(--red);
+  }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--dim);
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .check-item.done .check-box {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+
+  .check-box::after {
+    content: '';
+    display: none;
+    width: 4px;
+    height: 8px;
+    border: 1.5px solid var(--bg);
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translateY(-1px);
+  }
+
+  .check-item.done .check-box::after { display: block; }
+
+  .check-content { flex: 1; }
+
+  .check-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.35;
+  }
+
+  .check-item.done .check-label {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .check-desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .check-tag {
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    border: 1px solid;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  .tag-now { color: var(--red); border-color: rgba(255,79,79,0.25); background: var(--red-bg); }
+  .tag-phase2 { color: var(--orange); border-color: rgba(255,124,58,0.25); background: var(--orange-bg); }
+  .tag-phase3 { color: var(--purple); border-color: rgba(155,135,245,0.25); background: var(--purple-bg); }
+  .tag-thailand { color: var(--teal); border-color: rgba(31,203,138,0.25); background: var(--teal-bg); }
+
+  /* Info card */
+  .info-card {
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+  }
+
+  .info-card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .info-card-body {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .info-card-body strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* Callout */
+  .callout {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.65;
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .callout::before {
+    content: '!';
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  /* Overall progress bar */
+  .overall-progress {
+    margin: 0 48px 32px;
+  }
+
+  .overall-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .overall-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .overall-pct {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--teal);
+  }
+
+  .overall-track {
+    height: 5px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .overall-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--teal);
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  @media (max-width: 600px) {
+    .header, .progress-strip, .main { padding-left: 20px; padding-right: 20px; }
+  }
+
+  /* Home button */
+  .home-btn {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 22px;
+    background: rgba(22,22,22,0.97);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 28px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f0ece4;
+    backdrop-filter: blur(12px);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .home-btn:hover { background: rgba(31,203,138,0.12); border-color: rgba(31,203,138,0.3); color: #1fcb8a; }
+  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+  /* --- READABILITY OVERRIDES v2 --- */
+  .header-sub { font-size: 19px !important; line-height: 1.65; }
+  .panel-note { font-size: 18px !important; line-height: 1.7; }
+  .block-label { font-size: 19px !important; }
+  .block-desc { font-size: 17px !important; line-height: 1.65; }
+  .milestone-card-title { font-size: 18px !important; }
+  .milestone-card-desc { font-size: 16px !important; line-height: 1.6; }
+  .target-row { font-size: 17px !important; }
+  .target-label { font-size: 17px !important; }
+  .strategy-item { font-size: 17px !important; line-height: 1.65; }
+  .callout { font-size: 17px !important; line-height: 1.7; }
+  .tip-item { font-size: 17px !important; line-height: 1.65; }
+  .check-label { font-size: 19px !important; }
+  .check-desc { font-size: 17px !important; line-height: 1.6; }
+  .pitch-body { font-size: 18px !important; line-height: 1.8; }
+  .pos-line { font-size: 20px !important; }
+  .supp-name { font-size: 19px !important; }
+  .supp-desc { font-size: 17px !important; line-height: 1.65; }
+  .skin-name { font-size: 19px !important; }
+  .skin-desc { font-size: 17px !important; line-height: 1.65; }
+  .ref-item-name { font-size: 17px !important; }
+  .week-date { font-size: 16px !important; }
+  .summary-card-sub { font-size: 15px !important; }
+  .nav-desc { font-size: 16px !important; }
+  .phase-date { font-size: 15px !important; }
+  .deposit-label { font-size: 16px !important; }
+  /* Home button */
+  .home-btn {
+    background: rgba(31,203,138,0.1) !important;
+    border: 1px solid rgba(31,203,138,0.4) !important;
+    color: #1fcb8a !important;
+    font-size: 13px !important;
+    padding: 12px 24px !important;
+  }
+  .home-btn:hover {
+    background: rgba(31,203,138,0.22) !important;
+    border-color: rgba(31,203,138,0.7) !important;
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  Home
+</a>
+
+<div class="header">
+  <div class="header-label">Escape plan — destination prep</div>
+  <h1>Chiang Mai<br><span>Checklist</span></h1>
+  <p class="header-sub">Everything to sort before you board that plane. Tick items off as you go.</p>
+</div>
+
+<div class="progress-strip">
+  <div class="prog-item">
+    <div class="prog-label">Total items</div>
+    <div class="progress-value" id="total-count" style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--teal);letter-spacing:0.04em;line-height:1">—</div>
+  </div>
+  <div style="width:1px;height:32px;background:var(--border)"></div>
+  <div class="prog-item">
+    <div class="prog-label">Completed</div>
+    <div class="progress-value" id="done-count" style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--teal);letter-spacing:0.04em;line-height:1">0</div>
+  </div>
+  <div style="width:1px;height:32px;background:var(--border)"></div>
+  <div class="prog-item">
+    <div class="prog-label">Remaining</div>
+    <div class="progress-value" id="remaining-count" style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange);letter-spacing:0.04em;line-height:1">—</div>
+  </div>
+</div>
+
+<div class="overall-progress">
+  <div class="overall-header">
+    <span class="overall-label">Overall completion</span>
+    <span class="overall-pct" id="overall-pct">0%</span>
+  </div>
+  <div class="overall-track">
+    <div class="overall-fill" id="overall-fill" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="show('docs')"><span class="tab-icon">01</span>Documents</div>
+    <div class="tab" onclick="show('health')"><span class="tab-icon">02</span>Health</div>
+    <div class="tab" onclick="show('money')"><span class="tab-icon">03</span>Money</div>
+    <div class="tab" onclick="show('tech')"><span class="tab-icon">04</span>Tech &amp; gear</div>
+    <div class="tab" onclick="show('thai')"><span class="tab-icon">05</span>Thai citizenship</div>
+    <div class="tab" onclick="show('cm')"><span class="tab-icon">06</span>On arrival</div>
+  </div>
+
+  <div class="panel active" id="panel-docs">
+    <div class="panel-header">
+      <div class="panel-title">Documents &amp; admin</div>
+      <div class="panel-when">Start: Now → Phase 3</div>
+      <p class="panel-note">With a Latvian passport you get 30 days visa-free in Thailand. You'll need to extend or do a border run unless you get the Thai citizenship sorted — which is the goal.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-0"><div class="check-box"></div><div class="check-content"><div class="check-label">Passport valid for 6+ months beyond travel dates</div><div class="check-desc">Latvian passport. Check the expiry — if it runs out before Jan 2027 renew it now.</div></div><div class="check-tag">Now</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-1"><div class="check-box"></div><div class="check-content"><div class="check-label">Research Thailand visa options</div><div class="check-desc">30 days visa-free on arrival. Thailand LTR (Long Term Resident) visa if staying longer. Border run to Malaysia or Laos extends another 30 days.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-2"><div class="check-box"></div><div class="check-content"><div class="check-label">Contact Thai Embassy London re: citizenship</div><div class="check-desc">Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8be8e4e5f8fee7eaf9cbffe3eae2eee6e9eaf8f8f2a5e4f9eca5fee0">[email&#160;protected]</a> — you have a legitimate claim through your Thai father. Start this process early, it takes time.</div></div><div class="check-tag">Phase 2 — Week 1</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-3"><div class="check-box"></div><div class="check-content"><div class="check-label">Get copies of key documents</div><div class="check-desc">Passport, birth certificate, proof of address. Keep digital copies in Google Drive or iCloud. Email them to yourself.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-4"><div class="check-box"></div><div class="check-content"><div class="check-label">Travel insurance sorted</div><div class="check-desc">World Nomads or SafetyWing. Cover for health, theft, and trip cancellation. Non-negotiable for Chiang Mai — motorbike accidents are common.</div></div><div class="check-tag">Phase 3</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-health">
+    <div class="panel-header">
+      <div class="panel-title">Health &amp; vaccinations</div>
+      <div class="panel-when">Start: Phase 2 at mom's</div>
+      <p class="panel-note">Getting sick in week one of Chiang Mai kills your momentum and your budget. Sort the basics through your GP — most travel vaccinations are free on the NHS if you book a travel health appointment.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)" data-id="health-0"><div class="check-box"></div><div class="check-content"><div class="check-label">Book GP travel health appointment</div><div class="check-desc">Do this in Phase 2 — there's often a 4-6 week wait. Tell them you're going to Southeast Asia for 3+ months.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="health-1"><div class="check-box"></div><div class="check-content"><div class="check-label">Hepatitis A &amp; B vaccinations</div><div class="check-desc">Free on NHS for travel. Hep A is one injection. Hep B is a course of three over 6 months — start as early as possible.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="health-2"><div class="check-box"></div><div class="check-content"><div class="check-label">Typhoid vaccination</div><div class="check-desc">Recommended for Thailand. Single injection, lasts 3 years.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="health-3"><div class="check-box"></div><div class="check-content"><div class="check-label">Dengue fever awareness</div><div class="check-desc">No vaccine currently available on NHS. Use DEET repellent, wear long sleeves at dawn/dusk. Know the symptoms.</div></div><div class="check-tag">Before you go</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="health-4"><div class="check-box"></div><div class="check-content"><div class="check-label">3-month supply of supplements packed</div><div class="check-desc">Magnesium glycinate especially — harder to find in Thailand. Buy before you leave.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="health-5"><div class="check-box"></div><div class="check-content"><div class="check-label">Dental check-up</div><div class="check-desc">Dental work in Thailand is cheap and good — but sort any known issues before you leave so you're not dealing with it under stress.</div></div><div class="check-tag">Phase 2</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-money">
+    <div class="panel-header">
+      <div class="panel-title">Money &amp; banking</div>
+      <div class="panel-when">Start: Phase 2</div>
+      <p class="panel-note">Thailand is cheap but you need your money accessible without losing a chunk of it to fees every time you withdraw. Sort your banking setup before you leave — not at the airport.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)" data-id="money-0"><div class="check-box"></div><div class="check-content"><div class="check-label">Open a Wise account and order the card</div><div class="check-desc">Best exchange rates, low ATM fees, works globally. Order early — the card takes 1-2 weeks to arrive. This is your primary spending card.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="money-1"><div class="check-box"></div><div class="check-content"><div class="check-label">Notify your UK bank of travel dates</div><div class="check-desc">Prevents your card being blocked when you spend abroad. Keep your UK account active as a backup.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="money-2"><div class="check-box"></div><div class="check-content"><div class="check-label">Know the Thai ATM situation</div><div class="check-desc">Most Thai ATMs charge 200-220 baht (~£5) per withdrawal regardless of amount. Withdraw larger amounts less frequently. Wise has the best rate for this.</div></div><div class="check-tag">Before you land</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="money-3"><div class="check-box"></div><div class="check-content"><div class="check-label">Arrive with 5,000-10,000 baht cash</div><div class="check-desc">~£110-220. Covers airport transfer, first meals, SIM card. Don't arrive cashless — the airport exchange rate is terrible but manageable for a small amount.</div></div><div class="check-tag">Before you land</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-tech">
+    <div class="panel-header">
+      <div class="panel-title">Tech &amp; gear</div>
+      <div class="panel-when">Prepare: Phase 3</div>
+      <p class="panel-note">You're building a remote creative career. Your setup needs to work flawlessly from day one. Don't arrive hoping things will work out — test everything before you leave.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-0"><div class="check-box"></div><div class="check-content"><div class="check-label">Laptop serviced and backed up</div><div class="check-desc">Clean it, update everything, back up to an external drive AND cloud. If it dies in week one your plan dies with it. Don't arrive on a laptop that's struggling.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-1"><div class="check-box"></div><div class="check-content"><div class="check-label">Portable hard drive or cloud storage sorted</div><div class="check-desc">All your creative work backed up. Adobe Cloud, Google Drive, or a 1TB SSD. Losing a campaign's worth of footage is not recoverable.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-2"><div class="check-box"></div><div class="check-content"><div class="check-label">Universal travel adapter</div><div class="check-desc">Thailand uses Type A/B/C plugs. Get a universal adapter — not the cheapest one.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-3"><div class="check-box"></div><div class="check-content"><div class="check-label">VPN subscription active</div><div class="check-desc">Useful for accessing UK content, security on public wifi, and some work platforms that restrict by region. NordVPN or ExpressVPN.</div></div><div class="check-tag">Phase 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-4"><div class="check-box"></div><div class="check-content"><div class="check-label">Noise-cancelling headphones</div><div class="check-desc">Non-negotiable for coworking spaces and cafes. If you don't have them, get them before you leave — cheaper in the UK than Thailand.</div></div><div class="check-tag">Phase 3</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-thai">
+    <div class="panel-header">
+      <div class="panel-title">Thai citizenship</div>
+      <div class="panel-when">Start: Phase 2 — this takes time</div>
+      <p class="panel-note">You were born to a Thai father and carry his surname on your UK birth certificate. You have a legitimate claim to Thai citizenship from birth. This is not a long shot — it's a process.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-0"><div class="check-box"></div><div class="check-content"><div class="check-label">Email Thai Embassy London</div><div class="check-desc"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bfdcd0d1cccad3decdffcbd7ded6dad2dddeccccc691d0cdd891cad4">[email&#160;protected]</a> — explain your situation: Thai father, Thai surname on UK birth certificate, never renounced citizenship. Ask what documents they need.</div></div><div class="check-tag">Phase 2 — Week 1</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-1"><div class="check-box"></div><div class="check-content"><div class="check-label">Get documents from your father</div><div class="check-desc">His Thai ID card (copy), Thai passport (copy), and house registration document (tabien baan). He can scan and email these.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-2"><div class="check-box"></div><div class="check-content"><div class="check-label">Get your UK birth certificate certified</div><div class="check-desc">Apostille stamp from the UK government. This is the internationally recognised version of your birth cert that Thailand will accept.</div></div><div class="check-tag">Phase 2</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-3"><div class="check-box"></div><div class="check-content"><div class="check-label">Book appointment at Thai Embassy London</div><div class="check-desc">Once you have your documents, book in person. Don't rely on email alone for something this important.</div></div><div class="check-tag">Phase 2-3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-4"><div class="check-box"></div><div class="check-content"><div class="check-label">Thai birth certificate obtained</div><div class="check-desc">This is the document that formally registers you as Thai. Everything else follows from this.</div></div><div class="check-tag">In Thailand with dad</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-5"><div class="check-box"></div><div class="check-content"><div class="check-label">Get added to father's house registration</div><div class="check-desc">The tabien baan (blue book). Your father adds you at the local district office. You need to be there in person.</div></div><div class="check-tag">In Thailand with dad</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-6"><div class="check-box"></div><div class="check-content"><div class="check-label">Thai national ID card</div><div class="check-desc">Once on the house registration, you can apply for a Thai ID card. This is the goal — it means unlimited stay, can open bank accounts, rent long-term.</div></div><div class="check-tag">In Thailand</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-cm">
+    <div class="panel-header">
+      <div class="panel-title">On arrival — Chiang Mai</div>
+      <div class="panel-when">Day 1-7</div>
+      <p class="panel-note">The first week sets the tone for everything. Don't arrive and immediately go into tourist mode. You're there to work — set up your base properly in the first 48 hours.</p>
+    </div>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-0"><div class="check-box"></div><div class="check-content"><div class="check-label">Get a Thai SIM card at the airport</div><div class="check-desc">AIS or DTAC. 30-day unlimited data plans cost ~400 baht (~£9). Get this before you leave the airport.</div></div><div class="check-tag">Day 1</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-1"><div class="check-box"></div><div class="check-content"><div class="check-label">Confirm accommodation and get settled</div><div class="check-desc">First month booked in advance. Spend day 1 getting to your place, sleeping, and resetting. Don't try to work on day 1 after a long flight.</div></div><div class="check-tag">Day 1</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-2"><div class="check-box"></div><div class="check-content"><div class="check-label">Find your main coworking space or cafe</div><div class="check-desc">CAMP at Maya Mall, Yellow, Punspace. Visit 2-3 in the first week and pick one as your base. Routine requires a consistent workspace.</div></div><div class="check-tag">Day 2-3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-3"><div class="check-box"></div><div class="check-content"><div class="check-label">Rent a motorbike</div><div class="check-desc">~3,500 baht/month (~£80). Honda Click or PCX. Get an international driving licence before you leave the UK — technically required, always useful.</div></div><div class="check-tag">Day 2-3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-4"><div class="check-box"></div><div class="check-content"><div class="check-label">Set your routine from day 3</div><div class="check-desc">Same wake time, same workspace, same work blocks. You didn't come here for a holiday. The routine from mom's house travels with you — start it immediately.</div></div><div class="check-tag">Day 3</div></div>
+      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-5"><div class="check-box"></div><div class="check-content"><div class="check-label">Find a gym</div><div class="check-desc">Muay Thai gyms are everywhere and cheap (~2,000-3,000 baht/month). Regular gyms exist too. Get this sorted in week one — don't let the gym habit slip.</div></div><div class="check-tag">Week 1</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const STORAGE_PREFIX = 'cm_check_';
+
+  function toggleCheck(item) {
+    const id = item.dataset.id;
+    const done = item.classList.toggle('done');
+    localStorage.setItem(STORAGE_PREFIX + id, done ? '1' : '0');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const allItems = document.querySelectorAll('.check-item');
+    const doneItems = document.querySelectorAll('.check-item.done');
+    const total = allItems.length;
+    const done = doneItems.length;
+    const remaining = total - done;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+    document.getElementById('total-count').textContent = total;
+    document.getElementById('done-count').textContent = done;
+    document.getElementById('remaining-count').textContent = remaining;
+    document.getElementById('overall-pct').textContent = pct + '%';
+    document.getElementById('overall-fill').style.width = pct + '%';
+  }
+
+  function show(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    const idx = ['docs','health','money','tech','thai','cm'].indexOf(id);
+    document.querySelect
