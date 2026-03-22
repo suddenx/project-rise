@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Roadmap — Escape Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ece4;
+    --muted: #a8a39d;
+    --dim: #3a3834;
+
+    --teal: #1fcb8a;
+    --purple: #9b87f5;
+    --blue: #4a9eff;
+    --orange: #ff7c3a;
+    --red: #ff4f4f;
+    --yellow: #f5c842;
+
+    --teal-bg: rgba(31,203,138,0.08);
+    --purple-bg: rgba(155,135,245,0.08);
+    --blue-bg: rgba(74,158,255,0.08);
+    --orange-bg: rgba(255,124,58,0.08);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .header {
+    padding: 48px 48px 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(155,135,245,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 7vw, 72px);
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+
+  .header h1 span { color: var(--purple); }
+
+  .header-sub {
+    font-size: 18px;
+    color: var(--muted);
+    margin-top: 14px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* Phase strip */
+  .phase-strip {
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .phase-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 32px;
+    margin-right: 32px;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .phase-item:last-child { border-right: none; }
+
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .phase-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .phase-date {
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  /* Main */
+  .main { padding: 36px 48px 60px; }
+
+  /* Phase tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    padding: 14px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    bottom: -1px;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); border-bottom-color: var(--purple); }
+
+  .tab .phase-num {
+    font-size: 18px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Panel */
+  .panel { display: none; padding-top: 32px; }
+  .panel.active { display: block; }
+
+  .panel-header { margin-bottom: 28px; }
+
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+
+  .panel-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  .panel-note {
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 600px;
+    padding-left: 12px;
+    border-left: 2px solid var(--dim);
+    font-style: italic;
+  }
+
+  /* Milestone grid */
+  .milestone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .milestone-card {
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.15s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .milestone-card:hover { border-color: var(--border2); }
+
+  .milestone-card.completed {
+    border-color: rgba(31,203,138,0.2);
+    background: rgba(31,203,138,0.04);
+  }
+
+  .milestone-card.locked {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .milestone-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .milestone-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.35;
+  }
+
+  .milestone-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dim);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+
+  .milestone-card.completed .milestone-check {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+
+  .milestone-check::after {
+    content: '';
+    display: none;
+    width: 5px;
+    height: 9px;
+    border: 1.5px solid var(--bg);
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translateY(-1px);
+  }
+
+  .milestone-card.completed .milestone-check::after { display: block; }
+
+  .milestone-card-desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .milestone-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 10px;
+    border: 1px solid;
+    margin-top: 8px;
+    white-space: nowrap;
+  }
+
+  .tag-output { color: var(--purple); border-color: rgba(155,135,245,0.25); background: var(--purple-bg); }
+  .tag-skill { color: var(--blue); border-color: rgba(74,158,255,0.25); background: var(--blue-bg); }
+  .tag-business { color: var(--orange); border-color: rgba(255,124,58,0.25); background: var(--orange-bg); }
+  .tag-money { color: var(--teal); border-color: rgba(31,203,138,0.25); background: var(--teal-bg); }
+
+  /* Output targets bar */
+  .targets-section {
+    margin-bottom: 28px;
+  }
+
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .target-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+  }
+
+  .target-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .target-label {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .target-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .target-unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    min-width: 80px;
+    text-align: right;
+  }
+
+  /* Callout */
+  .callout {
+    margin-top: 4px;
+    padding: 16px 20px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.65;
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .callout::before {
+    content: '!';
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--purple);
+    font-weight: 500;
+  }
+
+  /* Progress summary */
+  .progress-bar-wrap {
+    margin-bottom: 28px;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .progress-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--purple);
+    letter-spacing: 0.04em;
+  }
+
+  .progress-track {
+    height: 5px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--purple);
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* Strategy notes */
+  .strategy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .strategy-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.55;
+    align-items: flex-start;
+  }
+
+  .strategy-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    padding-top: 1px;
+    flex-shrink: 0;
+    min-width: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .header, .phase-strip, .main { padding-left: 20px; padding-right: 20px; }
+    .milestone-grid { grid-template-columns: 1fr; }
+    .tabs { overflow-x: auto; }
+    .tab { padding: 12px 14px; }
+  }
+
+  /* --- READABILITY OVERRIDES v2 --- */
+  .header-sub { font-size: 19px !important; line-height: 1.65; }
+  .panel-note { font-size: 18px !important; line-height: 1.7; }
+  .block-label { font-size: 19px !important; }
+  .block-desc { font-size: 17px !important; line-height: 1.65; }
+  .milestone-card-title { font-size: 18px !important; }
+  .target-row { font-size: 17px !important; }
+  .target-label { font-size: 17px !important; }
+  .strategy-item { font-size: 17px !important; line-height: 1.65; }
+  .callout { font-size: 17px !important; line-height: 1.7; }
+  /* Home button */
+  .home-btn {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 24px;
+    background: rgba(31,203,138,0.1);
+    border: 1px solid rgba(31,203,138,0.4);
+    border-radius: 28px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1fcb8a;
+    backdrop-filter: blur(12px);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .home-btn:hover { background: rgba(31,203,138,0.22); border-color: rgba(31,203,138,0.7); }
+  .home-btn svg { width: 14px; height: 14px; fill: currentColor; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  Home
+</a>
+
+<div class="header">
+  <div class="header-label">Escape plan — portfolio &amp; milestones</div>
+  <h1>Portfolio<br><span>Roadmap</span></h1>
+  <p class="header-sub">Four phases from zero portfolio to first retainer. Each phase has specific targets — not vibes, not feelings. Numbers.</p>
+</div>
+
+<div class="phase-strip">
+  <div class="phase-item">
+    <div class="phase-label">Phase 1</div>
+    <div class="phase-value" style="color:var(--orange)">London</div>
+    <div class="phase-date">Now → mid Apr</div>
+  </div>
+  <div class="phase-item">
+    <div class="phase-label">Phase 2</div>
+    <div class="phase-value" style="color:var(--teal)">Mom's — build</div>
+    <div class="phase-date">Mid Apr → mid May</div>
+  </div>
+  <div class="phase-item">
+    <div class="phase-label">Phase 3</div>
+    <div class="phase-value" style="color:var(--purple)">Mom's — outreach</div>
+    <div class="phase-date">Mid May → Jun</div>
+  </div>
+  <div class="phase-item">
+    <div class="phase-label">Phase 4</div>
+    <div class="phase-value" style="color:var(--blue)">Chiang Mai</div>
+    <div class="phase-date">Jul onwards</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="tabs">
+    <div class="tab active" onclick="show('1')">
+      <span class="phase-num">1</span>London
+    </div>
+    <div class="tab" onclick="show('2')">
+      <span class="phase-num">2</span>Build
+    </div>
+    <div class="tab" onclick="show('3')">
+      <span class="phase-num">3</span>Outreach
+    </div>
+    <div class="tab" onclick="show('4')">
+      <span class="phase-num">4</span>Chiang Mai
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="panel active" id="panel-1">
+    <div class="panel-header">
+      <div class="panel-title">Phase 1 — London exit</div>
+      <div class="panel-dates">Now → mid April 2026 · ~4 weeks</div>
+      <p class="panel-note">Don't try to reinvent yourself yet. Keep it simple: finish the course, keep submitting, leave London with momentum not regrets.</p>
+    </div>
+
+    <div class="targets-section">
+      <div class="section-title">Output targets</div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--purple)"></div>
+        <div class="target-label">Static ad sets submitted (3 variations each)</div>
+        <div class="target-num" style="color:var(--purple)">8</div>
+        <div class="target-unit">by move-out</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--purple)"></div>
+        <div class="target-label">VSL video sets submitted (3 variations each)</div>
+        <div class="target-num" style="color:var(--purple)">4</div>
+        <div class="target-unit">by move-out</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--blue)"></div>
+        <div class="target-label">Brands submitted for</div>
+        <div class="target-num" style="color:var(--blue)">3+</div>
+        <div class="target-unit">different niches</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--teal)"></div>
+        <div class="target-label">Course completed</div>
+        <div class="target-num" style="color:var(--teal)">100</div>
+        <div class="target-unit">% done</div>
+      </div>
+    </div>
+
+    <div class="section-title">Milestones</div>
+    <div class="milestone-grid" id="milestones-1">
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="1-1">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Finish the EcomTalent course completely</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">No more skipping sections or half-watching videos. Every module done before you leave London.</div>
+        <div class="milestone-tag tag-skill">Skill</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="1-2">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Submit to at least 3 of the 5 brands</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Don't just stay in your comfort zone with FunPunch. Cover at least 3 different brands before you move.</div>
+        <div class="milestone-tag tag-output">Output</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="1-3">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Get first media buyer feedback</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Your cousin's opinion is not media buyer feedback. Get a response from someone testing your ads in the wild.</div>
+        <div class="milestone-tag tag-skill">Skill</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="1-4">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Give flat notice formally</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">In writing. Confirmed date. No ambiguity about when you're leaving and when the deposit clock starts.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+    </div>
+
+    <div class="callout">You already have 3 campaigns in. You are not starting from zero — you're starting from behind the pace. 4 weeks goes fast in London. Treat every free morning like it's the last one.</div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="panel" id="panel-2">
+    <div class="panel-header">
+      <div class="panel-title">Phase 2 — Mom's house: build</div>
+      <div class="panel-dates">Mid April → mid May 2026 · ~4 weeks</div>
+      <p class="panel-note">This is the most important phase of the entire plan. No rent, no commute, no London drain. You have one job: build something worth showing.</p>
+    </div>
+
+    <div class="targets-section">
+      <div class="section-title">Output targets</div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--purple)"></div>
+        <div class="target-label">Total static sets submitted across all brands</div>
+        <div class="target-num" style="color:var(--purple)">20+</div>
+        <div class="target-unit">cumulative</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--purple)"></div>
+        <div class="target-label">Total VSL sets submitted across all brands</div>
+        <div class="target-num" style="color:var(--purple)">10+</div>
+        <div class="target-unit">cumulative</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--blue)"></div>
+        <div class="target-label">All 5 active brands covered</div>
+        <div class="target-num" style="color:var(--blue)">5</div>
+        <div class="target-unit">brands</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--orange)"></div>
+        <div class="target-label">Media buyer feedback pieces documented</div>
+        <div class="target-num" style="color:var(--orange)">3+</div>
+        <div class="target-unit">responses</div>
+      </div>
+    </div>
+
+    <div class="section-title">Milestones</div>
+    <div class="milestone-grid" id="milestones-2">
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="2-1">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Cover all 5 brands with at least 2 submissions each</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Depth over breadth per brand. Study what's already working for each brand before submitting anything new.</div>
+        <div class="milestone-tag tag-output">Output</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="2-2">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Lock in FunPunch reference formally</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Sit down with your cousin. Agree exactly what's on the CV — title, dates, scope. Get it in writing if possible.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="2-3">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Build a clean portfolio page</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Simple one-pager. Your best 6-8 pieces, brief context on each, FunPunch featured. No fluff. Someone should be able to assess you in 60 seconds.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="2-4">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Document and study every piece of feedback</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Keep a running document. What worked, what didn't, what the media buyer said. This is your real education — treat it like gold.</div>
+        <div class="milestone-tag tag-skill">Skill</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="2-5">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Update CV and LinkedIn</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Creative Strategist / Video Editor. FunPunch listed. EcomTalent community noted. Clean, professional, no gaps unexplained.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="2-6">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Establish daily non-negotiable streak</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">14 consecutive days hitting every non-negotiable. Gym, water, no morning social media, daily ad study. Prove to yourself the routine works before outreach begins.</div>
+        <div class="milestone-tag tag-skill">Skill</div>
+      </div>
+    </div>
+
+    <div class="callout">By end of phase 2 you should have enough to start real conversations. If you don't have the portfolio page live and FunPunch locked in by mid May, you're not ready to outreach — and you'll know it.</div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="panel" id="panel-3">
+    <div class="panel-header">
+      <div class="panel-title">Phase 3 — Mom's house: outreach</div>
+      <div class="panel-dates">Mid May → end of June 2026 · ~6 weeks</div>
+      <p class="panel-note">Creation doesn't stop — but now outreach runs in parallel. The goal is at least one retainer before you board the plane. Not a maybe. A signed deal.</p>
+    </div>
+
+    <div class="targets-section">
+      <div class="section-title">Outreach targets</div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--teal)"></div>
+        <div class="target-label">EcomTalent job board applications sent</div>
+        <div class="target-num" style="color:var(--teal)">Every</div>
+        <div class="target-unit">relevant post</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--blue)"></div>
+        <div class="target-label">Upwork profile live and actively bidding</div>
+        <div class="target-num" style="color:var(--blue)">Week 1</div>
+        <div class="target-unit">of this phase</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--orange)"></div>
+        <div class="target-label">Cold outreach to e-com brands per week</div>
+        <div class="target-num" style="color:var(--orange)">5+</div>
+        <div class="target-unit">per week</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--purple)"></div>
+        <div class="target-label">Retainer signed before departure</div>
+        <div class="target-num" style="color:var(--purple)">1</div>
+        <div class="target-unit">minimum</div>
+      </div>
+    </div>
+
+    <div class="section-title">Milestones</div>
+    <div class="milestone-grid" id="milestones-3">
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="3-1">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Upwork profile live — first proposals sent</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Profile complete with portfolio link, FunPunch reference, and a tight one-paragraph pitch. First 5 proposals sent within 48hrs of going live.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="3-2">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">First job board application sent</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Apply to every relevant EcomTalent posting the moment it goes up. Don't deliberate — apply, then refine your pitch over time.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="3-3">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">First client conversation</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">A reply, a call, any real two-way exchange with a potential client. This is the proof your pitch is working. If it's not happening by week 3, rewrite the pitch.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="3-4">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">First retainer signed</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Even at the lower end — $1,500/month changes everything. It means Chiang Mai is a working trip, not just a spending trip. This is the most important milestone in the entire plan.</div>
+        <div class="milestone-tag tag-money">Income</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="3-5">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Flights booked</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">Book the flight by end of May. Don't leave it open-ended — a booked flight makes everything real and creates urgency around the retainer deadline.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+      <div class="milestone-card" onclick="toggleMilestone(this)" data-id="3-6">
+        <div class="milestone-card-header">
+          <div class="milestone-card-title">Chiang Mai accommodation confirmed</div>
+          <div class="milestone-check"></div>
+        </div>
+        <div class="milestone-card-desc">First month at minimum booked and paid. Don't arrive without a place to sleep — the stress will kill your first week's output.</div>
+        <div class="milestone-tag tag-business">Business</div>
+      </div>
+    </div>
+
+    <div class="callout">Rejection is part of this phase. You will apply and hear nothing. You will pitch and get turned down. That is not failure — that is the process. Failure is stopping. Keep applying, keep creating, keep refining the pitch. Six weeks is enough time to land one client if you're consistent.</div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="panel" id="panel-4">
+    <div class="panel-header">
+      <div class="panel-title">Phase 4 — Chiang Mai</div>
+      <div class="panel-dates">July 2026 onwards · 3 months</div>
+      <p class="panel-note">You should not be arriving here to figure things out. You arrive with money saved, at least one client, and a portfolio. This is where you scale what's already working.</p>
+    </div>
+
+    <div class="targets-section">
+      <div class="section-title">Targets on arrival</div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--teal)"></div>
+        <div class="target-label">Savings in the bank</div>
+        <div class="target-num" style="color:var(--teal)">£4,500</div>
+        <div class="target-unit">minimum</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--purple)"></div>
+        <div class="target-label">Active retainer clients</div>
+        <div class="target-num" style="color:var(--purple)">1+</div>
+        <div class="target-unit">signed</div>
+      </div>
+      <div class="target-row">
+        <div class="target-icon" style="background:var(--blue)"></div>
+        <div class="target-label">Portfolio page live with real work</div>
+        <div class="target-num" style="color:var(--blue)">Live</div>
+        <div class="target-unit">before you land</div>
+      </div>
+    </div>
+
+    <div class="section-title">Goals for the 3 months</div>
+    <div class="strategy-list">
+      <div class="strategy-item">
+        <div class="strategy-num">01</div>
+        <div>Scale to 2-3 retainer clients. One is survival. Two is stability. Three is the start of something real. Use the time zone advantage — UK and US brands often need someone working different hours.</div>
+      </div>
+      <div class="strategy-item">
+        <div class="strategy-num">02</div>
+        <div>Keep submitting bounties. Even with retainer work, bounties keep your portfolio fresh and your eye sharp. A winning ad at scale could still change your financial situation significantly.</div>
+      </div>
+      <div class="strategy-item">
+        <div class="strategy-num">03</div>
+        <div>Document everything. The wins, the losing ads, the feedback, the process. This becomes the content of your portfolio and the proof of your expertise when you pitch the next client.</div>
+      </div>
+      <div class="strategy-item">
+        <div class="strategy-num">04</div>
+        <div>Do not treat this like a holiday with a laptop. You have 3 months to prove this is a real career. The routine from mom's house travels with you — gym, water, daily ad study, no social media in the morning.</div>
+      </div>
+      <div class="strategy-item">
+        <div class="strategy-num">05</div>
+        <div>By month 3 you should know whether you're staying longer, moving to another base, or coming home with a freelance career that works anywhere. That decision should be made from results, not hope.</div>
+      </div>
+    </div>
+
+    <div class="callout">Chiang Mai is not the reward. It's the next level of the same work. The people who waste it are the ones who arrive thinking the hard part is over. It isn't — it's just starting in a cheaper city with better weather.</div>
+  </div>
+
+</div>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    const idx = ['1','2','3','4'].indexOf(id);
+    document.querySelectorAll('.tab')[idx].classList.add('active');
+    updateProgress(id);
+  }
+
+  function toggleMilestone(card) {
+    if (card.classList.contains('locked')) return;
+    const id = card.dataset.id;
+    const completed = card.classList.toggle('completed');
+    localStorage.setItem('milestone_' + id, completed ? '1' : '0');
+    const phase = id.split('-')[0];
+    updateProgress(phase);
+  }
+
+  function updateProgress(phase) {
+    const grid = document.getElementById('milestones-' + phase);
+    if (!grid) return;
+    const cards = grid.querySelectorAll('.milestone-card');
+    const total = cards.length;
+    const done = grid.querySelectorAll('.milestone-card.completed').length;
+    const pct = Math.round((done / total) * 100);
+    const fill = document.getElementById('fill-' + phase);
+    const count = document.getElementById('count-' + phase);
+    if (fill) fill.style.width = pct + '%';
+    if (count) count.textContent = done + '/' + total;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    ['1','2','3','4'].forEach(phase => {
+      const grid = document.getElementById('milestones-' + phase);
+      if (!grid) return;
+      grid.querySelectorAll('.milestone-card').forEach(card => {
+        const id = card.dataset.id;
+        if (localStorage.getItem('milestone_' + id) === '1') {
+          card.classList.add('completed');
+        }
+      });
+      updateProgress(phase);
+    });
+  });
+</script>
+</body>
+</html>
