@@ -32,18 +32,23 @@
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 .btn-secondary { padding: 14px 32px; background: transparent; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--border2); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
 .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+#screen-landing .btn-primary { background: #e02020; color: #fff; }
+#screen-landing .btn-primary:hover { background: #c01818; opacity: 1; }
+#screen-landing .btn-secondary { border-color: rgba(220,30,30,0.3); color: rgba(240,236,228,0.6); }
+#screen-landing .btn-secondary:hover { border-color: rgba(220,30,30,0.7); color: var(--text); }
 
 /* LANDING */
-#screen-landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; position: relative; }
-#screen-landing::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(31,203,138,0.05) 0%, transparent 60%); pointer-events: none; }
+#screen-landing { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 40px 24px; position: relative; background: #080808; }
+#screen-landing::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(220,30,30,0.18) 0%, transparent 55%), radial-gradient(ellipse at 75% 20%, rgba(180,0,0,0.10) 0%, transparent 50%); pointer-events: none; }
 
-.landing-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #1fcb8a; color: var(--teal); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+.landing-label { font-family: 'DM Mono', monospace; font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; color: #e02020; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
 .landing-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 18vw, 160px); letter-spacing: 0.03em; line-height: 0.88; color: var(--text); opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
-.landing-title .colon { color: #1fcb8a; color: var(--teal); }
-.landing-sub { font-size: 20px; color: rgba(240,236,228,0.8); max-width: 480px; line-height: 1.7; margin: 24px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
+.landing-title .colon { color: #e02020; }
+.landing-sub { font-size: 14px; color: rgba(240,236,228,0.8); max-width: 480px; line-height: 1.7; margin: 24px auto 0; opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s; }
+.landing-sub strong { font-size: 16px; }
 .landing-buttons { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
 .landing-stats { display: flex; gap: 40px; margin-top: 48px; opacity: 0; animation: fadeUp 0.5s ease forwards 0.65s; flex-wrap: wrap; justify-content: center; }
-.landing-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: #1fcb8a; color: var(--teal); letter-spacing: 0.04em; line-height: 1; }
+.landing-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: #e02020; letter-spacing: 0.04em; line-height: 1; }
 .landing-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(122,118,112,0.8); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
 
 /* PASSWORD */
@@ -126,17 +131,20 @@
 .dash-footer-left { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
 .dash-footer-right { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
 
+#screen-questionnaire { background: #080808; }
+#screen-questionnaire::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 70% 80%, rgba(220,30,30,0.08) 0%, transparent 55%), radial-gradient(ellipse at 20% 10%, rgba(180,0,0,0.06) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+#screen-questionnaire .q-wrap { position: relative; z-index: 1; }
 /* QUESTIONNAIRE */
 .q-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
 .q-back { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 40px; display: inline-block; transition: color 0.15s; }
 .q-back:hover { color: var(--muted); }
-.q-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+.q-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #e02020; margin-bottom: 10px; }
 .q-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: 10px; }
 .q-sub { font-size: 20px; color: var(--muted); line-height: 1.6; margin-bottom: 36px; }
 .q-progress { margin-bottom: 36px; }
-.q-progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
-.q-progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
-.q-progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.4s ease; }
+.q-progress-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.08em; }
+.q-progress-track { height: 4px; background: #2a2a2a; border-radius: 2px; overflow: hidden; }
+.q-progress-fill { height: 100%; background: #e02020; border-radius: 2px; transition: width 0.4s ease; }
 .q-step { display: none; }
 .q-step.active { display: block; }
 .q-step-title { font-size: 25px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
@@ -144,7 +152,7 @@
 .q-field { margin-bottom: 16px; }
 .q-field-label { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
 .q-input, .q-select, .q-textarea { width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 300; padding: 13px 16px; outline: none; transition: border-color 0.15s; }
-.q-input:focus, .q-select:focus, .q-textarea:focus { border-color: var(--teal); }
+.q-input:focus, .q-select:focus, .q-textarea:focus { border-color: #e02020; }
 .q-input::placeholder, .q-textarea::placeholder { color: var(--dim); }
 .q-select { appearance: none; cursor: pointer; }
 .q-select option { background: var(--surface2); }
@@ -231,7 +239,7 @@
 <div id="screen-landing" class="screen active">
   <div class="landing-label">Your escape starts here</div>
     <div class="landing-title">Project<span class="colon">:</span>Rise</div>
-    <p class="landing-sub">A personalised plan to escape the 9-5. Built around your life, your income, your destination. No generic advice. Just a real plan.</p>
+    <p class="landing-sub">A personalised plan to escape the 9-5. Built around your life, your income, your destination. Your goals. No generic advice.<br><strong>Just a real plan.</strong></p>
     <div class="landing-buttons">
       <button class="btn-primary" onclick="showScreen('questionnaire')">Build my plan</button>
       <button class="btn-secondary" onclick="showScreen('password')">Log In</button>
@@ -323,7 +331,7 @@
 <div id="screen-questionnaire" class="screen">
   <div class="q-wrap">
     <div class="q-back" onclick="showScreen('landing')">← Back</div>
-    <div class="q-label">Project:Rise — plan builder</div>
+    <div class="q-label" style="color:#e02020">Project:Rise — plan builder</div>
     <div class="q-title">Build Your Plan</div>
     <p class="q-sub">Answer honestly. The more detail you give, the better your plan. Takes about 5 minutes. Your site will be ready to download at the end.</p>
     <div class="q-progress">
@@ -953,8 +961,7 @@
 
   // Writes Supabase user_data into localStorage so all existing code works unchanged
   function applyUserData(userData) {
-    if (!userData) { console.log('applyUserData: no data'); return; }
-    console.log('applyUserData:', JSON.stringify(userData));
+    if (!userData) return;
     if (userData.departure) localStorage.setItem('pr_departure', userData.departure);
     if (userData.budget_target) localStorage.setItem('pr_budget_target', userData.budget_target);
     if (userData.budget_deposit !== undefined) localStorage.setItem('pr_budget_deposit', userData.budget_deposit);
