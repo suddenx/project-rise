@@ -908,6 +908,9 @@
       if (data.site_url === thisSite || data.site_url === thisSite + '/') {
         if (remember) localStorage.setItem('pr_logged_in', '1');
         else sessionStorage.setItem('pr_logged_in', '1');
+        localStorage.setItem('pr_username', username);
+        // Load synced data from Supabase into localStorage
+        if (data.userData) applyUserData(data.userData);
         showScreen('dashboard');
         var c = document.getElementById('pr-chat');
         if (c) c.style.display = 'block';
@@ -925,6 +928,50 @@
       err.textContent = 'Network error. Please try again.';
       err.style.color = 'var(--red)';
     }
+  }
+
+
+  // ── SUPABASE DATA SYNC ──────────────────────────────────────────────
+  // Collects all dashboard data into one object for Supabase
+  function collectDashboardData() {
+    const data = {
+      departure: localStorage.getItem('pr_departure') || '',
+      budget_target: localStorage.getItem('pr_budget_target') || '',
+      budget_deposit: localStorage.getItem('pr_budget_deposit') || '',
+      weeks: {}
+    };
+    for (let i = 0; i < 30; i++) {
+      const v = localStorage.getItem('week_' + i);
+      if (v !== null) data.weeks['week_' + i] = v;
+      const vk = localStorage.getItem('wk_' + i);
+      if (vk !== null) data.weeks['wk_' + i] = vk;
+    }
+    return data;
+  }
+
+  // Writes Supabase user_data into localStorage so all existing code works unchanged
+  function applyUserData(userData) {
+    if (!userData) return;
+    if (userData.departure) localStorage.setItem('pr_departure', userData.departure);
+    if (userData.budget_target) localStorage.setItem('pr_budget_target', userData.budget_target);
+    if (userData.budget_deposit !== undefined) localStorage.setItem('pr_budget_deposit', userData.budget_deposit);
+    if (userData.weeks) {
+      Object.keys(userData.weeks).forEach(function(k) {
+        localStorage.setItem(k, userData.weeks[k]);
+      });
+    }
+  }
+
+  // Save to Supabase in the background — fire and forget
+  function syncToSupabase() {
+    const username = localStorage.getItem('pr_username');
+    if (!username) return;
+    const data = collectDashboardData();
+    fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'save_user_data', username: username, userData: data })
+    }).catch(function() {});
   }
 
   function logout() {
@@ -991,6 +1038,7 @@
     localStorage.setItem('pr_budget_target', t);
     localStorage.setItem('pr_budget_deposit', dep);
     updateMoneyCountdown();
+    syncToSupabase();
     const el = document.getElementById('budget-saved');
     el.style.opacity = '1';
     setTimeout(() => { el.style.opacity = '0'; }, 1800);
@@ -1001,6 +1049,7 @@
     if (!val) return;
     localStorage.setItem('pr_departure', val);
     updateDepartureDays(val);
+    syncToSupabase();
     const saved = document.getElementById('dash-date-saved');
     saved.style.opacity = '1';
     setTimeout(() => { saved.style.opacity = '0'; }, 1800);
@@ -2787,10 +2836,27 @@ function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.rem
 window.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.screen').forEach(s => { if (!s.classList.contains('active')) s.style.display = 'none'; });
 if (localStorage.getItem('pr_logged_in') === '1' || sessionStorage.getItem('pr_logged_in') === '1') {
-  showScreen('dashboard');
-  var c = document.getElementById('pr-chat');
-  if (c) c.style.display = 'block';
-  if (window.prLoadNotes) window.prLoadNotes();
+  // Load latest data from Supabase before showing dashboard
+  var _syncUser = localStorage.getItem('pr_username');
+  if (_syncUser) {
+    fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'load_user_data', username: _syncUser })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if (d && d.userData) applyUserData(d.userData);
+    }).catch(function(){}).finally(function(){
+      showScreen('dashboard');
+      var c = document.getElementById('pr-chat');
+      if (c) c.style.display = 'block';
+      if (window.prLoadNotes) window.prLoadNotes();
+    });
+  } else {
+    showScreen('dashboard');
+    var c = document.getElementById('pr-chat');
+    if (c) c.style.display = 'block';
+    if (window.prLoadNotes) window.prLoadNotes();
+  }
 }
 });
 </script>
