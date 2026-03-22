@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  let action, username, password, site_url, name, notes;
+  let action, username, password, site_url, name, notes, userData;
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     action = body.action;
@@ -23,11 +23,42 @@ export default async function handler(req, res) {
     site_url = body.site_url || '';
     name = body.name || '';
     notes = body.notes || '';
+    userData = body.userData || null;
   } catch (e) {
     return res.status(400).json({ error: 'Invalid request body.' });
   }
 
-  // GET_NOTES and SAVE_NOTES only need username
+  // SAVE_USER_DATA — syncs dashboard data to Supabase
+  if (action === 'save_user_data') {
+    if (!username) return res.status(400).json({ error: 'Username required.' });
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/users?username=eq.${encodeURIComponent(username)}`,
+      {
+        method: 'PATCH',
+        headers: { ...HEADERS, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ user_data: userData }),
+      }
+    );
+    if (!r.ok) {
+      const err = await r.text();
+      return res.status(500).json({ error: 'Failed to save data: ' + err });
+    }
+    return res.status(200).json({ success: true });
+  }
+
+  // LOAD_USER_DATA — loads dashboard data from Supabase
+  if (action === 'load_user_data') {
+    if (!username) return res.status(400).json({ error: 'Username required.' });
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/users?username=eq.${encodeURIComponent(username)}&select=user_data`,
+      { headers: HEADERS }
+    );
+    const data = await r.json();
+    if (!data || data.length === 0) return res.status(200).json({ userData: null });
+    return res.status(200).json({ userData: data[0].user_data || null });
+  }
+
+  // GET_NOTES
   if (action === 'get_notes') {
     if (!username) return res.status(400).json({ error: 'Username required.' });
     const r = await fetch(
@@ -39,6 +70,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ notes: data[0].chat_notes || '' });
   }
 
+  // SAVE_NOTES
   if (action === 'save_notes') {
     if (!username) return res.status(400).json({ error: 'Username required.' });
     const r = await fetch(
@@ -64,7 +96,7 @@ export default async function handler(req, res) {
   // LOGIN
   if (action === 'login') {
     const r = await fetch(
-      `${SUPABASE_URL}/rest/v1/users?username=eq.${encodeURIComponent(username)}&select=username,password,site_url,name,chat_notes`,
+      `${SUPABASE_URL}/rest/v1/users?username=eq.${encodeURIComponent(username)}&select=username,password,site_url,name,chat_notes,user_data`,
       { headers: HEADERS }
     );
     const data = await r.json();
@@ -76,6 +108,7 @@ export default async function handler(req, res) {
       site_url: user.site_url,
       name: user.name,
       chat_notes: user.chat_notes || '',
+      userData: user.user_data || null,
     });
   }
 
@@ -92,7 +125,7 @@ export default async function handler(req, res) {
     const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
       method: 'POST',
       headers: { ...HEADERS, 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ username, password, site_url, name, chat_notes: '' }),
+      body: JSON.stringify({ username, password, site_url, name, chat_notes: '', user_data: {} }),
     });
     if (!insertRes.ok) {
       const err = await insertRes.text();
