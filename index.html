@@ -134,6 +134,34 @@
 #screen-questionnaire { background: #080808; }
 #screen-questionnaire::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 70% 80%, rgba(220,30,30,0.08) 0%, transparent 55%), radial-gradient(ellipse at 20% 10%, rgba(180,0,0,0.06) 0%, transparent 50%); pointer-events: none; z-index: 0; }
 #screen-questionnaire .q-wrap { position: relative; z-index: 1; }
+
+/* WEEKLY GOALS */
+.goals-section { padding: 0 48px 0; margin-bottom: 0; }
+.goals-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
+.goals-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.goals-card-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
+.goals-week-badge { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; }
+.goals-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; padding: 11px 14px; outline: none; resize: none; min-height: 72px; line-height: 1.55; box-sizing: border-box; transition: border-color 0.15s; }
+.goals-textarea:focus { border-color: var(--red); }
+.goals-textarea::placeholder { color: var(--dim); }
+.goals-set-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--red); color: #fff; border: none; border-radius: 6px; padding: 10px 20px; cursor: pointer; transition: opacity 0.15s; }
+.goals-set-btn:hover { opacity: 0.85; }
+.goals-set-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.goals-list { display: flex; flex-direction: column; }
+.goals-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.goals-item:last-child { border-bottom: none; }
+.goals-item-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--red); min-width: 20px; padding-top: 2px; }
+.goals-item-text { font-size: 14px; color: var(--text); line-height: 1.5; flex: 1; }
+.goals-item-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--dim); flex-shrink: 0; cursor: pointer; margin-top: 1px; transition: all 0.2s; }
+.goals-item-check.done { background: var(--red); border-color: var(--red); }
+.goals-item-text.done { text-decoration: line-through; color: var(--muted); }
+.goals-edit-btn { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: none; border: none; cursor: pointer; padding: 12px 0 0; display: block; transition: color 0.15s; }
+.goals-edit-btn:hover { color: var(--text); }
+.goals-loading { padding: 12px 0; }
+.goals-loading-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 10px; }
+.goals-loading-track { height: 2px; background: var(--surface2); border-radius: 1px; overflow: hidden; }
+.goals-loading-fill { height: 100%; width: 0%; background: var(--red); border-radius: 1px; transition: width 2.5s ease; }
+@media (max-width: 600px) { .goals-section { padding: 0 20px; } }
 /* QUESTIONNAIRE */
 .q-wrap { max-width: 680px; margin: 0 auto; padding: 60px 24px; }
 .q-back { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 40px; display: inline-block; transition: color 0.15s; }
@@ -311,7 +339,31 @@
       </div>
     </div>
   </div>
-  <div class="dash-nav-label">The plan</div>
+  <div class="goals-section" style="padding-top:32px;padding-bottom:32px;">
+    <div class="goals-card">
+      <div class="goals-card-header">
+        <div class="goals-card-label">This week's goals</div>
+        <div class="goals-week-badge" id="goals-week-badge"></div>
+      </div>
+      <div id="goals-input-area">
+        <textarea class="goals-textarea" id="goals-textarea" placeholder="What are your goals this week?"></textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+          <button class="goals-set-btn" id="goals-set-btn" onclick="generateGoals()">Set goals</button>
+        </div>
+      </div>
+      <div id="goals-loading-area" style="display:none;">
+        <div class="goals-loading">
+          <div class="goals-loading-text">Generating your goals...</div>
+          <div class="goals-loading-track"><div class="goals-loading-fill" id="goals-loading-fill"></div></div>
+        </div>
+      </div>
+      <div id="goals-list-area" style="display:none;">
+        <div class="goals-list" id="goals-list"></div>
+        <button class="goals-edit-btn" onclick="editGoals()">← Edit goals</button>
+      </div>
+    </div>
+  </div>
+    <div class="dash-nav-label">The plan</div>
   <div class="dash-nav-grid">
     <a href="daily_routines.html" class="nav-card c-teal"><div class="nav-card-num">01</div><div class="nav-card-title">Daily Routines</div><div class="nav-card-desc">Four shift scenarios, non-negotiables, output-based structure.</div><span class="nav-card-arrow">→</span></a>
     <a href="budget_tracker.html" class="nav-card c-blue"><div class="nav-card-num">02</div><div class="nav-card-title">Budget Tracker</div><div class="nav-card-desc">Weekly savings log, existing savings tracking, on-track indicator.</div><span class="nav-card-arrow">→</span></a>
@@ -948,7 +1000,8 @@
       departure: localStorage.getItem('pr_departure') || '',
       budget_target: localStorage.getItem('pr_budget_target') || '',
       budget_deposit: localStorage.getItem('pr_budget_deposit') || '',
-      weeks: {}
+      weeks: {},
+      goals: localStorage.getItem('pr_goals') || ''
     };
     for (let i = 0; i < 30; i++) {
       const v = localStorage.getItem('week_' + i);
@@ -970,6 +1023,7 @@
         localStorage.setItem(k, userData.weeks[k]);
       });
     }
+    if (userData.goals) localStorage.setItem('pr_goals', userData.goals);
   }
 
   // Save to Supabase in the background — fire and forget
@@ -993,11 +1047,112 @@
   }
 
   // ---- DASHBOARD ----
+
+  // ── WEEKLY GOALS ─────────────────────────────────────────────────────
+  function initGoalsWidget() {
+    var badge = document.getElementById('goals-week-badge');
+    if (badge) {
+      var now = new Date();
+      badge.textContent = 'Week of ' + now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+    var saved = localStorage.getItem('pr_goals');
+    if (saved) {
+      try {
+        var data = JSON.parse(saved);
+        var week = new Date().toISOString().slice(0, 10);
+        if (data.week === week.slice(0, 7)) {
+          renderGoals(data.goals, data.checks || {});
+          return;
+        }
+      } catch(e) {}
+    }
+  }
+
+  function generateGoals() {
+    var input = document.getElementById('goals-textarea').value.trim();
+    if (!input) return;
+    document.getElementById('goals-input-area').style.display = 'none';
+    document.getElementById('goals-loading-area').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('goals-loading-fill').style.width = '80%';
+    }, 50);
+
+    var dep = new Date((localStorage.getItem('pr_departure') || '2026-07-01') + 'T12:00:00');
+    var days = Math.max(0, Math.ceil((dep - new Date()) / 86400000));
+
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prompt: 'You are a no-nonsense escape plan coach. The user is Sudden, a creative strategist building a freelance career to escape the 9-5. They have ' + days + ' days until departure to Chiang Mai. Turn their raw weekly intentions into specific, actionable goals. Each goal must be concrete and completable within one week. Generate as many goals as makes sense based on what they wrote — no more, no less. Return ONLY a JSON array of strings, no markdown, no backticks, no explanation. Example: ["Submit 2 static ad sets for FunPunch", "Complete modules 4-5 of EcomTalent course", "Gym 5 times — no skipping"]. User input: ' + input
+      })
+    }).then(function(r) { return r.json(); }).then(function(d) {
+      document.getElementById('goals-loading-fill').style.width = '100%';
+      setTimeout(function() {
+        document.getElementById('goals-loading-area').style.display = 'none';
+        var raw = (d.result || d.content || '').replace(/```json|```/g, '').trim();
+        var goals;
+        try { goals = JSON.parse(raw); } catch(e) { goals = [raw]; }
+        if (!Array.isArray(goals)) goals = [goals];
+        renderGoals(goals, {});
+        localStorage.setItem('pr_goals', JSON.stringify({
+          week: new Date().toISOString().slice(0, 7),
+          goals: goals,
+          checks: {}
+        }));
+        syncToSupabase();
+      }, 300);
+    }).catch(function(e) {
+      document.getElementById('goals-loading-area').style.display = 'none';
+      document.getElementById('goals-input-area').style.display = 'block';
+    });
+  }
+
+  function renderGoals(goals, checks) {
+    var list = document.getElementById('goals-list');
+    list.innerHTML = goals.map(function(g, i) {
+      var done = checks[i] ? ' done' : '';
+      return '<div class="goals-item">' +
+        '<div class="goals-item-num">' + (i < 9 ? '0' : '') + (i + 1) + '</div>' +
+        '<div class="goals-item-text' + done + '" id="gtext-' + i + '">' + g + '</div>' +
+        '<div class="goals-item-check' + done + '" onclick="toggleGoal(' + i + ')"></div>' +
+        '</div>';
+    }).join('');
+    document.getElementById('goals-list-area').style.display = 'block';
+    document.getElementById('goals-input-area').style.display = 'none';
+  }
+
+  function toggleGoal(i) {
+    var check = document.querySelector('#goals-list .goals-item:nth-child(' + (i+1) + ') .goals-item-check');
+    var text = document.getElementById('gtext-' + i);
+    if (!check || !text) return;
+    check.classList.toggle('done');
+    text.classList.toggle('done');
+    var saved = localStorage.getItem('pr_goals');
+    if (saved) {
+      try {
+        var data = JSON.parse(saved);
+        data.checks = data.checks || {};
+        data.checks[i] = check.classList.contains('done');
+        localStorage.setItem('pr_goals', JSON.stringify(data));
+        syncToSupabase();
+      } catch(e) {}
+    }
+  }
+
+  function editGoals() {
+    document.getElementById('goals-list-area').style.display = 'none';
+    document.getElementById('goals-input-area').style.display = 'block';
+    document.getElementById('goals-textarea').value = '';
+    document.getElementById('goals-loading-fill').style.width = '0%';
+  }
+
   function initDashboard() {
     // Ensure username is always available for sync
     if (!localStorage.getItem('pr_username')) {
       localStorage.setItem('pr_username', 'sudden');
     }
+    initGoalsWidget();
     const day = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
     const q = QUOTES[day % QUOTES.length];
     document.getElementById('dash-quote').textContent = q.text;
