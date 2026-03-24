@@ -1,4 +1,4 @@
-const CACHE_NAME = 'projectrise-v7.3';
+const CACHE_NAME = 'projectrise-v7.4';
 
 // Assets to cache on install
 const STATIC_ASSETS = [
