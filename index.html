@@ -106,7 +106,7 @@
 .budget-saved { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); opacity: 0; transition: opacity 0.3s; }
 .dash-nav-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; padding: 0 48px; }
 .dash-nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 64px; padding: 0 48px; }
-.nav-card { display: flex; flex-direction: column; padding: 20px 20px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: border-color 0.2s, background 0.2s, transform 0.15s; position: relative; overflow: hidden; }
+.nav-card { display: flex; flex-direction: column; padding: 24px 24px 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; transition: border-color 0.2s, background 0.2s, transform 0.15s; position: relative; overflow: hidden; }
 .nav-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.2s; }
 .nav-card:hover { border-color: var(--border2); background: var(--surface2); transform: translateY(-2px); }
 .nav-card:hover::before { opacity: 1; }
@@ -116,16 +116,16 @@
 .nav-card.c-orange::before { background: var(--orange); }
 .nav-card.c-green::before { background: var(--green); }
 .nav-card.c-yellow::before { background: var(--yellow); }
-.nav-card-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); margin-bottom: 10px; }
-.nav-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.04em; line-height: 1; margin-bottom: 6px; }
+.nav-card-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--dim); margin-bottom: 12px; }
+.nav-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.04em; line-height: 1; margin-bottom: 8px; }
 .nav-card.c-teal .nav-card-title { color: var(--teal); }
 .nav-card.c-blue .nav-card-title { color: var(--blue); }
 .nav-card.c-purple .nav-card-title { color: var(--purple); }
 .nav-card.c-orange .nav-card-title { color: var(--orange); }
 .nav-card.c-green .nav-card-title { color: var(--green); }
 .nav-card.c-yellow .nav-card-title { color: var(--yellow); }
-.nav-card-desc { font-size: 17px; color: var(--muted); line-height: 1.5; }
-.nav-card-arrow { margin-top: 14px; font-size: 16px; color: var(--dim); transition: color 0.2s, transform 0.2s; display: inline-block; }
+.nav-card-desc { font-size: 20px; color: var(--muted); line-height: 1.5; }
+.nav-card-arrow { margin-top: 16px; font-size: 19px; color: var(--dim); transition: color 0.2s, transform 0.2s; display: inline-block; }
 .nav-card:hover .nav-card-arrow { color: var(--text); transform: translateX(4px); }
 .dash-footer { padding: 24px 48px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .dash-footer-left { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 0.08em; }
@@ -135,9 +135,19 @@
 #screen-questionnaire::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 70% 80%, rgba(220,30,30,0.08) 0%, transparent 55%), radial-gradient(ellipse at 20% 10%, rgba(180,0,0,0.06) 0%, transparent 50%); pointer-events: none; z-index: 0; }
 #screen-questionnaire .q-wrap { position: relative; z-index: 1; }
 
+
+/* DASHBOARD TWO-COLUMN LAYOUT */
+.dash-body-grid { display: grid; grid-template-columns: 1fr 380px; gap: 0; padding: 0; }
+.dash-left-col { padding: 32px 48px 48px; }
+.dash-right-col { padding: 32px 24px 48px 0; }
+.dash-right-col .goals-card { position: sticky; top: 24px; max-width: 100%; margin: 0; }
+@media (max-width: 900px) {
+  .dash-body-grid { grid-template-columns: 1fr; }
+  .dash-right-col { padding: 0 20px 32px; }
+  .dash-right-col .goals-card { position: static; }
+}
 /* WEEKLY GOALS */
-.goals-section { padding: 0 48px 0; margin-bottom: 0; }
-.goals-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; max-width: 1280px; margin: 0 auto; }
+.goals-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
 .goals-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .goals-card-label { font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #e02020; font-weight: 500; }
 .goals-week-badge { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; }
@@ -152,8 +162,10 @@
 .goals-item:last-child { border-bottom: none; }
 .goals-item-num { font-family: 'DM Mono', monospace; font-size: 28px; color: var(--red); min-width: 20px; padding-top: 2px; }
 .goals-item-text { font-size: 28px; color: var(--text); line-height: 1.5; flex: 1; }
-.goals-item-check { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--dim); flex-shrink: 0; cursor: pointer; margin-top: 1px; transition: all 0.2s; }
-.goals-item-check.done { background: var(--red); border-color: var(--red); }
+.goals-item-check { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--dim); flex-shrink: 0; cursor: pointer; margin-top: 2px; transition: all 0.2s; }
+.goals-item-check.done { background: var(--teal); border-color: var(--teal); }
+.goals-ring-wrap { position: relative; width: 44px; height: 44px; flex-shrink: 0; }
+.goals-ring-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--text); }
 .goals-item-text.done { text-decoration: line-through; color: var(--muted); }
 .goals-edit-btn { font-family: 'DM Mono', monospace; font-size: 28px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: none; border: none; cursor: pointer; padding: 12px 0 0; display: block; transition: color 0.15s; }
 .goals-edit-btn:hover { color: var(--text); }
@@ -343,7 +355,13 @@
     <div class="goals-card">
       <div class="goals-card-header">
         <div class="goals-card-label">This week's goals</div>
-        <div class="goals-week-badge" id="goals-week-badge"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="goals-week-badge" id="goals-week-badge"></div>
+          <div class="goals-ring-wrap" id="goals-ring-wrap" style="display:none;">
+            <svg width="44" height="44" viewBox="0 0 44 44" style="transform:rotate(-90deg);"><circle cx="22" cy="22" r="18" fill="none" stroke="#1e1e1e" stroke-width="3"/><circle id="goals-ring-circle" cx="22" cy="22" r="18" fill="none" stroke="#e02020" stroke-width="3" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1"/></svg>
+            <div class="goals-ring-label" id="goals-ring-label">0/0</div>
+          </div>
+        </div>
       </div>
       <div id="goals-input-area">
         <textarea class="goals-textarea" id="goals-textarea" placeholder="What are your goals this week?"></textarea>
@@ -1120,6 +1138,20 @@
     }).join('');
     document.getElementById('goals-list-area').style.display = 'block';
     document.getElementById('goals-input-area').style.display = 'none';
+    updateGoalsRing(goals, checks);
+  }
+
+  function updateGoalsRing(goals, checks) {
+    var wrap = document.getElementById('goals-ring-wrap');
+    var circle = document.getElementById('goals-ring-circle');
+    var label = document.getElementById('goals-ring-label');
+    if (!wrap || !circle || !label) return;
+    var total = goals.length;
+    var done = Object.keys(checks).filter(function(k) { return checks[k]; }).length;
+    var offset = 113.1 - (done / total) * 113.1;
+    circle.style.strokeDashoffset = offset;
+    label.textContent = done + '/' + total;
+    wrap.style.display = 'block';
   }
 
   function toggleGoal(i) {
@@ -1135,6 +1167,7 @@
         data.checks = data.checks || {};
         data.checks[i] = check.classList.contains('done');
         localStorage.setItem('pr_goals', JSON.stringify(data));
+        updateGoalsRing(data.goals || [], data.checks || {});
         syncToSupabase();
       } catch(e) {}
     }
@@ -1145,6 +1178,10 @@
     document.getElementById('goals-input-area').style.display = 'block';
     document.getElementById('goals-textarea').value = '';
     document.getElementById('goals-loading-fill').style.width = '0%';
+    var wrap = document.getElementById('goals-ring-wrap');
+    if (wrap) wrap.style.display = 'none';
+    var wrap = document.getElementById('goals-ring-wrap');
+    if (wrap) wrap.style.display = 'none';
   }
 
   function initDashboard() {
