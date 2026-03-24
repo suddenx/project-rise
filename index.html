@@ -383,7 +383,11 @@
       </div>
       <div id="goals-list-area" style="display:none;">
         <div class="goals-list" id="goals-list"></div>
-        <button class="goals-edit-btn" onclick="editGoals()">← Edit goals</button>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <input id="goals-add-input" type="text" placeholder="Add a goal..." style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:7px 10px;outline:none;transition:border-color 0.15s;" onfocus="this.style.borderColor='#e02020'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" onkeydown="if(event.key==='Enter')addGoal()">
+          <button onclick="addGoal()" style="width:28px;height:28px;border-radius:50%;background:#e02020;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#fff;line-height:1;">+</button>
+        </div>
+        <button class="goals-edit-btn" onclick="editGoals()">← Rewrite goals</button>
       </div>
       </div>
     </div>
@@ -1177,6 +1181,21 @@
     document.getElementById('goals-textarea').value = '';
     document.getElementById('goals-loading-fill').style.width = '0%';
     var wrap = document.getElementById('goals-ring-wrap'); if (wrap) wrap.style.display = 'none';
+  }
+
+  function addGoal() {
+    var input = document.getElementById('goals-add-input');
+    var text = input ? input.value.trim() : '';
+    if (!text) return;
+    input.value = '';
+    var saved = localStorage.getItem('pr_goals');
+    var data = { week: new Date().toISOString().slice(0, 7), goals: [], checks: {} };
+    if (saved) { try { data = JSON.parse(saved); } catch(e) {} }
+    var i = data.goals.length;
+    data.goals.push(text);
+    localStorage.setItem('pr_goals', JSON.stringify(data));
+    renderGoals(data.goals, data.checks);
+    syncToSupabase();
   }
 
   function initDashboard() {
