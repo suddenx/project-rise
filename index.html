@@ -99,7 +99,8 @@
 .budget-edit-wrap { margin-top: 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
 .budget-edit-row { display: flex; align-items: center; gap: 8px; }
 .budget-edit-label { font-family: 'DM Mono', monospace; font-size: 17px; color: var(--muted); letter-spacing: 0.08em; min-width: 70px; }
-.budget-edit-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; padding: 7px 10px; width: 110px; text-align: right; outline: none; transition: border-color 0.15s; }
+.budget-edit-input { background: var(--surface); border: 1px solid var(--border2); border-radius: 6px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; padding: 7px 10px; width: 110px; text-align: right; outline: none; transition: border-color 0.15s; -moz-appearance: textfield; appearance: textfield; }
+.budget-edit-input::-webkit-outer-spin-button, .budget-edit-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .budget-edit-input:focus { border-color: var(--orange); }
 .budget-save { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 0; background: rgba(255,124,58,0.1); border: 1px solid rgba(255,124,58,0.35); border-radius: 6px; color: var(--orange); cursor: pointer; transition: all 0.15s; width: 190px; margin-top: 4px; }
 .budget-save:hover { background: rgba(255,124,58,0.2); }
@@ -1845,7 +1846,7 @@ Return ONLY JSON (no markdown, no backticks):
 }
 
 function homeBtn() {
-return `<a href="index.html" class="home-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a>`;
+return `<a href="index.html?dash=1" class="home-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a>`;
 }
 
 function googleFonts() {
