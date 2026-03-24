@@ -137,9 +137,9 @@
 
 /* WEEKLY GOALS */
 .goals-section { padding: 0 48px 0; margin-bottom: 0; }
-.goals-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; }
+.goals-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; max-width: 680px; margin: 0 auto; }
 .goals-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.goals-card-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
+.goals-card-label { font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #e02020; font-weight: 500; }
 .goals-week-badge { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; }
 .goals-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; padding: 11px 14px; outline: none; resize: none; min-height: 72px; line-height: 1.55; box-sizing: border-box; transition: border-color 0.15s; }
 .goals-textarea:focus { border-color: var(--red); }
@@ -1084,7 +1084,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        prompt: 'You are a no-nonsense escape plan coach. The user is Sudden, a creative strategist building a freelance career to escape the 9-5. They have ' + days + ' days until departure to Chiang Mai. Turn their raw weekly intentions into specific, actionable goals. Each goal must be concrete and completable within one week. Generate as many goals as makes sense based on what they wrote — no more, no less. Return ONLY a JSON array of strings, no markdown, no backticks, no explanation. Example: ["Submit 2 static ad sets for FunPunch", "Complete modules 4-5 of EcomTalent course", "Gym 5 times — no skipping"]. User input: ' + input
+        prompt: 'You are a goal-setting assistant for Sudden — a 26-year-old creative strategist and ad creator in London, working towards going freelance and moving to Chiang Mai in ' + days + ' days. He works theatre shifts and uses his free time to build his ad portfolio via EcomTalent, submitting static and video ads for brands like FunPunch. His non-negotiables are: gym 5x/week, 4L water, 30min daily ad study, no social media first 2 hours. Take the user input LITERALLY — do not replace or reframe what they wrote. Your job is to take each thing they mentioned and turn it into one specific, concrete, completable goal. Keep their exact intentions. If they said "gym" — keep it gym. If they said "finish the course" — keep it that. Do not invent goals they did not mention. Do not add motivational fluff. Return ONLY a JSON array of strings (as many as they mentioned, minimum 1), no markdown, no backticks, no preamble. User input: ' + input
       })
     }).then(function(r) { return r.json(); }).then(function(d) {
       document.getElementById('goals-loading-fill').style.width = '100%';
