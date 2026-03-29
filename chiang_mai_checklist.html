@@ -450,12 +450,12 @@
 
 <div class="main">
   <div class="tabs">
-    <div class="tab active" onclick="show('docs')"><span class="tab-icon">01</span>Documents</div>
-    <div class="tab" onclick="show('health')"><span class="tab-icon">02</span>Health</div>
-    <div class="tab" onclick="show('money')"><span class="tab-icon">03</span>Money</div>
-    <div class="tab" onclick="show('tech')"><span class="tab-icon">04</span>Tech &amp; gear</div>
-    <div class="tab" onclick="show('thai')"><span class="tab-icon">05</span>Thai citizenship</div>
-    <div class="tab" onclick="show('cm')"><span class="tab-icon">06</span>On arrival</div>
+    <div class="tab active" data-tab="docs"><span class="tab-icon">01</span>Documents</div>
+    <div class="tab" data-tab="health"><span class="tab-icon">02</span>Health</div>
+    <div class="tab" data-tab="money"><span class="tab-icon">03</span>Money</div>
+    <div class="tab" data-tab="tech"><span class="tab-icon">04</span>Tech &amp; gear</div>
+    <div class="tab" data-tab="thai"><span class="tab-icon">05</span>Thai citizenship</div>
+    <div class="tab" data-tab="cm"><span class="tab-icon">06</span>On arrival</div>
   </div>
 
   <!-- DOCUMENTS -->
@@ -466,7 +466,7 @@
       <p class="panel-note">With a Latvian passport you get 30 days visa-free in Thailand. You'll need to extend or do a border run unless you get the Thai citizenship sorted — which is the goal.</p>
     </div>
     <div class="checklist">
-      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-0">
+      <div class="check-item" data-id="docs-0">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Passport valid for 6+ months beyond travel dates</div>
@@ -474,7 +474,7 @@
         </div>
         <div class="check-tag tag-now">Now</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-1">
+      <div class="check-item" data-id="docs-1">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Research Thailand visa options</div>
@@ -482,7 +482,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-2">
+      <div class="check-item" data-id="docs-2">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Contact Thai Embassy London re: citizenship</div>
@@ -490,7 +490,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2 — Week 1</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-3">
+      <div class="check-item" data-id="docs-3">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Get copies of key documents</div>
@@ -498,7 +498,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="docs-4">
+      <div class="check-item" data-id="docs-4">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Travel insurance sorted</div>
@@ -517,7 +517,7 @@
       <p class="panel-note">Getting sick in week one of Chiang Mai kills your momentum and your budget. Sort the basics through your GP — most travel vaccinations are free on the NHS if you book a travel health appointment.</p>
     </div>
     <div class="checklist">
-      <div class="check-item" onclick="toggleCheck(this)" data-id="health-0">
+      <div class="check-item" data-id="health-0">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Book GP travel health appointment</div>
@@ -525,7 +525,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="health-1">
+      <div class="check-item" data-id="health-1">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Hepatitis A &amp; B vaccinations</div>
@@ -533,7 +533,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="health-2">
+      <div class="check-item" data-id="health-2">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Typhoid vaccination</div>
@@ -541,7 +541,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="health-3">
+      <div class="check-item" data-id="health-3">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Dengue fever awareness</div>
@@ -549,7 +549,7 @@
         </div>
         <div class="check-tag tag-phase3">Before you go</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="health-4">
+      <div class="check-item" data-id="health-4">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">3-month supply of supplements packed</div>
@@ -557,7 +557,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="health-5">
+      <div class="check-item" data-id="health-5">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Dental check-up</div>
@@ -576,7 +576,7 @@
       <p class="panel-note">Thailand is cheap but you need your money accessible without losing a chunk of it to fees every time you withdraw. Sort your banking setup before you leave — not at the airport.</p>
     </div>
     <div class="checklist">
-      <div class="check-item" onclick="toggleCheck(this)" data-id="money-0">
+      <div class="check-item" data-id="money-0">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Open a Wise account and order the card</div>
@@ -584,7 +584,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="money-1">
+      <div class="check-item" data-id="money-1">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Notify your UK bank of travel dates</div>
@@ -592,7 +592,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="money-2">
+      <div class="check-item" data-id="money-2">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Know the Thai ATM situation</div>
@@ -600,7 +600,7 @@
         </div>
         <div class="check-tag tag-phase3">Before you land</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="money-3">
+      <div class="check-item" data-id="money-3">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Arrive with 5,000–10,000 baht cash</div>
@@ -619,7 +619,7 @@
       <p class="panel-note">You're building a remote creative career. Your setup needs to work flawlessly from day one. Don't arrive hoping things will work out — test everything before you leave.</p>
     </div>
     <div class="checklist">
-      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-0">
+      <div class="check-item" data-id="tech-0">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Laptop serviced and backed up</div>
@@ -627,7 +627,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-1">
+      <div class="check-item" data-id="tech-1">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Portable hard drive or cloud storage sorted</div>
@@ -635,7 +635,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-2">
+      <div class="check-item" data-id="tech-2">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Universal travel adapter</div>
@@ -643,7 +643,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-3">
+      <div class="check-item" data-id="tech-3">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">VPN subscription active</div>
@@ -651,7 +651,7 @@
         </div>
         <div class="check-tag tag-phase3">Phase 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="tech-4">
+      <div class="check-item" data-id="tech-4">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Noise-cancelling headphones</div>
@@ -670,7 +670,7 @@
       <p class="panel-note">You were born to a Thai father and carry his surname on your UK birth certificate. You have a legitimate claim to Thai citizenship from birth. This is not a long shot — it's a process.</p>
     </div>
     <div class="checklist">
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-0">
+      <div class="check-item" data-id="thai-0">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Email Thai Embassy London</div>
@@ -678,7 +678,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2 — Week 1</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-1">
+      <div class="check-item" data-id="thai-1">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Get documents from your father</div>
@@ -686,7 +686,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-2">
+      <div class="check-item" data-id="thai-2">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Get your UK birth certificate certified</div>
@@ -694,7 +694,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-3">
+      <div class="check-item" data-id="thai-3">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Book appointment at Thai Embassy London</div>
@@ -702,7 +702,7 @@
         </div>
         <div class="check-tag tag-phase2">Phase 2–3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-4">
+      <div class="check-item" data-id="thai-4">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Thai birth certificate obtained</div>
@@ -710,7 +710,7 @@
         </div>
         <div class="check-tag tag-thailand">In Thailand with dad</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-5">
+      <div class="check-item" data-id="thai-5">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Get added to father's house registration</div>
@@ -718,7 +718,7 @@
         </div>
         <div class="check-tag tag-thailand">In Thailand with dad</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="thai-6">
+      <div class="check-item" data-id="thai-6">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Thai national ID card</div>
@@ -737,7 +737,7 @@
       <p class="panel-note">The first week sets the tone for everything. Don't arrive and immediately go into tourist mode. You're there to work — set up your base properly in the first 48 hours.</p>
     </div>
     <div class="checklist">
-      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-0">
+      <div class="check-item" data-id="cm-0">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Get a Thai SIM card at the airport</div>
@@ -745,7 +745,7 @@
         </div>
         <div class="check-tag tag-thailand">Day 1</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-1">
+      <div class="check-item" data-id="cm-1">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Confirm accommodation and get settled</div>
@@ -753,7 +753,7 @@
         </div>
         <div class="check-tag tag-thailand">Day 1</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-2">
+      <div class="check-item" data-id="cm-2">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Find your main coworking space or cafe</div>
@@ -761,7 +761,7 @@
         </div>
         <div class="check-tag tag-thailand">Day 2–3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-3">
+      <div class="check-item" data-id="cm-3">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Rent a motorbike</div>
@@ -769,7 +769,7 @@
         </div>
         <div class="check-tag tag-thailand">Day 2–3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-4">
+      <div class="check-item" data-id="cm-4">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Set your routine from day 3</div>
@@ -777,7 +777,7 @@
         </div>
         <div class="check-tag tag-thailand">Day 3</div>
       </div>
-      <div class="check-item" onclick="toggleCheck(this)" data-id="cm-5">
+      <div class="check-item" data-id="cm-5">
         <div class="check-box"></div>
         <div class="check-content">
           <div class="check-label">Find a gym</div>
@@ -795,7 +795,6 @@
   const STORAGE_PREFIX = 'cm_check_';
   const TAB_ORDER = ['docs', 'health', 'money', 'tech', 'thai', 'cm'];
 
-  // FIX 1: Complete show() function — was truncated mid-line in the original
   function show(id) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -804,36 +803,40 @@
     document.querySelectorAll('.tab')[idx].classList.add('active');
   }
 
-  function toggleCheck(item) {
-    const id = item.dataset.id;
-    const done = item.classList.toggle('done');
-    localStorage.setItem(STORAGE_PREFIX + id, done ? '1' : '0');
-    updateProgress();
-  }
-
   function updateProgress() {
-    const allItems = document.querySelectorAll('.check-item');
-    const doneItems = document.querySelectorAll('.check-item.done');
-    const total = allItems.length;
-    const done = doneItems.length;
-    const remaining = total - done;
-    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-
-    document.getElementById('total-count').textContent = total;
-    document.getElementById('done-count').textContent = done;
-    document.getElementById('remaining-count').textContent = remaining;
-    document.getElementById('overall-pct').textContent = pct + '%';
-    document.getElementById('overall-fill').style.width = pct + '%';
+    const total = document.querySelectorAll('.check-item').length;
+    const done  = document.querySelectorAll('.check-item.done').length;
+    const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+    document.getElementById('total-count').textContent     = total;
+    document.getElementById('done-count').textContent      = done;
+    document.getElementById('remaining-count').textContent = total - done;
+    document.getElementById('overall-pct').textContent     = pct + '%';
+    document.getElementById('overall-fill').style.width    = pct + '%';
   }
 
-  // FIX 2: Restore saved checkbox state on page load — was missing entirely
-  window.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Restore saved checkbox states
     document.querySelectorAll('.check-item').forEach(item => {
-      const id = item.dataset.id;
-      if (localStorage.getItem(STORAGE_PREFIX + id) === '1') {
+      if (localStorage.getItem(STORAGE_PREFIX + item.dataset.id) === '1') {
         item.classList.add('done');
       }
     });
+
+    // Bind tab clicks via event delegation
+    document.querySelector('.tabs').addEventListener('click', e => {
+      const tab = e.target.closest('[data-tab]');
+      if (tab) show(tab.dataset.tab);
+    });
+
+    // Bind checklist clicks via event delegation
+    document.querySelector('.main').addEventListener('click', e => {
+      const item = e.target.closest('.check-item');
+      if (!item) return;
+      const done = item.classList.toggle('done');
+      localStorage.setItem(STORAGE_PREFIX + item.dataset.id, done ? '1' : '0');
+      updateProgress();
+    });
+
     updateProgress();
   });
 </script>
